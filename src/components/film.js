@@ -1,7 +1,7 @@
 /**
  * Создаем разметку Карточка фильма
  * @param {object} film - Фильм
- * @return {string} разметку карточки фильма
+ * @return {string} Разметка карточки фильма
  */
 const createFilmCard = (film) => {
   const {
@@ -35,5 +35,6 @@ const createFilmCard = (film) => {
       </article>`
   );
 };
+
 
 export {createFilmCard};
