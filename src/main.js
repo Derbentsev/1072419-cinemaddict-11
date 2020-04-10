@@ -1,13 +1,14 @@
 import {createUserProfile} from './components/userProfile.js';
 import {createSiteMenu} from './components/siteMenu.js';
-import {createFilmCard} from './components/filmCard.js';
+import {createFilmCard} from './components/film.js';
 import {createButtonLoadMore} from './components/buttonLoadMore.js';
 import {render} from './components/rendering.js';
 import {generateFilms} from './mocks/film.js';
 
 const FilmSettings = {
   COUNT: 5,
-  EXTRA_COUNT: 2
+  TOP_COUNT: 2,
+  MOST_COMMENTED_COUNT: 3
 };
 
 const siteHeaderElement = document.querySelector(`.header`);
@@ -22,17 +23,18 @@ const siteTopRatedBlock = siteMainElement.querySelectorAll(`.films-list--extra .
 const siteMostCommentedBlock = siteMainElement.querySelectorAll(`.films-list--extra .films-list__container`)[1];
 
 const films = generateFilms(FilmSettings.COUNT);
-
-for (let i = 0; i < FilmSettings.COUNT; i++) {
-  render(siteFilmsBlock, createFilmCard(), `beforeend`);
-}
+films.forEach((film) => {
+  render(siteFilmsBlock, createFilmCard(film), `beforeend`);
+});
 
 render(siteFilmsList, createButtonLoadMore(), `beforeend`);
 
-for (let i = 0; i < FilmSettings.EXTRA_COUNT; i++) {
-  render(siteTopRatedBlock, createFilmCard(), `beforeend`);
-}
+const topFilms = generateFilms(FilmSettings.TOP_COUNT);
+topFilms.forEach((film) => {
+  render(siteTopRatedBlock, createFilmCard(film), `beforeend`);
+});
 
-for (let i = 0; i < FilmSettings.EXTRA_COUNT; i++) {
-  render(siteMostCommentedBlock, createFilmCard(), `beforeend`);
-}
+const mostCommentedFilms = generateFilms(FilmSettings.MOST_COMMENTED_COUNT);
+mostCommentedFilms.forEach((film) => {
+  render(siteMostCommentedBlock, createFilmCard(film), `beforeend`);
+});

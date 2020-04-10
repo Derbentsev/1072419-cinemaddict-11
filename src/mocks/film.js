@@ -10,6 +10,8 @@ const MIN_RELEASE_YEAR = 1917;
 const MAX_RELEASE_YEAR = 2020;
 const MIN_RATING = 0;
 const MAX_RATING = 10;
+const MIN_COMMENTS = 1;
+const MAX_COMMENTS = 30;
 
 const FilmNames = [
   `Film name 1`,
@@ -45,7 +47,7 @@ const Genre = [
  * @return {number} - Случайное ДЕСЯТИЧНОЕ число
  */
 const getRandomFloatNumber = (min, max) => {
-  return min + (Math.random() * (max - min));
+  return (min + (Math.random() * (max - min))).toFixed(1);
 };
 
 /**
@@ -67,13 +69,13 @@ const castTimeFormat = (value) => {
 const generateFilm = () => {
   return {
     name: getRandomArrayItem(FilmNames),
-    poster: `./images/posters/` + getRandomArrayItem(Posters),
+    poster: getRandomArrayItem(Posters),
     rating: getRandomFloatNumber(MIN_RATING, MAX_RATING),
     releaseYear: getRandomIntegerNumber(MIN_RELEASE_YEAR, MAX_RELEASE_YEAR),
     duration: castTimeFormat(getRandomIntegerNumber(MIN_DURATION_MINUTES, MAX_DURATION_MINUTES)),
     genre: getRandomArrayItem(Genre),
     description: getRandomArrayItem(Descriptions),
-    commentsNumber: `5`,
+    commentsNumber: getRandomIntegerNumber(MIN_COMMENTS, MAX_COMMENTS),
   };
 };
 
