@@ -29,8 +29,6 @@ const Descriptions = [
   `Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum.`,
 ];
 
-const MonthNamesShort = [`Jan`, `Feb`, `Mar`, `Apr`, `May`, `Jun`, `Jul`, `Aug`, `Sep`, `Oct`, `Nov`, `Dec`];
-
 
 export {
   MIN_RATING,
@@ -41,5 +39,4 @@ export {
   Posters,
   Genre,
   Descriptions,
-  MonthNamesShort,
 };

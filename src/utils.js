@@ -1,3 +1,6 @@
+const MonthNamesShort = [`Jan`, `Feb`, `Mar`, `Apr`, `May`, `Jun`, `Jul`, `Aug`, `Sep`, `Oct`, `Nov`, `Dec`];
+
+
 /**
  * Выбирает случайное ЦЕЛОЕ число из заданного промежутка
  * @param {number} min - Минимально возможное число
@@ -57,6 +60,17 @@ const getRandomFloatNumber = (min, max) => {
   return (min + (Math.random() * (max - min))).toFixed(1);
 };
 
+/**
+ * Генерируем случайную дату внутри заданного промежутка
+ * @param {date} dateStart - Минимально возможная дата
+ * @param {date} dateEnd - Максимально возможная дата
+ * @return {string} - Случайная дата
+ */
+const getRandomDate = (dateStart, dateEnd) => {
+  const randomDate = new Date(dateStart.getTime() + Math.random() * (dateEnd.getTime() - dateStart.getTime()));
+  return randomDate.getDate() + ` ` + MonthNamesShort[randomDate.getMonth()] + ` ` + randomDate.getFullYear();
+};
+
 
 export {
   getRandomArrayItem,
@@ -64,4 +78,5 @@ export {
   castTimeFormat,
   getRandomArrayItems,
   getRandomFloatNumber,
+  getRandomDate,
 };

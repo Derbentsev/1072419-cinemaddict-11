@@ -5,12 +5,13 @@ import {render} from './components/rendering.js';
 import {createFilmCard} from './components/film.js';
 import {generateFilms} from './mocks/film.js';
 import {createFilmPopup} from './components/film-popup.js';
-import {generateFilmPopup} from './mocks/film-popup.js';
 import {createFilterTemplate} from './components/filter.js';
 import {generateFilters} from './mocks/filter.js';
 import {generateSorts} from './mocks/sort.js';
 import {createSortTemplate} from './components/sort.js';
 import {createStatisticMarkup} from './components/statistic.js';
+import {createCommentMarkup} from './components/comment.js';
+import {generateComments} from './mocks/comment.js';
 
 
 const FilmSettings = {
@@ -19,6 +20,7 @@ const FilmSettings = {
   MOST_COMMENTED_COUNT: 3,
   SHOW_FILM_ON_START: 5,
   SHOW_FILM_BUTTON_CLICK: 5,
+  COMMENT_COUNT: 4,
 };
 
 const siteBodyElement = document.querySelector(`body`);
@@ -67,9 +69,13 @@ mostCommentedFilms.forEach((film) => {
   render(siteMostCommentedBlock, createFilmCard(film), `beforeend`);
 });
 
-/* временно, чтобы не мешал
-const popupFilm = generateFilmPopup(FilmSettings.POPUP_COUNT);
-render(siteBodyElement, createFilmPopup(popupFilm), `beforeend`);
-*/
-
 render(siteFooterElement, createStatisticMarkup(), `beforeend`);
+
+render(siteBodyElement, createFilmPopup(films[0]), `beforeend`);
+
+const comments = generateComments(FilmSettings.COMMENT_COUNT);
+const commentBlock = siteBodyElement.querySelector(`.film-details__comments-list`);
+
+comments.forEach((comment) => {
+  render(commentBlock, createCommentMarkup(comment), `beforeend`);
+});
