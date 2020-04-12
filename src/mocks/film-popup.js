@@ -71,7 +71,6 @@ const Actors = [
  */
 const getRandomDate = (dateStart, dateEnd) => {
   const randomDate = new Date(dateStart.getTime() + Math.random() * (dateEnd.getTime() - dateStart.getTime()));
-  debugger;
   return randomDate.getDate() + ` ` + MonthNamesShort[randomDate.getMonth()] + ` ` + randomDate.getFullYear();
 };
 
