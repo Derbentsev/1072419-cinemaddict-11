@@ -2,7 +2,7 @@ const path = require (`path`);
 
 module.exports = (env) => {
   return {
-    mode: env === `dev` ? `development`: `production`,
+    mode: env === `dev` ? `development` : `production`,
     entry: `./src/main.js`,
     output: {
       filename: `bundle.js`,

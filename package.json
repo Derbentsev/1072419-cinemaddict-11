@@ -5,7 +5,7 @@
   "description": "Личный проект «Киноман» от HTML Academy",
   "scripts": {
     "build": "webpack --env=dev -p",
-    "start": "webpack-dev-server --open",
+    "start": "webpack-dev-server --env=dev --open",
     "eslint": "eslint src/**/*.js",
     "test": "npm run eslint"
   },
