@@ -31,7 +31,7 @@ const createSortTemplate = (sorts) => {
 
 class Sort {
   constructor(sorts) {
-    this._sorts = sorts
+    this._sorts = sorts;
   }
 
   getTemplate() {

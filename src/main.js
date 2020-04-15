@@ -1,27 +1,19 @@
 import {UserProfile} from './components/user-profile.js';
 import {SiteMenu} from './components/site-menu.js';
 import {ButtonLoadMore} from './components/button-load-more.js';
-import {FilmCard} from './components/film.js';
+import {Film} from './components/film.js';
 import {FilmPopup} from './components/film-popup.js';
-import {Filterlter} from './components/filter.js';
+import {Filter} from './components/filter.js';
 import {Sort} from './components/sort.js';
 import {Statistic} from './components/statistic.js';
 import {Comment} from './components/comment.js';
-import {Films} from './mocks/film.js';
+import {generateFilms} from './mocks/film.js';
 import {generateFilters} from './mocks/filter.js';
 import {generateSorts} from './mocks/sort.js';
 import {generateComments} from './mocks/comment.js';
 import {render} from './utils.js';
+import {FilmSettings} from './consts.js';
 
-
-const FilmSettings = {
-  COUNT: 20,
-  TOP_COUNT: 2,
-  MOST_COMMENTED_COUNT: 3,
-  SHOW_FILM_ON_START: 5,
-  SHOW_FILM_BUTTON_CLICK: 5,
-  COMMENT_COUNT: 4,
-};
 
 const siteBodyElement = document.querySelector(`body`);
 const siteHeaderElement = siteBodyElement.querySelector(`.header`);
@@ -32,12 +24,12 @@ const films = generateFilms(FilmSettings.COUNT);
 const filters = generateFilters();
 const sorts = generateSorts();
 
-render(siteHeaderElement, createUserProfile(), `beforeend`);
-render(siteMainElement, createFilterTemplate(filters), `beforeend`);
+render(siteHeaderElement, UserProfile.getTemplate(), `beforeend`);
+/* render(siteMainElement, createFilterTemplate(filters), `beforeend`);
 render(siteMainElement, createSortTemplate(sorts), `beforeend`);
-render(siteMainElement, createSiteMenu(), `beforeend`);
+render(siteMainElement, createSiteMenu(), `beforeend`); */
 
-const siteFilmsList = siteMainElement.querySelector(`.films-list`);
+/* const siteFilmsList = siteMainElement.querySelector(`.films-list`);
 const siteFilmsBlock = siteFilmsList.querySelector(`.films-list__container`);
 const siteTopRatedBlock = siteMainElement.querySelectorAll(`.films-list--extra .films-list__container`)[0];
 const siteMostCommentedBlock = siteMainElement.querySelectorAll(`.films-list--extra .films-list__container`)[1];
@@ -78,4 +70,4 @@ const commentBlock = siteBodyElement.querySelector(`.film-details__comments-list
 
 comments.forEach((comment) => {
   render(commentBlock, createCommentMarkup(comment), `beforeend`);
-});
+}); */

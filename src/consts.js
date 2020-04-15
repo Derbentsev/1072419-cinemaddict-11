@@ -1,7 +1,21 @@
-const MIN_DURATION_MINUTES = 60;
-const MAX_DURATION_MINUTES = 180;
-const MIN_RATING = 0;
-const MAX_RATING = 10;
+const FilmSettings = {
+  COUNT: 20,
+  TOP_COUNT: 2,
+  MOST_COMMENTED_COUNT: 3,
+  SHOW_FILM_ON_START: 5,
+  SHOW_FILM_BUTTON_CLICK: 5,
+  COMMENT_COUNT: 4,
+  MIN_DURATION_MINUTES: 60,
+  MAX_DURATION_MINUTES: 180,
+  MIN_RATING: 0,
+  MAX_RATING: 10,
+  MIN_RELEASE_YEAR: 1917,
+  MAX_RELEASE_YEAR: 2020,
+  MIN_COMMENTS: 1,
+  MAX_COMMENTS: 30,
+  RELEASE_DATE_MIN: new Date(`01.01.1900`),
+  RELEASE_DATE_MAX: new Date(`01.01.2020`),
+};
 
 const FilmNames = [
   `Film name 1`,
@@ -31,12 +45,9 @@ const Descriptions = [
 
 
 export {
-  MIN_RATING,
-  MAX_RATING,
-  MIN_DURATION_MINUTES,
-  MAX_DURATION_MINUTES,
   FilmNames,
   Posters,
   Genre,
   Descriptions,
+  FilmSettings,
 };
