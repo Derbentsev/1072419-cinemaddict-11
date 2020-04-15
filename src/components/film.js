@@ -42,7 +42,7 @@ class Film {
   }
 
   getTemplate() {
-    createFilmCard(this._film);
+    return createFilmCard(this._film);
   }
 }
 

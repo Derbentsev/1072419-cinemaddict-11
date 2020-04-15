@@ -28,7 +28,7 @@ class SiteMenu {
   }
 
   getTemplate() {
-    return createSiteMenu;
+    return createSiteMenu();
   }
 }
 

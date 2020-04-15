@@ -24,50 +24,49 @@ const films = generateFilms(FilmSettings.COUNT);
 const filters = generateFilters();
 const sorts = generateSorts();
 
-render(siteHeaderElement, UserProfile.getTemplate(), `beforeend`);
-/* render(siteMainElement, createFilterTemplate(filters), `beforeend`);
-render(siteMainElement, createSortTemplate(sorts), `beforeend`);
-render(siteMainElement, createSiteMenu(), `beforeend`); */
+render(siteHeaderElement, new UserProfile().getTemplate(), `beforeend`);
+render(siteMainElement, new Filter(filters).getTemplate(), `beforeend`);
+render(siteMainElement, new Sort(sorts).getTemplate(), `beforeend`);
+render(siteMainElement, new SiteMenu().getTemplate(), `beforeend`);
 
-/* const siteFilmsList = siteMainElement.querySelector(`.films-list`);
+const siteFilmsList = siteMainElement.querySelector(`.films-list`);
 const siteFilmsBlock = siteFilmsList.querySelector(`.films-list__container`);
 const siteTopRatedBlock = siteMainElement.querySelectorAll(`.films-list--extra .films-list__container`)[0];
 const siteMostCommentedBlock = siteMainElement.querySelectorAll(`.films-list--extra .films-list__container`)[1];
 
-films.slice(0, FilmSettings.SHOW_FILM_ON_START)
-  .forEach((film) => render(siteFilmsBlock, createFilmCard(film), `beforeend`));
+films.slice(0, FilmSettings.SHOW_FILMS_ON_START)
+  .forEach((film) => render(siteFilmsBlock, new Film(film).getTemplate(), `beforeend`));
 
-render(siteFilmsList, createButtonLoadMore(), `beforeend`);
+render(siteFilmsList, new ButtonLoadMore().getTemplate(), `beforeend`);
 
 const buttonLoadMore = siteMainElement.querySelector(`.films-list__show-more`);
 
-let showingFilmsCount = FilmSettings.SHOW_FILM_ON_START;
+let showingFilmsCount = FilmSettings.SHOW_FILMS_ON_START;
 
 buttonLoadMore.addEventListener(`click`, () => {
   const prevFilmCount = showingFilmsCount;
-  showingFilmsCount = showingFilmsCount + FilmSettings.SHOW_FILM_BUTTON_CLICK;
+  showingFilmsCount = showingFilmsCount + FilmSettings.SHOW_FILMS_BUTTON_CLICK;
 
   films.slice(prevFilmCount, showingFilmsCount)
-    .forEach((film) => render(siteFilmsBlock, createFilmCard(film), `beforeend`));
+    .forEach((film) => render(siteFilmsBlock, new Film(film).getTemplate(), `beforeend`));
 });
 
 const topFilms = generateFilms(FilmSettings.TOP_COUNT);
 topFilms.forEach((film) => {
-  render(siteTopRatedBlock, createFilmCard(film), `beforeend`);
+  render(siteTopRatedBlock, new Film(film).getTemplate(), `beforeend`);
 });
 
 const mostCommentedFilms = generateFilms(FilmSettings.MOST_COMMENTED_COUNT);
 mostCommentedFilms.forEach((film) => {
-  render(siteMostCommentedBlock, createFilmCard(film), `beforeend`);
+  render(siteMostCommentedBlock, new Film(film).getTemplate(), `beforeend`);
 });
 
-render(siteFooterElement, createStatisticMarkup(), `beforeend`);
-
-render(siteBodyElement, createFilmPopup(films[0]), `beforeend`);
+render(siteFooterElement, new Statistic().getTemplate(), `beforeend`);
+/* render(siteBodyElement, new FilmPopup(films[0]).getTemplate(), `beforeend`);
 
 const comments = generateComments(FilmSettings.COMMENT_COUNT);
 const commentBlock = siteBodyElement.querySelector(`.film-details__comments-list`);
 
 comments.forEach((comment) => {
-  render(commentBlock, createCommentMarkup(comment), `beforeend`);
+  render(commentBlock, new Comment(comment).getTemplate(), `beforeend`);
 }); */
