@@ -23,5 +23,15 @@ const createCommentMarkup = (comment) => {
   );
 };
 
+class Comment {
+  constructor(comment) {
+    this._commet = comment;
+  }
 
-export {createCommentMarkup};
+  getTemplate() {
+    return createCommentMarkup(this._commet);
+  }
+}
+
+
+export {Comment};

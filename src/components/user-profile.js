@@ -11,5 +11,15 @@ const createUserProfile = () => {
   );
 };
 
+class UserProfile {
+  constructor() {
 
-export {createUserProfile};
+  }
+
+  getTemplate() {
+    return createUserProfile();
+  }
+}
+
+
+export {UserProfile};

@@ -21,7 +21,17 @@ const createStatisticMarkup = () => {
   );
 };
 
+class Statistic {
+  constructor() {
+
+  }
+
+  getTemplate() {
+    return createStatisticMarkup();
+  }
+}
+
 
 export {
-  createStatisticMarkup
+  Statistic
 };

@@ -12,7 +12,6 @@ const createSortMarkup = (sort, isActive) => {
   );
 };
 
-
 /**
  * Создаем разметку блока Сортировок
  * @param {object} sorts - Массив сортировок
@@ -30,7 +29,17 @@ const createSortTemplate = (sorts) => {
   );
 };
 
+class Sort {
+  constructor(sorts) {
+    this._sorts = sorts
+  }
+
+  getTemplate() {
+    return createSortTemplate(this._sorts);
+  }
+}
+
 
 export {
-  createSortTemplate
+  Sort
 };

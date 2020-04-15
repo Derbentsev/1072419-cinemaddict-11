@@ -2,6 +2,17 @@ const MonthNamesShort = [`Jan`, `Feb`, `Mar`, `Apr`, `May`, `Jun`, `Jul`, `Aug`,
 
 
 /**
+ * Создаем функцию для рендеринга (вставки в DOM) компонентов
+ * @param {object} container - Элемент, который вставляем
+ * @param {string} template - Вёрстка, которую вставляем
+ * @param {string} place - Место в контейнере
+ * @return {void}
+ */
+const render = (container, template, place) => {
+  container.insertAdjacentHTML(place, template);
+};
+
+/**
  * Выбирает случайное ЦЕЛОЕ число из заданного промежутка
  * @param {number} min - Минимально возможное число
  * @param {number} max - Максимальное число
@@ -73,6 +84,7 @@ const getRandomDate = (dateStart, dateEnd) => {
 
 
 export {
+  render,
   getRandomArrayItem,
   getRandomIntegerNumber,
   castTimeFormat,

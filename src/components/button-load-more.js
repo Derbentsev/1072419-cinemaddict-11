@@ -8,4 +8,15 @@ const createButtonLoadMore = () => {
   );
 };
 
-export {createButtonLoadMore};
+class ButtonLoadMore {
+  constructor() {
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createButtonLoadMore();
+  }
+}
+
+
+export {ButtonLoadMore};

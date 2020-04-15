@@ -36,5 +36,15 @@ const createFilmCard = (film) => {
   );
 };
 
+class Film {
+  constructor(film) {
+    this._film = film;
+  }
 
-export {createFilmCard};
+  getTemplate() {
+    createFilmCard(this._film);
+  }
+}
+
+
+export {Film};
