@@ -23,15 +23,5 @@ const createCommentMarkup = (comment) => {
   );
 };
 
-class Comment {
-  constructor(comment) {
-    this._commet = comment;
-  }
 
-  getTemplate() {
-    return createCommentMarkup(this._commet);
-  }
-}
-
-
-export {Comment};
+export {createCommentMarkup};

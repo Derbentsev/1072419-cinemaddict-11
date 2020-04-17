@@ -22,15 +22,5 @@ const createSiteMenu = () => {
   );
 };
 
-class SiteMenu {
-  constructor() {
 
-  }
-
-  getTemplate() {
-    return createSiteMenu();
-  }
-}
-
-
-export {SiteMenu};
+export {createSiteMenu};

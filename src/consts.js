@@ -15,6 +15,8 @@ const FilmSettings = {
   MAX_COMMENTS: 30,
   RELEASE_DATE_MIN: new Date(`01.01.1900`),
   RELEASE_DATE_MAX: new Date(`01.01.2020`),
+  FOOTER_FILM_COUNT_MIN: 100,
+  FOOTER_FILM_COUNT_MAX: 100000,
 };
 
 const FilmNames = [
@@ -43,6 +45,11 @@ const Descriptions = [
   `Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum.`,
 ];
 
+const RenderPosition = {
+  AFRERBEGIN: `afterbegin`,
+  BEFOREEND: `beforeend`,
+};
+
 
 export {
   FilmNames,
@@ -50,4 +57,5 @@ export {
   Genre,
   Descriptions,
   FilmSettings,
+  RenderPosition,
 };

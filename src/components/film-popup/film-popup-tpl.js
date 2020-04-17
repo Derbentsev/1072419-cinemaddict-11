@@ -139,15 +139,5 @@ const createFilmPopup = (film) => {
   );
 };
 
-class FilmPopup {
-  constructor(film) {
-    this._film = film;
-  }
 
-  getTemplate() {
-    return createFilmPopup(this._film);
-  }
-}
-
-
-export {FilmPopup};
+export {createFilmPopup};

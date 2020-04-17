@@ -29,17 +29,5 @@ const createSortTemplate = (sorts) => {
   );
 };
 
-class Sort {
-  constructor(sorts) {
-    this._sorts = sorts;
-  }
 
-  getTemplate() {
-    return createSortTemplate(this._sorts);
-  }
-}
-
-
-export {
-  Sort
-};
+export {createSortTemplate};

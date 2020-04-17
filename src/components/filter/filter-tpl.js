@@ -34,17 +34,5 @@ const createFilterTemplate = (filters) => {
   );
 };
 
-class Filter {
-  constructor(filters) {
-    this._filters = filters;
-  }
 
-  getTemplate() {
-    return createFilterTemplate(this._filters);
-  }
-}
-
-
-export {
-  Filter
-};
+export {createFilterTemplate};

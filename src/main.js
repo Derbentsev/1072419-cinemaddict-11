@@ -1,12 +1,12 @@
-import {UserProfile} from './components/user-profile.js';
-import {SiteMenu} from './components/site-menu.js';
-import {ButtonLoadMore} from './components/button-load-more.js';
-import {Film} from './components/film.js';
-import {FilmPopup} from './components/film-popup.js';
-import {Filter} from './components/filter.js';
-import {Sort} from './components/sort.js';
-import {Statistic} from './components/statistic.js';
-import {Comment} from './components/comment.js';
+import {UserProfile} from './components/user-profile/user-profile.js';
+import {SiteMenu} from './components/site-menu/site-menu.js';
+import {ButtonShowMore} from './components/button-show-more/button-show-more.js';
+import {Film} from './components/film/film.js';
+import {FilmPopup} from './components/film-popup/film-popup.js';
+import {Filter} from './components/filter/filter.js';
+import {Sort} from './components/sort/sort.js';
+import {Statistic} from './components/statistic/statistic.js';
+import {Comment} from './components/comment/comment.js';
 import {generateFilms} from './mocks/film.js';
 import {generateFilters} from './mocks/filter.js';
 import {generateSorts} from './mocks/sort.js';
@@ -37,7 +37,7 @@ const siteMostCommentedBlock = siteMainElement.querySelectorAll(`.films-list--ex
 films.slice(0, FilmSettings.SHOW_FILMS_ON_START)
   .forEach((film) => render(siteFilmsBlock, new Film(film).getTemplate(), `beforeend`));
 
-render(siteFilmsList, new ButtonLoadMore().getTemplate(), `beforeend`);
+render(siteFilmsList, new ButtonShowMore().getTemplate(), `beforeend`);
 
 const buttonLoadMore = siteMainElement.querySelector(`.films-list__show-more`);
 
@@ -62,6 +62,8 @@ mostCommentedFilms.forEach((film) => {
 });
 
 render(siteFooterElement, new Statistic().getTemplate(), `beforeend`);
+
+// отключил временно - НЕ удалять!
 /* render(siteBodyElement, new FilmPopup(films[0]).getTemplate(), `beforeend`);
 
 const comments = generateComments(FilmSettings.COMMENT_COUNT);
