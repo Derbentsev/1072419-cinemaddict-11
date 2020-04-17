@@ -12,15 +12,15 @@ const MonthNamesShort = [`Jan`, `Feb`, `Mar`, `Apr`, `May`, `Jun`, `Jul`, `Aug`,
  * @return {void}
  */
 const render = (container, element, place) => {
-/*   switch (place) {
+  switch (place) {
     case RenderPosition.AFRERBEGIN:
       container.prepend(element);
       break;
     case RenderPosition.BEFOREEND:
       container.append(element);
       break;
-  } */
-  container.insertAdjacentHTML(place, element);
+  }
+  // container.insertAdjacentHTML(place, element);
 };
 
 /**

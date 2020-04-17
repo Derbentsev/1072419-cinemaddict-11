@@ -24,10 +24,10 @@ const films = generateFilms(FilmSettings.COUNT);
 const filters = generateFilters();
 const sorts = generateSorts();
 
-render(siteHeaderElement, new UserProfile().getTemplate(), `beforeend`);
-render(siteMainElement, new Filter(filters).getTemplate(), `beforeend`);
-render(siteMainElement, new Sort(sorts).getTemplate(), `beforeend`);
-render(siteMainElement, new SiteMenu().getTemplate(), `beforeend`);
+render(siteHeaderElement, new UserProfile().getElement(), `beforeend`);
+render(siteMainElement, new Filter(filters).getElement(), `beforeend`);
+render(siteMainElement, new Sort(sorts).getElement(), `beforeend`);
+render(siteMainElement, new SiteMenu().getElement(), `beforeend`);
 
 const siteFilmsList = siteMainElement.querySelector(`.films-list`);
 const siteFilmsBlock = siteFilmsList.querySelector(`.films-list__container`);
@@ -35,9 +35,9 @@ const siteTopRatedBlock = siteMainElement.querySelectorAll(`.films-list--extra .
 const siteMostCommentedBlock = siteMainElement.querySelectorAll(`.films-list--extra .films-list__container`)[1];
 
 films.slice(0, FilmSettings.SHOW_FILMS_ON_START)
-  .forEach((film) => render(siteFilmsBlock, new Film(film).getTemplate(), `beforeend`));
+  .forEach((film) => render(siteFilmsBlock, new Film(film).getElement(), `beforeend`));
 
-render(siteFilmsList, new ButtonShowMore().getTemplate(), `beforeend`);
+render(siteFilmsList, new ButtonShowMore().getElement(), `beforeend`);
 
 const buttonLoadMore = siteMainElement.querySelector(`.films-list__show-more`);
 
@@ -48,27 +48,27 @@ buttonLoadMore.addEventListener(`click`, () => {
   showingFilmsCount = showingFilmsCount + FilmSettings.SHOW_FILMS_BUTTON_CLICK;
 
   films.slice(prevFilmCount, showingFilmsCount)
-    .forEach((film) => render(siteFilmsBlock, new Film(film).getTemplate(), `beforeend`));
+    .forEach((film) => render(siteFilmsBlock, new Film(film).getElement(), `beforeend`));
 });
 
 const topFilms = generateFilms(FilmSettings.TOP_COUNT);
 topFilms.forEach((film) => {
-  render(siteTopRatedBlock, new Film(film).getTemplate(), `beforeend`);
+  render(siteTopRatedBlock, new Film(film).getElement(), `beforeend`);
 });
 
 const mostCommentedFilms = generateFilms(FilmSettings.MOST_COMMENTED_COUNT);
 mostCommentedFilms.forEach((film) => {
-  render(siteMostCommentedBlock, new Film(film).getTemplate(), `beforeend`);
+  render(siteMostCommentedBlock, new Film(film).getElement(), `beforeend`);
 });
 
-render(siteFooterElement, new Statistic().getTemplate(), `beforeend`);
+render(siteFooterElement, new Statistic().getElement(), `beforeend`);
 
 // отключил временно - НЕ удалять!
-/* render(siteBodyElement, new FilmPopup(films[0]).getTemplate(), `beforeend`);
+/* render(siteBodyElement, new FilmPopup(films[0]).getElement(), `beforeend`);
 
 const comments = generateComments(FilmSettings.COMMENT_COUNT);
 const commentBlock = siteBodyElement.querySelector(`.film-details__comments-list`);
 
 comments.forEach((comment) => {
-  render(commentBlock, new Comment(comment).getTemplate(), `beforeend`);
+  render(commentBlock, new Comment(comment).getElement(), `beforeend`);
 }); */
