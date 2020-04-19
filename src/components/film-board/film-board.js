@@ -1,14 +1,14 @@
-import {createSiteMenu} from './site-menu-tpl.js';
+import {createFilmBoard} from './film-board-tpl.js';
 import {createElement} from '../../utils.js';
 
 
-class SiteMenu {
+class FilmBoard {
   constructor() {
     this._element = null;
   }
 
   getTemplate() {
-    return createSiteMenu();
+    return createFilmBoard();
   }
 
   getElement() {
@@ -18,7 +18,11 @@ class SiteMenu {
 
     return this._element;
   }
+
+  removeElement() {
+    this._element = null;
+  }
 }
 
 
-export {SiteMenu};
+export {FilmBoard};
