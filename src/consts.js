@@ -1,5 +1,5 @@
 const FilmSettings = {
-  COUNT: 20,
+  COUNT: 22,
   TOP_COUNT: 2,
   MOST_COMMENTED_COUNT: 3,
   SHOW_FILMS_ON_START: 5,
