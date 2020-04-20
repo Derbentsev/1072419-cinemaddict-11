@@ -1,10 +1,5 @@
-import {
-  getRandomIntegerNumber
-} from '../utils.js';
-
-
-const FILM_COUNT_MIN = 100;
-const FILM_COUNT_MAX = 100000;
+import {getRandomIntegerNumber} from '../../utils.js';
+import {FilmSettings} from '../../consts.js';
 
 
 /**
@@ -12,7 +7,7 @@ const FILM_COUNT_MAX = 100000;
  * @return {string}
  */
 const createStatisticMarkup = () => {
-  const moviesCount = getRandomIntegerNumber(FILM_COUNT_MIN, FILM_COUNT_MAX);
+  const moviesCount = getRandomIntegerNumber(FilmSettings.FOOTER_FILM_COUNT_MIN, FilmSettings.FOOTER_FILM_COUNT_MAX);
 
   return (
     `<section class="footer__statistics">
@@ -22,6 +17,4 @@ const createStatisticMarkup = () => {
 };
 
 
-export {
-  createStatisticMarkup
-};
+export {createStatisticMarkup};

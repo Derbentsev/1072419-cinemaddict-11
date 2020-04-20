@@ -2,7 +2,7 @@
  * Создаем разметку Меню (фильтры и статистика)
  * @return {void}
  */
-const createSiteMenu = () => {
+const createFilmBoard = () => {
   return (
     `<section class="films">
       <section class="films-list">
@@ -23,4 +23,4 @@ const createSiteMenu = () => {
 };
 
 
-export {createSiteMenu};
+export {createFilmBoard};

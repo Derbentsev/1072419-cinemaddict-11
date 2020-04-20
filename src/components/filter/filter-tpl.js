@@ -35,6 +35,4 @@ const createFilterTemplate = (filters) => {
 };
 
 
-export {
-  createFilterTemplate
-};
+export {createFilterTemplate};
