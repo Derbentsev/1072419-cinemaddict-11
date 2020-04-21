@@ -44,6 +44,9 @@ import {
   FilmSettings,
   RenderPosition
 } from './consts.js';
+import {
+  NoData
+} from './components/no-data/no-data.js';
 
 
 /**
@@ -56,10 +59,12 @@ import {
 const renderFilm = (siteFilmsBlock, siteFilmsContainer, film) => {
   const onFilmCLick = () => {
     siteFilmsBlock.appendChild(filmPopup.getElement());
+    document.addEventListener(`keydown`, onClosePopupClick);
   };
 
   const onClosePopupClick = () => {
     siteFilmsBlock.removeChild(filmPopup.getElement());
+    document.removeEventListener(`keydown`, onClosePopupClick);
   };
 
   const filmComponent = new Film(film);
@@ -86,14 +91,27 @@ const renderFilm = (siteFilmsBlock, siteFilmsContainer, film) => {
 };
 
 /**
+ * Отрисовываем блоки Фильтра, Сортировки и Аватарки пользователя
+ */
+const renderSortsFilters = () => {
+  render(siteHeaderElement, new UserProfile().getElement(), RenderPosition.BEFOREEND);
+  render(siteMainElement, new Filter(filters).getElement(), RenderPosition.BEFOREEND);
+  render(siteMainElement, new Sort(sorts).getElement(), RenderPosition.BEFOREEND);
+};
+
+/**
+ * Отрисовываем блок статистики
+ */
+const renderStatistic = () => {
+  render(siteFooterElement, new Statistic(films.length).getElement(), RenderPosition.BEFOREEND);
+};
+
+/**
  * Отрисовывает основные элементы на главной странице - блоки ФИльров, Сортировки и т.д.
  * @param {object} films - Массив с фильмами, по которым отрисовываем карточки
  * @return {void}
  */
 const renderFilmBoard = (films) => {
-  render(siteHeaderElement, new UserProfile().getElement(), RenderPosition.BEFOREEND);
-  render(siteMainElement, new Filter(filters).getElement(), RenderPosition.BEFOREEND);
-  render(siteMainElement, new Sort(sorts).getElement(), RenderPosition.BEFOREEND);
   render(siteMainElement, new FilmBoard().getElement(), RenderPosition.BEFOREEND);
 
   const siteFilmsBlock = siteMainElement.querySelector(`.films`);
@@ -131,8 +149,6 @@ const renderFilmBoard = (films) => {
   mostCommentedFilms.forEach((film) => {
     renderFilm(siteFilmsBlock, siteMostCommentedBlock, film);
   });
-
-  render(siteFooterElement, new Statistic().getElement(), RenderPosition.BEFOREEND);
 };
 
 
@@ -141,10 +157,16 @@ const siteHeaderElement = siteBodyElement.querySelector(`.header`);
 const siteMainElement = siteBodyElement.querySelector(`.main`);
 const siteFooterElement = siteBodyElement.querySelector(`footer`);
 
-const filters = generateFilters();
-const sorts = generateSorts();
-
 const films = generateFilms(FilmSettings.COUNT);
+const filters = generateFilters(films);
+const sorts = generateSorts(films);
+
 if (films.length > 0) {
+  renderSortsFilters();
   renderFilmBoard(films);
+  renderStatistic();
+} else {
+  renderSortsFilters();
+  render(siteMainElement, new NoData().getElement(), RenderPosition.BEFOREEND);
+  renderStatistic();
 }

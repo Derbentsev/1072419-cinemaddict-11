@@ -8,13 +8,14 @@ const FilterNames = [
 
 /**
  * Генерируем фильтры
+ * @param {object} films - Массив с фильмами
  * @return {array} Массив фильтров
  */
-const generateFilters = () => {
+const generateFilters = (films) => {
   return FilterNames.map((it) => {
     return {
       name: it,
-      count: Math.floor(Math.random() * 10),
+      count: films.length > 0 ? Math.floor(Math.random() * 10) : 0,
     };
   });
 };

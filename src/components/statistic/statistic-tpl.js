@@ -1,13 +1,10 @@
-import {getRandomIntegerNumber} from '../../utils.js';
-import {FilmSettings} from '../../consts.js';
-
-
 /**
  * Создаем разметку блока Статистики
+ * @param {number} filmCount - Количество фильмов на сайте всего
  * @return {string}
  */
-const createStatisticMarkup = () => {
-  const moviesCount = getRandomIntegerNumber(FilmSettings.FOOTER_FILM_COUNT_MIN, FilmSettings.FOOTER_FILM_COUNT_MAX);
+const createStatisticMarkup = (filmCount) => {
+  const moviesCount = filmCount;
 
   return (
     `<section class="footer__statistics">
