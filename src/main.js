@@ -1,52 +1,52 @@
 import {
   UserProfile
-} from './components/user-profile/user-profile.js';
+} from './components/user-profile/user-profile';
 import {
   FilmBoard
-} from './components/film-board/film-board.js';
+} from './components/film-board/film-board';
 import {
   ButtonShowMore
-} from './components/button-show-more/button-show-more.js';
+} from './components/button-show-more/button-show-more';
 import {
   Film
-} from './components/film/film.js';
+} from './components/film/film';
 import {
   FilmPopup
-} from './components/film-popup/film-popup.js';
+} from './components/film-popup/film-popup';
 import {
   Filter
-} from './components/filter/filter.js';
+} from './components/filter/filter';
 import {
   Sort
-} from './components/sort/sort.js';
+} from './components/sort/sort';
 import {
   Statistic
-} from './components/statistic/statistic.js';
+} from './components/statistic/statistic';
 import {
   Comment
-} from './components/comment/comment.js';
+} from './components/comment/comment';
 import {
   generateFilms
-} from './mocks/film.js';
+} from './mocks/film';
 import {
   generateFilters
-} from './mocks/filter.js';
+} from './mocks/filter';
 import {
   generateSorts
-} from './mocks/sort.js';
+} from './mocks/sort';
 import {
   generateComments
-} from './mocks/comment.js';
+} from './mocks/comment';
 import {
   render
-} from './utils.js';
+} from './utils';
 import {
   FilmSettings,
   RenderPosition
-} from './consts.js';
+} from './consts';
 import {
   NoData
-} from './components/no-data/no-data.js';
+} from './components/no-data/no-data';
 
 
 /**

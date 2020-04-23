@@ -2,7 +2,7 @@
  * Создаем разметку Меню (фильтры и статистика)
  * @return {void}
  */
-const createFilmBoard = () => {
+export const createFilmBoard = () => {
   return (
     `<section class="films">
       <section class="films-list">
@@ -21,6 +21,3 @@ const createFilmBoard = () => {
     </section>`
   );
 };
-
-
-export {createFilmBoard};

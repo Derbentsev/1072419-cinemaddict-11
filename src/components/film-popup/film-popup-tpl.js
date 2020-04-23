@@ -3,7 +3,7 @@
  * @param {object} film - Фильм
  * @return {string} Разметка попапа фильма
  */
-const createFilmPopup = (film) => {
+export const createFilmPopup = (film) => {
   const {
     poster,
     name,
@@ -138,6 +138,3 @@ const createFilmPopup = (film) => {
         </section>`
   );
 };
-
-
-export {createFilmPopup};

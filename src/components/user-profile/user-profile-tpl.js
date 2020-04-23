@@ -2,7 +2,7 @@
  * Создаем разметку Звание пользователя
  * @return {void}
  */
-const createUserProfile = () => {
+export const createUserProfile = () => {
   return (
     `<section class="header__profile profile">
       <p class="profile__rating">Movie Buff</p>
@@ -10,6 +10,3 @@ const createUserProfile = () => {
     </section>`
   );
 };
-
-
-export {createUserProfile};

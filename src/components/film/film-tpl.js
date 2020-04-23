@@ -3,7 +3,7 @@
  * @param {object} film - Фильм
  * @return {string} Разметка карточки фильма
  */
-const createFilmCard = (film) => {
+export const createFilmCard = (film) => {
   const {
     name,
     poster,
@@ -35,6 +35,3 @@ const createFilmCard = (film) => {
       </article>`
   );
 };
-
-
-export {createFilmCard};

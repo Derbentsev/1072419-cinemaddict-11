@@ -1,7 +1,22 @@
-import {RenderPosition} from './consts.js';
+import {
+  RenderPosition
+} from './consts';
 
 
-const MonthNamesShort = [`Jan`, `Feb`, `Mar`, `Apr`, `May`, `Jun`, `Jul`, `Aug`, `Sep`, `Oct`, `Nov`, `Dec`];
+const MonthNamesShort = [
+  `Jan`,
+  `Feb`,
+  `Mar`,
+  `Apr`,
+  `May`,
+  `Jun`,
+  `Jul`,
+  `Aug`,
+  `Sep`,
+  `Oct`,
+  `Nov`,
+  `Dec`
+];
 
 
 /**
@@ -20,7 +35,6 @@ const render = (container, element, place) => {
       container.append(element);
       break;
   }
-  // container.insertAdjacentHTML(place, element);
 };
 
 /**

@@ -3,7 +3,7 @@
  * @param {number} filmCount - Количество фильмов на сайте всего
  * @return {string}
  */
-const createStatisticMarkup = (filmCount) => {
+export const createStatisticMarkup = (filmCount) => {
   const moviesCount = filmCount;
 
   return (
@@ -12,6 +12,3 @@ const createStatisticMarkup = (filmCount) => {
     </section>`
   );
 };
-
-
-export {createStatisticMarkup};

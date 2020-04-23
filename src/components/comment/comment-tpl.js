@@ -3,7 +3,7 @@
  * @param {object} comment - Комментарий
  * @return {string} Разметка комментария к фильму
  */
-const createCommentMarkup = (comment) => {
+export const createCommentMarkup = (comment) => {
   const {emotion, text, author, date} = comment;
 
   return (
@@ -22,6 +22,3 @@ const createCommentMarkup = (comment) => {
     </li>`
   );
 };
-
-
-export {createCommentMarkup};

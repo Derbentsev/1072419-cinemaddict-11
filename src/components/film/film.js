@@ -1,29 +1,15 @@
-import {createFilmCard} from './film-tpl.js';
-import {createElement} from '../../utils.js';
+import {createFilmCard} from './film-tpl';
+import {AbstractComponent} from '../abstract-component';
 
 
-class Film {
+export class Film extends AbstractComponent {
   constructor(film) {
+    super();
+
     this._film = film;
-    this._element = null;
   }
 
   getTemplate() {
     return createFilmCard(this._film);
   }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate(this._film));
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
-  }
 }
-
-
-export {Film};
