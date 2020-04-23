@@ -9,7 +9,7 @@ export class Statistic extends AbstractComponent {
     this._filmCount = filmCount;
   }
 
-  getTemplate(filmCount) {
-    return createStatisticMarkup(filmCount);
+  getTemplate() {
+    return createStatisticMarkup(this._filmCount);
   }
 }
