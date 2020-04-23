@@ -39,7 +39,7 @@ import {
 } from './mocks/comment';
 import {
   render
-} from './utils';
+} from './utils/render';
 import {
   FilmSettings,
   RenderPosition
@@ -68,15 +68,9 @@ const renderFilm = (siteFilmsBlock, siteFilmsContainer, film) => {
   };
 
   const filmComponent = new Film(film);
-  const filmPoster = filmComponent.getElement().querySelector(`.film-card__poster`);
-  const filmTitle = filmComponent.getElement().querySelector(`.film-card__title`);
-  const filmComments = filmComponent.getElement().querySelector(`.film-card__comments`);
+  filmComponent.setOnFilmClick(onFilmCLick);
 
   render(siteFilmsContainer, filmComponent.getElement(), RenderPosition.BEFOREEND);
-
-  filmPoster.addEventListener(`click`, onFilmCLick);
-  filmTitle.addEventListener(`click`, onFilmCLick);
-  filmComments.addEventListener(`click`, onFilmCLick);
 
   const filmPopup = new FilmPopup(film);
   const comments = generateComments(FilmSettings.COMMENT_COUNT);
@@ -86,8 +80,7 @@ const renderFilm = (siteFilmsBlock, siteFilmsContainer, film) => {
     render(commentBlock, new Comment(comment).getElement(), RenderPosition.BEFOREEND);
   });
 
-  const popupButtonClose = filmPopup.getElement().querySelector(`.film-details__close-btn`);
-  popupButtonClose.addEventListener(`click`, onClosePopupClick);
+  filmPopup.setOnClickCLoseButton(onClosePopupClick);
 };
 
 /**
@@ -120,17 +113,7 @@ const renderFilmBoard = (films) => {
   const siteTopRatedBlock = siteFilmsBlock.querySelectorAll(`.films-list--extra .films-list__container`)[0];
   const siteMostCommentedBlock = siteFilmsBlock.querySelectorAll(`.films-list--extra .films-list__container`)[1];
 
-  let showingFilmsCount = FilmSettings.SHOW_FILMS_ON_START;
-  films.slice(0, showingFilmsCount)
-    .forEach((film) => {
-      renderFilm(siteFilmsBlock, siteFilmsContainer, film);
-    });
-
-  render(siteFilmsList, new ButtonShowMore().getElement(), RenderPosition.BEFOREEND);
-
-  const buttonLoadMore = siteFilmsBlock.querySelector(`.films-list__show-more`);
-
-  buttonLoadMore.addEventListener(`click`, () => {
+  const onButtonShowMoreClick = () => {
     const prevFilmCount = showingFilmsCount;
     showingFilmsCount = showingFilmsCount + FilmSettings.SHOW_FILMS_BUTTON_CLICK;
 
@@ -138,7 +121,18 @@ const renderFilmBoard = (films) => {
       .forEach((film) => {
         renderFilm(siteFilmsBlock, siteFilmsContainer, film);
       });
-  });
+  };
+
+  let showingFilmsCount = FilmSettings.SHOW_FILMS_ON_START;
+  films.slice(0, showingFilmsCount)
+    .forEach((film) => {
+      renderFilm(siteFilmsBlock, siteFilmsContainer, film);
+    });
+
+  const buttonShowMore = new ButtonShowMore();
+  render(siteFilmsList, buttonShowMore.getElement(), RenderPosition.BEFOREEND);
+
+  buttonShowMore.setOnButtonClick(onButtonShowMoreClick);
 
   const topFilms = generateFilms(FilmSettings.TOP_COUNT);
   topFilms.forEach((film) => {
@@ -161,12 +155,12 @@ const films = generateFilms(FilmSettings.COUNT);
 const filters = generateFilters(films);
 const sorts = generateSorts(films);
 
+renderSortsFilters();
+
 if (films.length > 0) {
-  renderSortsFilters();
   renderFilmBoard(films);
-  renderStatistic();
 } else {
-  renderSortsFilters();
   render(siteMainElement, new NoData().getElement(), RenderPosition.BEFOREEND);
-  renderStatistic();
 }
+
+renderStatistic();
