@@ -5,7 +5,7 @@ import {
   getRandomFloatNumber,
   getRandomArrayItems,
   getRandomDate,
-} from '../utils.js';
+} from '../utils/common';
 
 import {
   FilmSettings,
@@ -13,7 +13,7 @@ import {
   Posters,
   Genre,
   Descriptions,
-} from '../consts.js';
+} from '../consts';
 
 
 const AgeRatings = [
