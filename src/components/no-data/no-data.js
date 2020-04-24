@@ -1,24 +1,9 @@
-import {createNoDataTemplate} from './no-data-tpl.js';
-import {createElement} from '../../utils.js';
+import {createNoDataTemplate} from './no-data-tpl';
+import {AbstractComponent} from '../abstract-component';
 
 
-class NoData {
-  constructor() {
-    this._element = null;
-  }
-
+export class NoData extends AbstractComponent {
   getTemplate() {
     return createNoDataTemplate();
   }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
 }
-
-
-export {NoData};

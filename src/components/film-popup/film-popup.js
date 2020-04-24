@@ -1,28 +1,18 @@
-import {createFilmPopup} from './film-popup-tpl.js';
-import {createElement} from '../../utils.js';
+import {createFilmPopup} from './film-popup-tpl';
+import {AbstractComponent} from '../abstract-component';
 
-class FilmPopup {
+export class FilmPopup extends AbstractComponent {
   constructor(film) {
+    super();
+
     this._film = film;
-    this._element = null;
   }
 
   getTemplate() {
     return createFilmPopup(this._film);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
+  setOnClickCLoseButton(cb) {
+    this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, cb);
   }
 }
-
-
-export {FilmPopup};

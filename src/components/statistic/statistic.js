@@ -1,31 +1,15 @@
-import {createStatisticMarkup} from './statistic-tpl.js';
-import {createElement} from '../../utils.js';
+import {createStatisticMarkup} from './statistic-tpl';
+import {AbstractComponent} from '../abstract-component';
 
 
-class Statistic {
+export class Statistic extends AbstractComponent {
   constructor(filmCount) {
-    this._element = null;
+    super();
+
     this._filmCount = filmCount;
   }
 
-  getTemplate(filmCount) {
-    return createStatisticMarkup(filmCount);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate(this._filmCount));
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
+  getTemplate() {
+    return createStatisticMarkup(this._filmCount);
   }
 }
-
-
-export {
-  Statistic
-};

@@ -1,28 +1,9 @@
-import {createFilmBoard} from './film-board-tpl.js';
-import {createElement} from '../../utils.js';
+import {createFilmBoard} from './film-board-tpl';
+import {AbstractComponent} from '../abstract-component';
 
 
-class FilmBoard {
-  constructor() {
-    this._element = null;
-  }
-
+export class FilmBoard extends AbstractComponent {
   getTemplate() {
     return createFilmBoard();
   }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
-  }
 }
-
-
-export {FilmBoard};

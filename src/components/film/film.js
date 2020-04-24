@@ -1,29 +1,23 @@
-import {createFilmCard} from './film-tpl.js';
-import {createElement} from '../../utils.js';
+import {createFilmCard} from './film-tpl';
+import {AbstractComponent} from '../abstract-component';
 
 
-class Film {
+export class Film extends AbstractComponent {
   constructor(film) {
+    super();
+
     this._film = film;
-    this._element = null;
   }
 
   getTemplate() {
     return createFilmCard(this._film);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate(this._film));
-    }
+  setOnFilmClick(cb) {
+    const element = this.getElement();
 
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
+    element.querySelector(`.film-card__poster`).addEventListener(`click`, cb);
+    element.querySelector(`.film-card__title`).addEventListener(`click`, cb);
+    element.querySelector(`.film-card__comments`).addEventListener(`click`, cb);
   }
 }
-
-
-export {Film};

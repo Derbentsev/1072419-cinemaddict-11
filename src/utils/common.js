@@ -1,27 +1,18 @@
-import {RenderPosition} from './consts.js';
+const MonthNamesShort = [
+  `Jan`,
+  `Feb`,
+  `Mar`,
+  `Apr`,
+  `May`,
+  `Jun`,
+  `Jul`,
+  `Aug`,
+  `Sep`,
+  `Oct`,
+  `Nov`,
+  `Dec`,
+];
 
-
-const MonthNamesShort = [`Jan`, `Feb`, `Mar`, `Apr`, `May`, `Jun`, `Jul`, `Aug`, `Sep`, `Oct`, `Nov`, `Dec`];
-
-
-/**
- * Создаем функцию для рендеринга (вставки в DOM) компонентов
- * @param {object} container - Контейнер, в который вставляем
- * @param {string} element - DOM-элемент, который вставляем
- * @param {string} place - Место в контейнере
- * @return {void}
- */
-const render = (container, element, place) => {
-  switch (place) {
-    case RenderPosition.AFRERBEGIN:
-      container.prepend(element);
-      break;
-    case RenderPosition.BEFOREEND:
-      container.append(element);
-      break;
-  }
-  // container.insertAdjacentHTML(place, element);
-};
 
 /**
  * Создаем пустой элемент div и в него вкладываем вёрстку
@@ -107,7 +98,6 @@ const getRandomDate = (dateStart, dateEnd) => {
 
 
 export {
-  render,
   getRandomArrayItem,
   getRandomIntegerNumber,
   castTimeFormat,

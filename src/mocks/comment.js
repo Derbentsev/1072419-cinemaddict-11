@@ -1,7 +1,7 @@
 import {
   getRandomArrayItem,
   getRandomDate,
-} from '../utils.js';
+} from '../utils/common';
 
 
 const Comments = [

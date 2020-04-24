@@ -1,17 +1,12 @@
 /**
  * Создаем разметку блока Статистики
- * @param {number} filmCount - Количество фильмов на сайте всего
+ * @param {number} filmCount - Количество фильмов на сайте
  * @return {string}
  */
-const createStatisticMarkup = (filmCount) => {
-  const moviesCount = filmCount;
-
+export const createStatisticMarkup = (filmCount) => {
   return (
     `<section class="footer__statistics">
-      <p>${moviesCount} movies inside</p>
+      <p>${filmCount} movies inside</p>
     </section>`
   );
 };
-
-
-export {createStatisticMarkup};
