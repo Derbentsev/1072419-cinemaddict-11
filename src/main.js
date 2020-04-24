@@ -42,6 +42,13 @@ const siteHeaderElement = siteBodyElement.querySelector(`.header`);
 const siteMainElement = siteBodyElement.querySelector(`.main`);
 const siteFooterElement = siteBodyElement.querySelector(`footer`);
 
+const films = generateFilms(FilmSettings.COUNT);
+const topFilms = generateFilms(FilmSettings.TOP_COUNT);
+const mostCommentedFilms = generateFilms(FilmSettings.MOST_COMMENTED_COUNT);
+const sorts = generateSorts(films);
+const filters = generateFilters(films);
+const comments = generateComments(FilmSettings.COMMENT_COUNT);
+
 
 /**
  * Отрисовываем блоки Фильтра, Сортировки и Аватарки пользователя
@@ -60,18 +67,10 @@ const renderStatistic = () => {
 };
 
 
-const films = generateFilms(FilmSettings.COUNT);
-const topFilms = generateFilms(FilmSettings.TOP_COUNT);
-const mostCommentedFilms = generateFilms(FilmSettings.MOST_COMMENTED_COUNT);
-const sorts = generateSorts(films);
-const filters = generateFilters(films);
-const comments = generateComments(FilmSettings.COMMENT_COUNT);
-
-
-renderSortsAndFilters();
-
 const filmBoard = new FilmBoard();
 const pageController = new PageController(filmBoard);
+
+renderSortsAndFilters();
 
 render(siteMainElement, filmBoard, RenderPosition.BEFOREEND);
 pageController.render(films, topFilms, mostCommentedFilms, comments);

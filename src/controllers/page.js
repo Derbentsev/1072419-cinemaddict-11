@@ -23,6 +23,7 @@ import {
   FilmListExtra
 } from '../components/film-list-extra/film-list-extra';
 import {
+  remove,
   render
 } from '../utils/render';
 import {
@@ -33,19 +34,19 @@ import {
 
 /**
  * Отрисовавает карточки фильмов и навешивает обработчики событий на карточки и попапы
- * @param {object} siteFilmsBlock - Блок, в котором располагаются все отрисованные карточки фильмов
  * @param {object} siteFilmsContainer - Элемент, в котором отрисовываем карточку фильма
  * @param {object} film - Элемент массива с фильмами
+ * @param {object} comments - Массив с комментариями
  * @return {void}
  */
-const renderFilm = (siteFilmsBlock, siteFilmsContainer, film, comments) => {
+const renderFilm = (siteFilmsContainer, film, comments) => {
   const onFilmCLick = () => {
-    siteFilmsBlock.appendChild(filmPopup.getElement());
+    siteFilmsContainer.parentElement.appendChild(filmPopup.getElement());
     document.addEventListener(`keydown`, onClosePopupClick);
   };
 
   const onClosePopupClick = () => {
-    siteFilmsBlock.removeChild(filmPopup.getElement());
+    siteFilmsContainer.parentElement.removeChild(filmPopup.getElement());
     document.removeEventListener(`keydown`, onClosePopupClick);
   };
 
@@ -65,43 +66,12 @@ const renderFilm = (siteFilmsBlock, siteFilmsContainer, film, comments) => {
   filmPopup.setOnClickCLoseButton(onClosePopupClick);
 };
 
-/**
- * Отрисовывает основные элементы на главной странице - блоки ФИльров, Сортировки и т.д.
- * @param {object} films - Массив с фильмами, по которым отрисовываем карточки
- * @return {void}
- */
-const renderFilmBoard = (films, topFilms, mostCommentedFilms) => {
-  const siteFilmsBlock = siteMainElement.querySelector(`.films`);
-  const siteFilmsList = siteFilmsBlock.querySelector(`.films-list`);
-  const siteFilmsContainer = siteFilmsBlock.querySelector(`.films-list__container`);
-  const siteTopRatedBlock = siteFilmsBlock.querySelectorAll(`.films-list--extra .films-list__container`)[0];
-  const siteMostCommentedBlock = siteFilmsBlock.querySelectorAll(`.films-list--extra .films-list__container`)[1];
 
-  let showingFilmsCount = FilmSettings.SHOW_FILMS_ON_START;
-  films.slice(0, showingFilmsCount)
+const renderFilms = (container, from, to, films, comments) => {
+  return films.slice(from, to)
     .forEach((film) => {
-      renderFilm(siteFilmsBlock, siteFilmsContainer, film);
+      renderFilm(container, film, comments);
     });
-
-  topFilms.forEach((film) => {
-    renderFilm(siteFilmsBlock, siteTopRatedBlock, film);
-  });
-
-  mostCommentedFilms.forEach((film) => {
-    renderFilm(siteFilmsBlock, siteMostCommentedBlock, film);
-  });
-};
-
-
-const renderFilms = (films) => {
-  films.slice(prevFilmCount, showingFilmsCount)
-    .forEach((film) => {
-      renderFilm(siteFilmsBlock, siteFilmsContainer, film);
-    });
-};
-
-const getSlicedFilms = (films, from, to) => {
-  return films.slice(from, to);
 };
 
 
@@ -118,26 +88,28 @@ export class PageController {
   }
 
   render(films, topFilms, mostCommentedFilms, comments) {
-    let showingFilmsCount = FilmSettings.SHOW_FILMS_ON_START;
-    let slicedFilms = getSlicedFilms(films, 0, FilmSettings.SHOW_FILMS_ON_START);
+    if (!films.length) {
+      render(container, this._noData, RenderPosition.BEFOREEND);
+      return;
+    }
 
-    slicedFilms.forEach((film) => {
-      renderFilm(null, this._filmList.getElement(), film, comments);
-    });
+    let showingFilmsCount = FilmSettings.SHOW_FILMS_ON_START;
+    const container = this._container.getElement();
 
     const onButtonShowMoreClick = () => {
       const prevFilmCount = showingFilmsCount;
       showingFilmsCount = showingFilmsCount + FilmSettings.SHOW_FILMS_BUTTON_CLICK;
 
-      renderFilms();
+      renderFilms(this._filmList.getElement(), prevFilmCount, showingFilmsCount, films, comments);
+
+      if (showingFilmsCount > films.length) {
+        remove(this._buttonShowMore);
+      }
     };
 
-    const container = this._container.getElement();
-
-    if (!films.length) {
-      render(container, this._noData, RenderPosition.BEFOREEND);
-      return;
-    }
+    renderFilms(this._filmList.getElement(), 0, showingFilmsCount, films, comments);
+    renderFilms(this._filmListTop.getElement(), 0, showingFilmsCount, topFilms, comments);
+    renderFilms(this._filmListMostCommented.getElement(), 0, showingFilmsCount, mostCommentedFilms, comments);
 
     render(container, this._filmList, RenderPosition.BEFOREEND);
     render(container, this._filmListTop, RenderPosition.BEFOREEND);

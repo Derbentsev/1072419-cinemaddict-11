@@ -10,7 +10,7 @@ import {
  * @param {string} place - Место в контейнере
  * @return {void}
  */
-export const render = (container, component, place) => {
+const render = (container, component, place) => {
   switch (place) {
     case RenderPosition.AFRERBEGIN:
       container.prepend(component.getElement());
@@ -19,4 +19,15 @@ export const render = (container, component, place) => {
       container.append(component.getElement());
       break;
   }
+};
+
+const remove = (component) => {
+  component.getElement().remove();
+  component.removeElement();
+};
+
+
+export {
+  render,
+  remove,
 };
