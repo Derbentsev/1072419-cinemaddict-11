@@ -11,16 +11,11 @@ const FilterNames = [
  * @param {object} films - Массив с фильмами
  * @return {array} Массив фильтров
  */
-const generateFilters = (films) => {
+export const generateFilters = (films) => {
   return FilterNames.map((it) => {
     return {
       name: it,
-      count: films.length > 0 ? Math.floor(Math.random() * 10) : 0,
+      count: films.length ? Math.floor(Math.random() * 10) : 0,
     };
   });
-};
-
-
-export {
-  generateFilters
 };

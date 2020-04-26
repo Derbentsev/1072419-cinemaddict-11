@@ -5,9 +5,6 @@ import {
   Filter
 } from './components/filter/filter';
 import {
-  Sort
-} from './components/sort/sort';
-import {
   Statistic
 } from './components/statistic/statistic';
 import {
@@ -50,29 +47,13 @@ const filters = generateFilters(films);
 const comments = generateComments(FilmSettings.COMMENT_COUNT);
 
 
-/**
- * Отрисовываем блоки Фильтра, Сортировки и Аватарки пользователя
- */
-const renderSortsAndFilters = () => {
-  render(siteHeaderElement, new UserProfile(), RenderPosition.BEFOREEND);
-  render(siteMainElement, new Filter(filters), RenderPosition.BEFOREEND);
-  render(siteMainElement, new Sort(sorts), RenderPosition.BEFOREEND);
-};
-
-/**
- * Отрисовываем блок статистики
- */
-const renderStatistic = () => {
-  render(siteFooterElement, new Statistic(films.length), RenderPosition.BEFOREEND);
-};
-
-
 const filmBoard = new FilmBoard();
-const pageController = new PageController(filmBoard);
+const pageController = new PageController(filmBoard, sorts);
 
-renderSortsAndFilters();
+render(siteHeaderElement, new UserProfile(), RenderPosition.BEFOREEND);
+render(siteMainElement, new Filter(filters), RenderPosition.BEFOREEND);
 
 render(siteMainElement, filmBoard, RenderPosition.BEFOREEND);
 pageController.render(films, topFilms, mostCommentedFilms, comments);
 
-renderStatistic();
+render(siteFooterElement, new Statistic(films.length), RenderPosition.BEFOREEND);
