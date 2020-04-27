@@ -50,6 +50,12 @@ const RenderPosition = {
   BEFOREEND: `beforeend`,
 };
 
+const SortType = {
+  DEFAULT: `default`,
+  DATE: `date`,
+  RATING: `rating`,
+};
+
 
 export {
   FilmNames,
@@ -58,4 +64,5 @@ export {
   Descriptions,
   FilmSettings,
   RenderPosition,
+  SortType,
 };

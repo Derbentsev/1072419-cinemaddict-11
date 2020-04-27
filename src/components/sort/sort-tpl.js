@@ -8,7 +8,9 @@ const createSortMarkup = (sort, isActive) => {
   const {name} = sort;
 
   return (
-    `<li><a href="#" class="sort__button ${isActive ? `sort__button--active` : ``}">${name}</a></li>`
+    `<li>
+      <a href="#" data-sort-type="${name.split(` `).slice(-1)}" class="sort__button ${isActive ? `sort__button--active` : ``}">${name}</a>
+    </li>`
   );
 };
 
@@ -17,7 +19,7 @@ const createSortMarkup = (sort, isActive) => {
  * @param {object} sorts - Массив сортировок
  * @return {string}
  */
-const createSortTemplate = (sorts) => {
+export const createSortTemplate = (sorts) => {
   const sortsMarkup = sorts.map((it, i) =>
     createSortMarkup(it, i === 0))
   .join(`\n`);
@@ -28,6 +30,3 @@ const createSortTemplate = (sorts) => {
     </ul>`
   );
 };
-
-
-export {createSortTemplate};

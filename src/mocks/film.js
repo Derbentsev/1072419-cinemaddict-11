@@ -62,11 +62,13 @@ const Actors = [
  * @return {object} - Случайно сгенерированный фильм
  */
 const generateFilm = () => {
+  const releaseDate = getRandomDate(FilmSettings.RELEASE_DATE_MIN, FilmSettings.RELEASE_DATE_MAX);
+
   return {
     name: getRandomArrayItem(FilmNames),
     poster: getRandomArrayItem(Posters),
     rating: getRandomFloatNumber(FilmSettings.MIN_RATING, FilmSettings.MAX_RATING),
-    releaseYear: getRandomIntegerNumber(FilmSettings.MIN_RELEASE_YEAR, FilmSettings.MAX_RELEASE_YEAR),
+    releaseYear: new Date(releaseDate).getFullYear(),
     duration: castTimeFormat(getRandomIntegerNumber(FilmSettings.MIN_DURATION_MINUTES, FilmSettings.MAX_DURATION_MINUTES)),
     genre: getRandomArrayItem(Genre),
     description: getRandomArrayItem(Descriptions),
@@ -76,7 +78,7 @@ const generateFilm = () => {
     director: getRandomArrayItem(Directors),
     writers: getRandomArrayItems(Writers, 3),
     actors: getRandomArrayItems(Actors, 4),
-    releaseDate: getRandomDate(FilmSettings.RELEASE_DATE_MIN, FilmSettings.RELEASE_DATE_MAX),
+    releaseDate,
     country: getRandomArrayItem(Countries),
     ageRating: getRandomArrayItem(AgeRatings),
   };
@@ -87,12 +89,8 @@ const generateFilm = () => {
  * @param {number} count - Число фильмов
  * @return {object} - Массив фильмов
  */
-const generateFilms = (count) => {
+export const generateFilms = (count) => {
   return new Array(count)
     .fill(``)
     .map(generateFilm);
-};
-
-export {
-  generateFilms
 };

@@ -9,15 +9,10 @@ const SortNames = [
  * Генерируем сортировки
  * @return {array} Массив сортировок
  */
-const generateSorts = () => {
+export const generateSorts = () => {
   return SortNames.map((it) => {
     return {
       name: it,
     };
   });
-};
-
-
-export {
-  generateSorts
 };
