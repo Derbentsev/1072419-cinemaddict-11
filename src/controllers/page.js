@@ -2,17 +2,11 @@ import {
   FilmBoard
 } from '../components/film-board/film-board';
 import {
+  MovieController
+} from './movie';
+import {
   ButtonShowMore
 } from '../components/button-show-more/button-show-more';
-import {
-  Film
-} from '../components/film/film';
-import {
-  FilmPopup
-} from '../components/film-popup/film-popup';
-import {
-  Comment
-} from '../components/comment/comment';
 import {
   NoData
 } from '../components/no-data/no-data';
@@ -36,44 +30,12 @@ import {
 } from '../components/sort/sort';
 
 
-/**
- * Отрисовавает карточки фильмов и навешивает обработчики событий на карточки и попапы
- * @param {object} siteFilmsContainer - Элемент, в котором отрисовываем карточку фильма
- * @param {object} film - Элемент массива с фильмами
- * @param {object} comments - Массив с комментариями
- * @return {void}
- */
-const renderFilm = (siteFilmsContainer, film, comments) => {
-  const onFilmCLick = () => {
-    siteFilmsContainer.parentElement.appendChild(filmPopup.getElement());
-    document.addEventListener(`keydown`, onClosePopupClick);
-  };
-
-  const onClosePopupClick = () => {
-    siteFilmsContainer.parentElement.removeChild(filmPopup.getElement());
-    document.removeEventListener(`keydown`, onClosePopupClick);
-  };
-
-  const filmComponent = new Film(film);
-  const filmListContainer = siteFilmsContainer.querySelector(`.films-list__container`);
-  filmComponent.setOnFilmClick(onFilmCLick);
-
-  render(filmListContainer, filmComponent, RenderPosition.BEFOREEND);
-
-  const filmPopup = new FilmPopup(film);
-  const commentBlock = filmPopup.getElement().querySelector(`.film-details__comments-list`);
-
-  comments.forEach((comment) => {
-    render(commentBlock, new Comment(comment), RenderPosition.BEFOREEND);
-  });
-
-  filmPopup.setOnClickCLoseButton(onClosePopupClick);
-};
-
-
 const renderFilms = (container, films, comments) => {
   return films.forEach((film) => {
-    renderFilm(container, film, comments);
+    // renderFilm(container, film, comments);
+    const movieController = new MovieController(container);
+
+    movieController.render(film, comments);
   });
 };
 

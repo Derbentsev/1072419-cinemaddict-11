@@ -1,7 +1,9 @@
 import {
   createCommentMarkup
 } from './comment-tpl';
-import {AbstractComponent} from '../abstract-component';
+import {
+  AbstractComponent
+} from '../abstract-component';
 
 
 export class Comment extends AbstractComponent {

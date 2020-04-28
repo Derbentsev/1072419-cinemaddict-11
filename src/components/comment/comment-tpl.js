@@ -4,7 +4,6 @@
  * @return {string} Разметка комментария к фильму
  */
 export const createCommentMarkup = ({emotion, text, author, date}) => {
-
   return (
     `<li class="film-details__comment">
       <span class="film-details__comment-emoji">
