@@ -30,10 +30,9 @@ import {
 } from '../components/sort/sort';
 
 
-const renderFilms = (container, films, comments) => {
+const renderFilms = (container, films, comments, onDataChange) => {
   return films.forEach((film) => {
-    // renderFilm(container, film, comments);
-    const movieController = new MovieController(container);
+    const movieController = new MovieController(container, onDataChange);
 
     movieController.render(film, comments);
   });
@@ -63,6 +62,8 @@ export class PageController {
   constructor(container, sorts) {
     this._container = container;
 
+    this._films = [];
+    this._comments = [];
     this._noData = new NoData();
     this._filmBoard = new FilmBoard();
     this._filmList = new FilmList();
@@ -70,9 +71,14 @@ export class PageController {
     this._filmListMostCommented = new FilmListExtra(`Most commented`);
     this._buttonShowMore = new ButtonShowMore();
     this._sort = new Sort(sorts);
+
+    this._onDataChange = this._onDataChange.bind(this);
   }
 
   render(films, topFilms, mostCommentedFilms, comments) {
+    this._films = films;
+    this._comments = comments;
+
     if (!films.length) {
       render(container, this._noData, RenderPosition.BEFOREEND);
       return;
@@ -87,7 +93,7 @@ export class PageController {
 
       const sortedFilms = getSortedFilms(films, this._sort.getSortType(), prevFilmCount, showingFilmsCount);
 
-      renderFilms(this._filmList.getElement(), sortedFilms, comments);
+      renderFilms(this._filmList.getElement(), sortedFilms, comments, this._onDataChange);
 
       if (showingFilmsCount > films.length) {
         remove(this._buttonShowMore);
@@ -106,9 +112,9 @@ export class PageController {
 
     render(container, this._sort, RenderPosition.BEFOREEND);
 
-    renderFilms(this._filmList.getElement(), films.slice(0, showingFilmsCount), comments);
-    renderFilms(this._filmListTop.getElement(), topFilms, comments);
-    renderFilms(this._filmListMostCommented.getElement(), mostCommentedFilms, comments);
+    renderFilms(this._filmList.getElement(), films.slice(0, showingFilmsCount), comments, this._onDataChange);
+    renderFilms(this._filmListTop.getElement(), topFilms, comments, this._onDataChange);
+    renderFilms(this._filmListMostCommented.getElement(), mostCommentedFilms, comments, this._onDataChange);
 
     render(container, this._filmList, RenderPosition.BEFOREEND);
     render(container, this._filmListTop, RenderPosition.BEFOREEND);
@@ -119,5 +125,16 @@ export class PageController {
     this._buttonShowMore.setOnButtonClick(onButtonShowMoreClick);
 
     this._sort.setOnChangeSortType(setOnChangeSortType);
+  }
+
+  _onDataChange(movieController, oldData, newData) {
+    const index = this._films.findIndex((it) => it === oldData);
+
+    if (index === -1) {
+      return;
+    }
+
+    this._films = [].concat(this._films.slice(0, index), newData, this._films.slice(index + 1));
+    movieController.render(this._films[index], this._comments);
   }
 }

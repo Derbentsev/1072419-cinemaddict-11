@@ -20,4 +20,16 @@ export class Film extends AbstractComponent {
     element.querySelector(`.film-card__title`).addEventListener(`click`, cb);
     element.querySelector(`.film-card__comments`).addEventListener(`click`, cb);
   }
+
+  setOnClickAddToWatchlist(cb) {
+    this.getElement().querySelector(`.film-card__controls-item--add-to-watchlist`).addEventListener(`click`, cb);
+  }
+
+  setOnClickAddToAlreadyWatched(cb) {
+    this.getElement().querySelector(`.film-card__controls-item--mark-as-watched`).addEventListener(`click`, cb);
+  }
+
+  setOnClickAddToFavorites(cb) {
+    this.getElement().querySelector(`.film-card__controls-item--favorite`).addEventListener(`click`, cb);
+  }
 }

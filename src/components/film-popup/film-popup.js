@@ -12,7 +12,19 @@ export class FilmPopup extends AbstractComponent {
     return createFilmPopup(this._film);
   }
 
-  setOnClickCLoseButton(cb) {
+  setOnClickCloseButton(cb) {
     this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, cb);
+  }
+
+  setOnClickAddToWatchlist(cb) {
+    this.getElement().querySelector(`.film-details__control-label--watchlist`).addEventListener(`click`, cb);
+  }
+
+  setOnClickAddToAlreadyWatched(cb) {
+    this.getElement().querySelector(`.film-details__control-label--watched`).addEventListener(`click`, cb);
+  }
+
+  setOnClickAddToFavorites(cb) {
+    this.getElement().querySelector(`.film-details__control-label--favorite`).addEventListener(`click`, cb);
   }
 }

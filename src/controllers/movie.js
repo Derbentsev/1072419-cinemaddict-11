@@ -8,7 +8,8 @@ import {
   Comment
 } from '../components/comment/comment';
 import {
-  render
+  render,
+  replace,
 } from '../utils/render';
 import {
   RenderPosition
@@ -16,37 +17,70 @@ import {
 
 
 export class MovieController {
-  constructor(container) {
+  constructor(container, onDataChange) {
     this._container = container;
+    this._onDataChange = onDataChange;
 
     this._filmComponent = null;
-    this._filPopupComponent = null;
+    this._filmPopupComponent = null;
   }
 
   render(film, comments) {
-    const onFilmCLick = () => {
-      this._container.parentElement.appendChild(this._filPopupComponent.getElement());
+    const oldFilmComponent = this._filmComponent;
+    const oldFilmPopupComponent = this._filmPopupComponent;
+
+    this._filmComponent = new Film(film);
+    this._filmPopupComponent = new FilmPopup(film);
+
+    const onFilmClick = () => {
+      this._container.parentElement.appendChild(this._filmPopupComponent.getElement());
       document.addEventListener(`keydown`, onClosePopupClick);
     };
 
     const onClosePopupClick = () => {
-      this._container.parentElement.removeChild(this._filPopupComponent.getElement());
+      this._container.parentElement.removeChild(this._filmPopupComponent.getElement());
       document.removeEventListener(`keydown`, onClosePopupClick);
     };
 
-    this._filmComponent = new Film(film);
+    const onClickAddToWatchlist = () => {
+      this._onDataChange(this, film, Object.assign({}, film, {
+        isWatchlist: !film.isWatchlist
+      }));
+    };
+
+    const onClickAlreadyWatched = () => {
+      this._onDataChange(this, film, Object.assign({}, film, {
+        isWatched: !film.isWatched
+      }));
+    };
+
+    const onClickAddToFavorites = () => {
+      this._onDataChange(this, film, Object.assign({}, film, {
+        isFavorite: !film.isFavorite
+      }));
+    };
+
+
     const filmListContainer = this._container.querySelector(`.films-list__container`);
-    this._filmComponent.setOnFilmClick(onFilmCLick);
+    this._filmComponent.setOnFilmClick(onFilmClick);
+    this._filmComponent.setOnClickAddToWatchlist(onClickAddToWatchlist);
+    this._filmComponent.setOnClickAddToAlreadyWatched(onClickAlreadyWatched);
+    this._filmComponent.setOnClickAddToFavorites(onClickAddToFavorites);
 
-    render(filmListContainer, this._filmComponent, RenderPosition.BEFOREEND);
-
-    this._filPopupComponent = new FilmPopup(film);
-    const commentBlock = this._filPopupComponent.getElement().querySelector(`.film-details__comments-list`);
+    const commentBlock = this._filmPopupComponent.getElement().querySelector(`.film-details__comments-list`);
+    this._filmPopupComponent.setOnClickCloseButton(onClosePopupClick);
+    this._filmPopupComponent.setOnClickAddToWatchlist(onClickAddToWatchlist);
+    this._filmPopupComponent.setOnClickAddToAlreadyWatched(onClickAlreadyWatched);
+    this._filmPopupComponent.setOnClickAddToFavorites(onClickAddToFavorites);
 
     comments.forEach((comment) => {
       render(commentBlock, new Comment(comment), RenderPosition.BEFOREEND);
     });
 
-    this._filPopupComponent.setOnClickCLoseButton(onClosePopupClick);
+    if (oldFilmComponent && oldFilmPopupComponent) {
+      replace(this._filmComponent, oldFilmComponent);
+    } else {
+      render(filmListContainer, this._filmComponent, RenderPosition.BEFOREEND);
+    }
   }
 }
