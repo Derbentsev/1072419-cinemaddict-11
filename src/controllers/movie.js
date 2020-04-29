@@ -30,16 +30,24 @@ export class MovieController {
     const oldFilmPopupComponent = this._filmPopupComponent;
 
     this._filmComponent = new Film(film);
-    this._filmPopupComponent = new FilmPopup(film);
+    this._filmPopupComponent = new FilmPopup(film, comments);
 
     const onFilmClick = () => {
       this._container.parentElement.appendChild(this._filmPopupComponent.getElement());
-      document.addEventListener(`keydown`, onClosePopupClick);
+      document.addEventListener(`keydown`, onPopupEscPress);
+    };
+
+    const onPopupEscPress = (evt) => {
+      if (evt.key === `Escape`) {
+        evt.preventDefault();
+        onClosePopupClick();
+      }
     };
 
     const onClosePopupClick = () => {
       this._container.parentElement.removeChild(this._filmPopupComponent.getElement());
       document.removeEventListener(`keydown`, onClosePopupClick);
+      document.removeEventListener(`keydown`, onPopupEscPress);
     };
 
     const onClickAddToWatchlist = () => {
@@ -62,20 +70,21 @@ export class MovieController {
 
 
     const filmListContainer = this._container.querySelector(`.films-list__container`);
+    // const commentBlock = this._filmPopupComponent.getElement().querySelector(`.film-details__comments-list`);
+
     this._filmComponent.setOnFilmClick(onFilmClick);
     this._filmComponent.setOnClickAddToWatchlist(onClickAddToWatchlist);
     this._filmComponent.setOnClickAddToAlreadyWatched(onClickAlreadyWatched);
     this._filmComponent.setOnClickAddToFavorites(onClickAddToFavorites);
 
-    const commentBlock = this._filmPopupComponent.getElement().querySelector(`.film-details__comments-list`);
     this._filmPopupComponent.setOnClickCloseButton(onClosePopupClick);
     this._filmPopupComponent.setOnClickAddToWatchlist(onClickAddToWatchlist);
     this._filmPopupComponent.setOnClickAddToAlreadyWatched(onClickAlreadyWatched);
     this._filmPopupComponent.setOnClickAddToFavorites(onClickAddToFavorites);
 
-    comments.forEach((comment) => {
+    /* comments.forEach((comment) => {
       render(commentBlock, new Comment(comment), RenderPosition.BEFOREEND);
-    });
+    }); */
 
     if (oldFilmComponent && oldFilmPopupComponent) {
       replace(this._filmComponent, oldFilmComponent);
