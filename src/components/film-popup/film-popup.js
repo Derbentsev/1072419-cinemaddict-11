@@ -20,7 +20,11 @@ export class FilmPopup extends AbstractSmartComponent {
 
     this._emojiPath = null;
 
-    this._setOnClickOnEmojiList();
+    this._clickOnCloseButton = null;
+    this._clickOnAddToWatchlist = null;
+
+    this._setClickOnOnEmojiList();
+    this.setClickOnCloseButton();
     this.createComments();
   }
 
@@ -28,27 +32,30 @@ export class FilmPopup extends AbstractSmartComponent {
     return createFilmPopup(this._film, this._emojiPath);
   }
 
-  setOnClickCloseButton(cb) {
-    this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, cb);
+  setClickOnCloseButton(cb) {
+    this._clickOnCloseButton = cb;
+    this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, this._clickOnCloseButton);
   }
 
-  setOnClickAddToWatchlist(cb) {
+  setClickOnAddToWatchlist(cb) {
+    this._clickOnAddToWatchlist = cb;
     this.getElement().querySelector(`.film-details__control-label--watchlist`).addEventListener(`click`, cb);
   }
 
-  setOnClickAddToAlreadyWatched(cb) {
+  setClickOnAddToAlreadyWatched(cb) {
     this.getElement().querySelector(`.film-details__control-label--watched`).addEventListener(`click`, cb);
   }
 
-  setOnClickAddToFavorites(cb) {
+  setClickOnAddToFavorites(cb) {
     this.getElement().querySelector(`.film-details__control-label--favorite`).addEventListener(`click`, cb);
   }
 
   recoveryListeners() {
-    this._setOnClickOnEmojiList();
+    this._setClickOnOnEmojiList();
+    this.setClickOnCloseButton(this._clickOnCloseButton);
   }
 
-  _setOnClickOnEmojiList() {
+  _setClickOnOnEmojiList() {
     const emojiList = this.getElement().querySelector(`.film-details__emoji-list`);
 
     const onEmojiListClick = (evt) => {
@@ -65,5 +72,11 @@ export class FilmPopup extends AbstractSmartComponent {
     this._comments.forEach((comment) => {
       render(commentBlock, new Comment(comment), RenderPosition.BEFOREEND);
     });
+  }
+
+  reset() {
+    // const film = this._film;
+
+    this.rerender();
   }
 }

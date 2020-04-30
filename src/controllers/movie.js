@@ -5,9 +5,6 @@ import {
   FilmPopup
 } from '../components/film-popup/film-popup';
 import {
-  Comment
-} from '../components/comment/comment';
-import {
   render,
   replace,
 } from '../utils/render';
@@ -17,9 +14,10 @@ import {
 
 
 export class MovieController {
-  constructor(container, onDataChange) {
+  constructor(container, onDataChange, onViewChange) {
     this._container = container;
     this._onDataChange = onDataChange;
+    this._onViewChange = onViewChange;
 
     this._filmComponent = null;
     this._filmPopupComponent = null;
@@ -70,26 +68,30 @@ export class MovieController {
 
 
     const filmListContainer = this._container.querySelector(`.films-list__container`);
-    // const commentBlock = this._filmPopupComponent.getElement().querySelector(`.film-details__comments-list`);
 
-    this._filmComponent.setOnFilmClick(onFilmClick);
-    this._filmComponent.setOnClickAddToWatchlist(onClickAddToWatchlist);
-    this._filmComponent.setOnClickAddToAlreadyWatched(onClickAlreadyWatched);
-    this._filmComponent.setOnClickAddToFavorites(onClickAddToFavorites);
+    this._filmComponent.setClickOnFilm(onFilmClick);
+    this._filmComponent.setClickOnAddToWatchlist(onClickAddToWatchlist);
+    this._filmComponent.setClickOnAddToAlreadyWatched(onClickAlreadyWatched);
+    this._filmComponent.setClickOnAddToFavorites(onClickAddToFavorites);
 
-    this._filmPopupComponent.setOnClickCloseButton(onClosePopupClick);
-    this._filmPopupComponent.setOnClickAddToWatchlist(onClickAddToWatchlist);
-    this._filmPopupComponent.setOnClickAddToAlreadyWatched(onClickAlreadyWatched);
-    this._filmPopupComponent.setOnClickAddToFavorites(onClickAddToFavorites);
-
-    /* comments.forEach((comment) => {
-      render(commentBlock, new Comment(comment), RenderPosition.BEFOREEND);
-    }); */
+    this._filmPopupComponent.setClickOnCloseButton(onClosePopupClick);
+    this._filmPopupComponent.setClickOnAddToWatchlist(onClickAddToWatchlist);
+    this._filmPopupComponent.setClickOnAddToAlreadyWatched(onClickAlreadyWatched);
+    this._filmPopupComponent.setClickOnAddToFavorites(onClickAddToFavorites);
 
     if (oldFilmComponent && oldFilmPopupComponent) {
       replace(this._filmComponent, oldFilmComponent);
     } else {
       render(filmListContainer, this._filmComponent, RenderPosition.BEFOREEND);
     }
+  }
+
+  setDefaultView() {
+    this._replaceEditToTask();
+  }
+
+  _replacePopupToFilm() {
+    this._filmPopupComponent.reset();
+    replace(this._filmComponent, this._filmPopupComponent);
   }
 }
