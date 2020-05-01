@@ -81,6 +81,10 @@ const generateFilm = () => {
     releaseDate,
     country: getRandomArrayItem(Countries),
     ageRating: getRandomArrayItem(AgeRatings),
+
+    isWatchlist: Math.random() > 0.5,
+    isWatched: Math.random() > 0.5,
+    isFavorite: Math.random() > 0.5,
   };
 };
 

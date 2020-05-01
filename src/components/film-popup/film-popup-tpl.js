@@ -1,9 +1,4 @@
-/**
- * Создаем разметку Попап фильма
- * @param {object} film - Фильм
- * @return {string} Разметка попапа фильма
- */
-export const createFilmPopup = (film) => {
+export const createFilmPopup = (film, emojiPath) => {
   const {
     poster,
     name,
@@ -18,7 +13,11 @@ export const createFilmPopup = (film) => {
     genre,
     description,
     ageRating,
+    isWatchlist,
+    isWatched,
+    isFavorite,
   } = film;
+
 
   return (
     `<section class="film-details">
@@ -87,28 +86,30 @@ export const createFilmPopup = (film) => {
         </div>
   
         <section class="film-details__controls">
-          <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist">
+          <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist" ${isWatchlist === true ? `checked` : ``}>
           <label for="watchlist" class="film-details__control-label film-details__control-label--watchlist">Add to watchlist</label>
   
-          <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched">
+          <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched" ${isWatched === true ? `checked` : ``}>
           <label for="watched" class="film-details__control-label film-details__control-label--watched">Already watched</label>
-  
-          <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite">
+
+          <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite" ${isFavorite === true ? `checked` : ``}>
           <label for="favorite" class="film-details__control-label film-details__control-label--favorite">Add to favorites</label>
         </section>
       </div>
   
       <div class="form-details__bottom-container">
         <section class="film-details__comments-wrap">
-          <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">4</span></h3>
+          <h3 class="film-details__comments-title">Comments 
+            <span class="film-details__comments-count">4</span>
+          </h3>
   
-          <ul class="film-details__comments-list">
-
-          </ul>
+          <ul class="film-details__comments-list"></ul>
   
           <div class="film-details__new-comment">
-            <div for="add-emoji" class="film-details__add-emoji-label"></div>
-  
+            <div for="add-emoji" class="film-details__add-emoji-label">
+              ${emojiPath ? `<img src="${emojiPath}" width="55" height="55" alt="emoji-smile">` : ``}
+            </div>
+
             <label class="film-details__comment-label">
               <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment"></textarea>
             </label>
