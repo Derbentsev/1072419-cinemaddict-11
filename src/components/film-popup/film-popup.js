@@ -22,8 +22,9 @@ export class FilmPopup extends AbstractSmartComponent {
 
     this._clickOnCloseButton = null;
     this._clickOnAddToWatchlist = null;
+    this._clickOnAddToAlreadyWatched = null;
+    this._clickOnAddToFavorites = null;
 
-    this._setClickOnOnEmojiList();
     this.setClickOnCloseButton();
     this.createComments();
   }
@@ -34,7 +35,7 @@ export class FilmPopup extends AbstractSmartComponent {
 
   setClickOnCloseButton(cb) {
     this._clickOnCloseButton = cb;
-    this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, this._clickOnCloseButton);
+    this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, cb);
   }
 
   setClickOnAddToWatchlist(cb) {
@@ -43,27 +44,30 @@ export class FilmPopup extends AbstractSmartComponent {
   }
 
   setClickOnAddToAlreadyWatched(cb) {
+    this._clickOnAddToAlreadyWatched = cb;
     this.getElement().querySelector(`.film-details__control-label--watched`).addEventListener(`click`, cb);
   }
 
   setClickOnAddToFavorites(cb) {
+    this._clickOnAddToFavorites = cb;
     this.getElement().querySelector(`.film-details__control-label--favorite`).addEventListener(`click`, cb);
   }
 
-  recoveryListeners() {
-    this._setClickOnOnEmojiList();
-    this.setClickOnCloseButton(this._clickOnCloseButton);
-  }
-
-  _setClickOnOnEmojiList() {
-    const emojiList = this.getElement().querySelector(`.film-details__emoji-list`);
-
+  setClickOnOnEmojiList() {
     const onEmojiListClick = (evt) => {
       this._emojiPath = evt.target.src;
       this.rerender();
     };
 
-    emojiList.addEventListener(`click`, onEmojiListClick);
+    this.getElement().querySelector(`.film-details__emoji-list`).addEventListener(`click`, onEmojiListClick);
+  }
+
+  recoveryListeners() {
+    this.setClickOnOnEmojiList();
+    this.setClickOnCloseButton(this._clickOnCloseButton);
+    this.setClickOnAddToWatchlist(this._clickOnAddToWatchlist);
+    this.setClickOnAddToAlreadyWatched(this._clickOnAddToAlreadyWatched);
+    this.setClickOnAddToFavorites(this._clickOnAddToFavorites);
   }
 
   createComments() {
@@ -75,8 +79,6 @@ export class FilmPopup extends AbstractSmartComponent {
   }
 
   reset() {
-    // const film = this._film;
-
     this.rerender();
   }
 }

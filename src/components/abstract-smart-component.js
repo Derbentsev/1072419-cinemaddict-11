@@ -6,6 +6,10 @@ export class AbstractSmartComponent extends AbstractComponent {
     throw new Error(`Abstract method not implemented: recoveryListeners`);
   }
 
+  createComments() {
+    throw new Error(`Abstract method not implemented: createComments`);
+  }
+
   rerender() {
     const oldElement = this.getElement();
     const parent = oldElement.parentElement;

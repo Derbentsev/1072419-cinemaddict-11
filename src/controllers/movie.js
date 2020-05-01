@@ -13,11 +13,20 @@ import {
 } from '../consts';
 
 
+const Mode = {
+  DEFAULT: `default`,
+  EDIT: `edit`,
+};
+
+
 export class MovieController {
   constructor(container, onDataChange, onViewChange) {
     this._container = container;
+
     this._onDataChange = onDataChange;
     this._onViewChange = onViewChange;
+
+    this._mode = Mode.DEFAULT;
 
     this._filmComponent = null;
     this._filmPopupComponent = null;
@@ -31,7 +40,7 @@ export class MovieController {
     this._filmPopupComponent = new FilmPopup(film, comments);
 
     const onFilmClick = () => {
-      this._container.parentElement.appendChild(this._filmPopupComponent.getElement());
+      this._replaceFilmToPopup();
       document.addEventListener(`keydown`, onPopupEscPress);
     };
 
@@ -43,7 +52,7 @@ export class MovieController {
     };
 
     const onClosePopupClick = () => {
-      this._container.parentElement.removeChild(this._filmPopupComponent.getElement());
+      this._replacePopupToFilm();
       document.removeEventListener(`keydown`, onClosePopupClick);
       document.removeEventListener(`keydown`, onPopupEscPress);
     };
@@ -78,20 +87,31 @@ export class MovieController {
     this._filmPopupComponent.setClickOnAddToWatchlist(onClickAddToWatchlist);
     this._filmPopupComponent.setClickOnAddToAlreadyWatched(onClickAlreadyWatched);
     this._filmPopupComponent.setClickOnAddToFavorites(onClickAddToFavorites);
+    this._filmPopupComponent.setClickOnOnEmojiList();
 
     if (oldFilmComponent && oldFilmPopupComponent) {
       replace(this._filmComponent, oldFilmComponent);
+      replace(this._filmPopupComponent, oldFilmPopupComponent);
     } else {
       render(filmListContainer, this._filmComponent, RenderPosition.BEFOREEND);
     }
   }
 
   setDefaultView() {
-    this._replaceEditToTask();
+    if (this._mode !== Mode.DEFAULT) {
+      this._replacePopupToFilm();
+    }
   }
 
   _replacePopupToFilm() {
-    this._filmPopupComponent.reset();
-    replace(this._filmComponent, this._filmPopupComponent);
+    // this._filmPopupComponent.reset();
+    this._container.parentElement.removeChild(this._filmPopupComponent.getElement());
+    this._mode = Mode.DEFAULT;
+  }
+
+  _replaceFilmToPopup() {
+    this._onViewChange();
+    this._container.parentElement.appendChild(this._filmPopupComponent.getElement());
+    this._mode = Mode.EDIT;
   }
 }
