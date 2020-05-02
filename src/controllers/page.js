@@ -18,7 +18,7 @@ import {
 } from '../components/film-list-extra/film-list-extra';
 import {
   remove,
-  render
+  render,
 } from '../utils/render';
 import {
   FilmSettings,
@@ -33,6 +33,7 @@ import {
 export class PageController {
   constructor(container, sorts) {
     this._container = container;
+    this._sorts = sorts;
 
     this._films = [];
     this._comments = [];
@@ -85,11 +86,14 @@ export class PageController {
 
       const newFilms = this._renderFilms(this._filmList.getElement(), sortedFilms, comments, this._onDataChange, this._onViewChange);
       this._showedFilmsControllers = newFilms;
+
+      this._sort.getElement().querySelector(`.sort__button--active`).classList.remove(`sort__button--active`);
+      const index = this._sorts.findIndex((it) => it.name === `Sort by ` + sortType);
+      this._sort.getElement().children[index].querySelector(`.sort__button`).classList.add(`sort__button--active`);
     };
 
 
     render(container, this._sort, RenderPosition.BEFOREEND);
-
     const newFilms = this._renderFilms(this._filmList.getElement(), films.slice(0, showingFilmsCount), comments, this._onDataChange, this._onViewChange);
     this._showedFilmsControllers = this._showedFilmsControllers.concat(newFilms);
 

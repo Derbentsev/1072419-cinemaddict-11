@@ -4,8 +4,8 @@
  * @param {boolean} isActive - Отметка, активна ли сортировка
  * @return {string}
  */
-const createSortMarkup = (sort, isActive) => {
-  const {name} = sort;
+const createSortMarkup = (sort) => {
+  const {name, isActive} = sort;
 
   return (
     `<li>
@@ -20,8 +20,8 @@ const createSortMarkup = (sort, isActive) => {
  * @return {string}
  */
 export const createSortTemplate = (sorts) => {
-  const sortsMarkup = sorts.map((it, i) =>
-    createSortMarkup(it, i === 0))
+  const sortsMarkup = sorts.map((it) =>
+    createSortMarkup(it))
   .join(`\n`);
 
   return (
