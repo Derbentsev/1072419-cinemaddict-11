@@ -7,10 +7,10 @@ import {
 import {
   render,
   replace,
-} from '../utils/render';
+} from 'Utils/render';
 import {
   RenderPosition
-} from '../consts';
+} from 'Consts/consts';
 
 
 const Mode = {

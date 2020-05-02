@@ -1,3 +1,11 @@
+import moment from 'moment';
+
+
+const formatDate = (date) => {
+  return moment(date).format(`MM MMMM YYYY`);
+};
+
+
 export const createFilmPopup = (film, emojiPath) => {
   const {
     poster,
@@ -18,6 +26,7 @@ export const createFilmPopup = (film, emojiPath) => {
     isFavorite,
   } = film;
 
+  const releaseDateFormatted = formatDate(releaseDate);
 
   return (
     `<section class="film-details">
@@ -60,7 +69,7 @@ export const createFilmPopup = (film, emojiPath) => {
               </tr>
               <tr class="film-details__row">
                 <td class="film-details__term">Release Date</td>
-                <td class="film-details__cell">${releaseDate}</td>
+                <td class="film-details__cell">${releaseDateFormatted}</td>
               </tr>
               <tr class="film-details__row">
                 <td class="film-details__term">Runtime</td>

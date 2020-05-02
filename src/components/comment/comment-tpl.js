@@ -1,9 +1,20 @@
+import moment from 'moment';
+
+
+const formatDate = (date) => {
+  return moment(date).format(`YYYY/MM/DD HH:mm`);
+};
+
+
 /**
  * Создаем разметку Комментарии к фильму
  * @param {object} comment - Комментарий
  * @return {string} Разметка комментария к фильму
  */
 export const createCommentMarkup = ({emotion, text, author, date}) => {
+  const dateFormatted = formatDate(date);
+
+
   return (
     `<li class="film-details__comment">
       <span class="film-details__comment-emoji">
@@ -13,7 +24,7 @@ export const createCommentMarkup = ({emotion, text, author, date}) => {
         <p class="film-details__comment-text">${text}</p>
         <p class="film-details__comment-info">
           <span class="film-details__comment-author">${author}</span>
-          <span class="film-details__comment-day">${date}</span>
+          <span class="film-details__comment-day">${dateFormatted}</span>
           <button class="film-details__comment-delete">Delete</button>
         </p>
       </div>

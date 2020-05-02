@@ -19,7 +19,7 @@ import {
 import {
   remove,
   render,
-} from '../utils/render';
+} from 'Utils/render';
 import {
   FilmSettings,
   RenderPosition,

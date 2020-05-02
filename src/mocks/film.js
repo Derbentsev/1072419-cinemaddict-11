@@ -1,11 +1,11 @@
 import {
   getRandomArrayItem,
   getRandomIntegerNumber,
-  castTimeFormat,
+  getTimeFromMins,
   getRandomFloatNumber,
   getRandomArrayItems,
   getRandomDate,
-} from '../utils/common';
+} from 'Utils/common';
 
 import {
   FilmSettings,
@@ -69,7 +69,7 @@ const generateFilm = () => {
     poster: getRandomArrayItem(Posters),
     rating: getRandomFloatNumber(FilmSettings.MIN_RATING, FilmSettings.MAX_RATING),
     releaseYear: new Date(releaseDate).getFullYear(),
-    duration: castTimeFormat(getRandomIntegerNumber(FilmSettings.MIN_DURATION_MINUTES, FilmSettings.MAX_DURATION_MINUTES)),
+    duration: getTimeFromMins(getRandomIntegerNumber(FilmSettings.MIN_DURATION_MINUTES, FilmSettings.MAX_DURATION_MINUTES)),
     genre: getRandomArrayItem(Genre),
     description: getRandomArrayItem(Descriptions),
     commentsNumber: getRandomIntegerNumber(FilmSettings.MIN_COMMENTS, FilmSettings.MAX_COMMENTS),

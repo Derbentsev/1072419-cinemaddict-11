@@ -2,10 +2,10 @@ import {createFilmPopup} from './film-popup-tpl';
 import {AbstractSmartComponent} from '../abstract-smart-component';
 import {
   render,
-} from '../../utils/render';
+} from 'Utils/render';
 import {
   RenderPosition
-} from '../../consts';
+} from 'Consts/consts';
 import {
   Comment
 } from '../../components/comment/comment';
