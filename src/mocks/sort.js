@@ -10,9 +10,10 @@ const SortNames = [
  * @return {array} Массив сортировок
  */
 export const generateSorts = () => {
-  return SortNames.map((it) => {
+  return SortNames.map((it, i) => {
     return {
       name: it,
+      isActive: i === 0,
     };
   });
 };

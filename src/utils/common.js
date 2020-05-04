@@ -1,17 +1,4 @@
-const MonthNamesShort = [
-  `Jan`,
-  `Feb`,
-  `Mar`,
-  `Apr`,
-  `May`,
-  `Jun`,
-  `Jul`,
-  `Aug`,
-  `Sep`,
-  `Oct`,
-  `Nov`,
-  `Dec`,
-];
+import moment from 'moment';
 
 
 /**
@@ -49,14 +36,12 @@ const getRandomArrayItem = (array) => {
 
 /**
  * Преобразует минуты в формат `1h 36m`
- * @param {number} value - Количество минут
+ * @param {number} mins - Количество минут
  * @return {string} Строка в формате `1h 36m`
  */
-const castTimeFormat = (value) => {
-  const hours = Math.floor(value / 60);
-  const minutes = value % 60;
-
-  return `${hours}h ${minutes}m`;
+const getTimeFromMins = (mins) => {
+  const duration = moment.duration(mins, `minutes`);
+  return moment.utc(duration.as(`milliseconds`)).format(`H[h] mm[m]`);
 };
 
 /**
@@ -92,15 +77,14 @@ const getRandomFloatNumber = (min, max) => {
  * @return {string} - Случайная дата
  */
 const getRandomDate = (dateStart, dateEnd) => {
-  const randomDate = new Date(dateStart.getTime() + Math.random() * (dateEnd.getTime() - dateStart.getTime()));
-  return randomDate.getDate() + ` ` + MonthNamesShort[randomDate.getMonth()] + ` ` + randomDate.getFullYear();
+  return new Date(dateStart.getTime() + Math.random() * (dateEnd.getTime() - dateStart.getTime()));
 };
 
 
 export {
   getRandomArrayItem,
   getRandomIntegerNumber,
-  castTimeFormat,
+  getTimeFromMins,
   getRandomArrayItems,
   getRandomFloatNumber,
   getRandomDate,

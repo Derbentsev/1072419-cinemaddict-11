@@ -19,7 +19,7 @@ const createFilterMarkup = (filter, isActive) => {
  * @param {object} filters - Массив фильтров
  * @return {string}
  */
-const createFilterTemplate = (filters) => {
+export const createFilterTemplate = (filters) => {
   const filtersMarkup = filters.map((it, i) =>
     createFilterMarkup(it, i === 0))
   .join(`\n`);
@@ -33,6 +33,3 @@ const createFilterTemplate = (filters) => {
     </nav>`
   );
 };
-
-
-export {createFilterTemplate};

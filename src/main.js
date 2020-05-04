@@ -18,11 +18,11 @@ import {
 } from './mocks/sort';
 import {
   render
-} from './utils/render';
+} from 'Utils/render';
 import {
   FilmSettings,
   RenderPosition
-} from './consts';
+} from 'Consts/consts';
 import {
   PageController
 } from './controllers/page';

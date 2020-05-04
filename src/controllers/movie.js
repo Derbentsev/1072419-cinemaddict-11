@@ -7,10 +7,10 @@ import {
 import {
   render,
   replace,
-} from '../utils/render';
+} from 'Utils/render';
 import {
   RenderPosition
-} from '../consts';
+} from 'Consts/consts';
 
 
 const Mode = {
@@ -92,9 +92,10 @@ export class MovieController {
     if (oldFilmComponent && oldFilmPopupComponent) {
       replace(this._filmComponent, oldFilmComponent);
       replace(this._filmPopupComponent, oldFilmPopupComponent);
-    } else {
-      render(filmListContainer, this._filmComponent, RenderPosition.BEFOREEND);
+      return;
     }
+
+    render(filmListContainer, this._filmComponent, RenderPosition.BEFOREEND);
   }
 
   setDefaultView() {
@@ -104,7 +105,6 @@ export class MovieController {
   }
 
   _replacePopupToFilm() {
-    // this._filmPopupComponent.reset();
     this._container.parentElement.removeChild(this._filmPopupComponent.getElement());
     this._mode = Mode.DEFAULT;
   }
