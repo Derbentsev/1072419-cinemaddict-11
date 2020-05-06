@@ -32,6 +32,9 @@ import {
 import {
   generateComments
 } from './mocks/comment';
+import {
+  MoviesModel
+} from './models/movies';
 
 
 const siteBodyElement = document.querySelector(`body`);
@@ -46,14 +49,17 @@ const sorts = generateSorts(films);
 const filters = generateFilters(films);
 const comments = generateComments(FilmSettings.COMMENT_COUNT);
 
-
 const filmBoard = new FilmBoard();
-const pageController = new PageController(filmBoard, sorts);
+
+const moviesModel = new MoviesModel();
+moviesModel.setMovies(films);
+
+const pageController = new PageController(filmBoard, moviesModel, sorts);
 
 render(siteHeaderElement, new UserProfile(), RenderPosition.BEFOREEND);
 render(siteMainElement, new Filter(filters), RenderPosition.BEFOREEND);
 
 render(siteMainElement, filmBoard, RenderPosition.BEFOREEND);
-pageController.render(films, topFilms, mostCommentedFilms, comments);
+pageController.render(, topFilms, mostCommentedFilms, comments);
 
 render(siteFooterElement, new Statistic(films.length), RenderPosition.BEFOREEND);

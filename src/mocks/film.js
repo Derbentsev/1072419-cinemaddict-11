@@ -65,6 +65,7 @@ const generateFilm = () => {
   const releaseDate = getRandomDate(FilmSettings.RELEASE_DATE_MIN, FilmSettings.RELEASE_DATE_MAX);
 
   return {
+    id: String(new Date() + Math.random()),
     name: getRandomArrayItem(FilmNames),
     poster: getRandomArrayItem(Posters),
     rating: getRandomFloatNumber(FilmSettings.MIN_RATING, FilmSettings.MAX_RATING),

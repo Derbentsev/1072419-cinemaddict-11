@@ -31,11 +31,11 @@ import {
 
 
 export class PageController {
-  constructor(container, sorts) {
+  constructor(container, movieModel, sorts) {
     this._container = container;
+    this._movieModel = movieModel;
     this._sorts = sorts;
 
-    this._films = [];
     this._comments = [];
     this._showedFilmsControllers = [];
 
@@ -53,8 +53,8 @@ export class PageController {
     this._getSortedFilms = this._getSortedFilms;
   }
 
-  render(films, topFilms, mostCommentedFilms, comments) {
-    this._films = films;
+  render(, topFilms, mostCommentedFilms, comments) {
+    const films = this.movieController.getMovies();
     this._comments = comments;
 
     if (!films.length) {
@@ -112,14 +112,14 @@ export class PageController {
   }
 
   _onDataChange(movieController, oldData, newData) {
-    const index = this._films.findIndex((it) => it === oldData);
+    const index = films.findIndex((it) => it === oldData);
 
     if (index === -1) {
       return;
     }
 
-    this._films = [].concat(this._films.slice(0, index), newData, this._films.slice(index + 1));
-    movieController.render(this._films[index], this._comments);
+    this._movieModel = [].concat(films.slice(0, index), newData, films.slice(index + 1));
+    movieController.render(films[index], this._comments);
   }
 
   _onViewChange() {
