@@ -2,9 +2,6 @@ import {
   UserProfile
 } from './components/user-profile/user-profile';
 import {
-  Filter
-} from './components/filter/filter';
-import {
   Statistic
 } from './components/statistic/statistic';
 import {
@@ -13,9 +10,6 @@ import {
 import {
   generateFilters
 } from './mocks/filter';
-import {
-  generateSorts
-} from './mocks/sort';
 import {
   render
 } from 'Utils/render';
@@ -35,6 +29,9 @@ import {
 import {
   MoviesModel
 } from './models/movies';
+import {
+  FilterController
+} from './controllers/filter';
 
 
 const siteBodyElement = document.querySelector(`body`);
@@ -45,7 +42,6 @@ const siteFooterElement = siteBodyElement.querySelector(`footer`);
 const films = generateFilms(FilmSettings.COUNT);
 const topFilms = generateFilms(FilmSettings.TOP_COUNT);
 const mostCommentedFilms = generateFilms(FilmSettings.MOST_COMMENTED_COUNT);
-const sorts = generateSorts(films);
 const filters = generateFilters(films);
 const comments = generateComments(FilmSettings.COMMENT_COUNT);
 
@@ -54,12 +50,14 @@ const filmBoard = new FilmBoard();
 const moviesModel = new MoviesModel();
 moviesModel.setMovies(films);
 
-const pageController = new PageController(filmBoard, moviesModel, sorts);
+const pageController = new PageController(filmBoard, moviesModel);
+
+const filterController = new FilterController(siteMainElement, moviesModel, filters);
+filterController.render();
 
 render(siteHeaderElement, new UserProfile(), RenderPosition.BEFOREEND);
-render(siteMainElement, new Filter(filters), RenderPosition.BEFOREEND);
 
 render(siteMainElement, filmBoard, RenderPosition.BEFOREEND);
-pageController.render(, topFilms, mostCommentedFilms, comments);
+pageController.render(topFilms, mostCommentedFilms, comments);
 
 render(siteFooterElement, new Statistic(films.length), RenderPosition.BEFOREEND);

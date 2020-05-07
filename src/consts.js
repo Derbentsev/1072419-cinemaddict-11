@@ -56,6 +56,13 @@ const SortType = {
   RATING: `rating`,
 };
 
+const FilterType = {
+  ALL: `all`,
+  WATCHLIST: `watchlist`,
+  HISTORY: `history`,
+  FAVORITES: `favorites`,
+};
+
 
 export {
   FilmNames,
@@ -65,4 +72,5 @@ export {
   FilmSettings,
   RenderPosition,
   SortType,
+  FilterType,
 };

@@ -7,6 +7,7 @@ import {
 import {
   render,
   replace,
+  remove,
 } from 'Utils/render';
 import {
   RenderPosition
@@ -30,6 +31,8 @@ export class MovieController {
 
     this._filmComponent = null;
     this._filmPopupComponent = null;
+
+    this._onEscPress = this._onEscPress.bind(this);
   }
 
   render(film, comments) {
@@ -41,20 +44,13 @@ export class MovieController {
 
     const onFilmClick = () => {
       this._replaceFilmToPopup();
-      document.addEventListener(`keydown`, onPopupEscPress);
-    };
-
-    const onPopupEscPress = (evt) => {
-      if (evt.key === `Escape`) {
-        evt.preventDefault();
-        onClosePopupClick();
-      }
+      document.addEventListener(`keydown`, this._onEscPress);
     };
 
     const onClosePopupClick = () => {
       this._replacePopupToFilm();
       document.removeEventListener(`keydown`, onClosePopupClick);
-      document.removeEventListener(`keydown`, onPopupEscPress);
+      document.removeEventListener(`keydown`, this._onEscPress);
     };
 
     const onClickAddToWatchlist = () => {
@@ -104,6 +100,12 @@ export class MovieController {
     }
   }
 
+  destroy() {
+    remove(this._filmComponent);
+    remove(this._filmPopupComponent);
+    document.removeEventListener(`keydown`, this._onEscPress);
+  }
+
   _replacePopupToFilm() {
     this._container.parentElement.removeChild(this._filmPopupComponent.getElement());
     this._mode = Mode.DEFAULT;
@@ -113,5 +115,13 @@ export class MovieController {
     this._onViewChange();
     this._container.parentElement.appendChild(this._filmPopupComponent.getElement());
     this._mode = Mode.EDIT;
+  }
+
+  _onEscPress(evt) {
+    if (evt.key === `Escape`) {
+      evt.preventDefault();
+      this._replacePopupToFilm();
+      document.removeEventListener(`keydown`, this._onEscPress);
+    }
   }
 }
