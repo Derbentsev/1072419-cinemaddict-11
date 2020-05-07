@@ -16,7 +16,7 @@ export class MoviesModel {
   }
 
   getMovies() {
-    return this.getMoviesByFilter();
+    return this.getMoviesByFilter(this._movies, this._activeFilterType);
   }
 
   setMovies(movies) {
@@ -42,31 +42,31 @@ export class MoviesModel {
     this._onFilterChange.push(handler);
   }
 
-  _getWatchlistMovies() {
-    return this._movies.filter((movie) => movie.isWatchlist);
-  }
-
-  _getWatchedMovies() {
-    return this._movies.filter((movie) => movie.isWatched);
-  }
-
-  _getFavoritesMovies() {
-    return this._movies.filter((movie) => movie.isFavorite);
-  }
-
-  getMoviesByFilter() {
-    switch (this._activeFilterType) {
-      case FilterType.All:
-        return this._movies;
+  getMoviesByFilter(movies, filterType) {
+    switch (filterType) {
+      case FilterType.ALL:
+        return movies;
       case FilterType.WATCHLIST:
-        return this._getWatchlistMovies();
+        return this._getWatchlistMovies(movies);
       case FilterType.HISTORY:
-        return this._getWatchedMovies();
+        return this._getWatchedMovies(movies);
       case FilterType.FAVORITES:
-        return this._getFavoritesMovies();
+        return this._getFavoritesMovies(movies);
     }
 
-    return this._movies;
+    return movies;
+  }
+
+  _getWatchlistMovies(movies) {
+    return movies.filter((movie) => movie.isWatchlist);
+  }
+
+  _getWatchedMovies(movies) {
+    return movies.filter((movie) => movie.isWatched);
+  }
+
+  _getFavoritesMovies(movies) {
+    return movies.filter((movie) => movie.isFavorite);
   }
 
   _callHandlers(handlers) {
