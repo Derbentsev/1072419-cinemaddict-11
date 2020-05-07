@@ -6,18 +6,39 @@ import {
 } from 'Utils/render';
 import {
   RenderPosition,
+  FilterType,
 } from '../consts';
 
 
 export class FilterController {
-  constructor(container, movieModel, filters) {
+  constructor(container, moviesModel) {
     this._container = container;
-    this._movieModel = movieModel;
+    this._moviesModel = moviesModel;
 
-    this._filters = filters;
+    this._filterComponent = null;
+
+    this._activeFilterType = FilterType.ALL;
+
+    this._onFilterChange = this._onFilterChange.bind(this);
   }
 
   render() {
-    render(this._container, new Filter(this._filters), RenderPosition.BEFOREEND);
+    const allMovies = this._moviesModel.getMoviesAll();
+    const filters = Object.values(FilterType).map((filterType) => {
+      return {
+        name: filterType,
+        count: this._moviesModel.getMoviesByFilter(allMovies, filterType).length,
+        isActive: filterType === this._activeFilterType,
+      };
+    });
+
+    this._filterComponent = new Filter(filters);
+    this._filterComponent.setOnFilterChange(this._onFilterChange);
+    render(this._container, this._filterComponent, RenderPosition.BEFOREEND);
+  }
+
+  _onFilterChange(filterType) {
+    this._moviesModel.setFilter(filterType);
+    this._activeFilterType = filterType;
   }
 }

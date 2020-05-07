@@ -8,9 +8,6 @@ import {
   generateFilms
 } from './mocks/film';
 import {
-  generateFilters
-} from './mocks/filter';
-import {
   render
 } from 'Utils/render';
 import {
@@ -42,17 +39,15 @@ const siteFooterElement = siteBodyElement.querySelector(`footer`);
 const films = generateFilms(FilmSettings.COUNT);
 const topFilms = generateFilms(FilmSettings.TOP_COUNT);
 const mostCommentedFilms = generateFilms(FilmSettings.MOST_COMMENTED_COUNT);
-const filters = generateFilters(films);
 const comments = generateComments(FilmSettings.COMMENT_COUNT);
-
-const filmBoard = new FilmBoard();
 
 const moviesModel = new MoviesModel();
 moviesModel.setMovies(films);
 
+const filmBoard = new FilmBoard();
 const pageController = new PageController(filmBoard, moviesModel);
 
-const filterController = new FilterController(siteMainElement, moviesModel, filters);
+const filterController = new FilterController(siteMainElement, moviesModel);
 filterController.render();
 
 render(siteHeaderElement, new UserProfile(), RenderPosition.BEFOREEND);

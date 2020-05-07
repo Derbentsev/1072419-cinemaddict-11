@@ -11,8 +11,12 @@ export class MoviesModel {
     this._onFilterChange = [];
   }
 
+  getMoviesAll() {
+    return this._movies;
+  }
+
   getMovies() {
-    return this._getMoviesByFilter();
+    return this.getMoviesByFilter();
   }
 
   setMovies(movies) {
@@ -50,7 +54,7 @@ export class MoviesModel {
     return this._movies.filter((movie) => movie.isFavorite);
   }
 
-  _getMoviesByFilter() {
+  getMoviesByFilter() {
     switch (this._activeFilterType) {
       case FilterType.All:
         return this._movies;

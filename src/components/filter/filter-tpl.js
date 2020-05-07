@@ -22,7 +22,7 @@ const createFilterMarkup = (filter, isActive) => {
 export const createFilterTemplate = (filters) => {
   const filtersMarkup = filters.map((it, i) =>
     createFilterMarkup(it, i === 0))
-  .join(`\n`);
+      .join(`\n`);
 
   return (
     `<nav class="main-navigation">

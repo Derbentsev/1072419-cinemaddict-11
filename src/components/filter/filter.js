@@ -12,4 +12,15 @@ export class Filter extends AbstractComponent {
   getTemplate() {
     return createFilterTemplate(this._filters);
   }
+
+  setOnFilterChange(handler) {
+    this.getElement().addEventListener(`click`, (evt) => {
+      const filterName = this._getFilterNameByText(evt.target.text);
+      handler(filterName);
+    });
+  }
+
+  _getFilterNameByText(text) {
+    return text.split(` `)[0];
+  }
 }
