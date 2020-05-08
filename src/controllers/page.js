@@ -122,10 +122,6 @@ export class PageController {
 
     const newFilms = this._renderFilms(this._filmList.getElement(), sortedFilms);
     this._showedMoviesControllers = newFilms;
-
-    this._sort.getElement().querySelector(`.sort__button--active`).classList.remove(`sort__button--active`);
-    const index = this._sorts.findIndex((it) => it.name === `Sort by ` + sortType);
-    this._sort.getElement().children[index].querySelector(`.sort__button`).classList.add(`sort__button--active`);
   }
 
   _renderFilms(container, films) {
