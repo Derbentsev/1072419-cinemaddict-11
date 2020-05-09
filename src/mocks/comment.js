@@ -31,6 +31,7 @@ const COMMENT_DATE_MAX = new Date(`01.01.2020`);
  */
 const generateComment = () => {
   return {
+    id: String(new Date() + Math.random()),
     text: getRandomArrayItem(Comments),
     emotion: getRandomArrayItem(Emojis),
     author: getRandomArrayItem(Authors),

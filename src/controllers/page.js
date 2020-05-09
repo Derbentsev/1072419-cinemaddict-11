@@ -38,7 +38,6 @@ export class PageController {
     this._container = container;
     this._movieModel = movieModel;
 
-    this._comments = [];
     this._showedMoviesControllers = [];
     this._showingMoviesCount = FilmSettings.SHOW_FILMS_ON_START;
 
@@ -65,8 +64,7 @@ export class PageController {
     this._setOnChangeSortType = this._setOnChangeSortType.bind(this);
   }
 
-  render(topFilms, mostCommentedFilms, comments) {
-    this._comments = comments;
+  render(topFilms, mostCommentedFilms) {
     const films = this._movieModel.getMovies();
     const container = this._container.getElement();
 
@@ -127,7 +125,7 @@ export class PageController {
   _renderFilms(container, films) {
     return films.map((film) => {
       const movieController = new MovieController(container, this._onDataChange, this._onViewChange);
-      movieController.render(film, this._comments);
+      movieController.render(film);
       return movieController;
     });
   }

@@ -1,36 +1,35 @@
-import {createFilmPopup} from './film-popup-tpl';
-import {AbstractSmartComponent} from '../abstract-smart-component';
 import {
-  render,
-} from 'Utils/render';
+  createFilmPopup
+} from './film-popup-tpl';
 import {
-  RenderPosition
-} from 'Consts/consts';
-import {
-  Comment
-} from '../../components/comment/comment';
+  AbstractSmartComponent
+} from '../abstract-smart-component';
 
 
 export class FilmPopup extends AbstractSmartComponent {
-  constructor(film, comments) {
+  constructor(film) {
     super();
 
     this._film = film;
-    this._comments = comments;
 
     this._emojiPath = null;
+
+    this._commentModel = null;
 
     this._clickOnCloseButton = null;
     this._clickOnAddToWatchlist = null;
     this._clickOnAddToAlreadyWatched = null;
     this._clickOnAddToFavorites = null;
 
-    this.setClickOnCloseButton();
-    this.createComments();
+    this._parseFormData = this._parseFormData.bind(this);
   }
 
   getTemplate() {
     return createFilmPopup(this._film, this._emojiPath);
+  }
+
+  setOnFormSubmit(cb) {
+    this.getElement().querySelector(`form`).addEventListener(`submit`, cb);
   }
 
   setClickOnCloseButton(cb) {
@@ -70,15 +69,23 @@ export class FilmPopup extends AbstractSmartComponent {
     this.setClickOnAddToFavorites(this._clickOnAddToFavorites);
   }
 
-  createComments() {
-    const commentBlock = this.getElement().querySelector(`.film-details__comments-list`);
-
-    this._comments.forEach((comment) => {
-      render(commentBlock, new Comment(comment), RenderPosition.BEFOREEND);
-    });
-  }
-
   reset() {
     this.rerender();
+  }
+
+  getData() {
+    const form = this.getElement().querySelector(`.film-details__inner`);
+    const formData = new FormData(form);
+
+    return this._parseFormData(formData);
+  }
+
+  _parseFormData(formData) {
+    return {
+      text: formData.get(`text`),
+      emotion: formData.get(`emotion`),
+      author: formData.get(`author`),
+      date: formData.get(`date`),
+    };
   }
 }

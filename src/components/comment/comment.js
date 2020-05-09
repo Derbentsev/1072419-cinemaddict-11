@@ -16,4 +16,8 @@ export class Comment extends AbstractComponent {
   getTemplate() {
     return createCommentMarkup(this._commet);
   }
+
+  setOnDeleteClick(cb) {
+    this.getElement().querySelector(`.film-details__comment-delete`).addEventListener(`click`, cb);
+  }
 }

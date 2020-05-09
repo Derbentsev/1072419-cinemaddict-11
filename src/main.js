@@ -21,9 +21,6 @@ import {
   FilmBoard
 } from './components/film-board/film-board';
 import {
-  generateComments
-} from './mocks/comment';
-import {
   MoviesModel
 } from './models/movies';
 import {
@@ -39,7 +36,6 @@ const siteFooterElement = siteBodyElement.querySelector(`footer`);
 const films = generateFilms(FilmSettings.COUNT);
 const topFilms = generateFilms(FilmSettings.TOP_COUNT);
 const mostCommentedFilms = generateFilms(FilmSettings.MOST_COMMENTED_COUNT);
-const comments = generateComments(FilmSettings.COMMENT_COUNT);
 
 const moviesModel = new MoviesModel();
 moviesModel.setMovies(films);
@@ -53,6 +49,6 @@ filterController.render();
 render(siteHeaderElement, new UserProfile(), RenderPosition.BEFOREEND);
 
 render(siteMainElement, filmBoard, RenderPosition.BEFOREEND);
-pageController.render(topFilms, mostCommentedFilms, comments);
+pageController.render(topFilms, mostCommentedFilms);
 
 render(siteFooterElement, new Statistic(films.length), RenderPosition.BEFOREEND);
