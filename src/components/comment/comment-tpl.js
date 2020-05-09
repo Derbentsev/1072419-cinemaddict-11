@@ -1,4 +1,5 @@
 import moment from 'moment';
+import {encode} from 'he';
 
 
 const formatDate = (date) => {
@@ -11,8 +12,9 @@ const formatDate = (date) => {
  * @param {object} comment - Комментарий
  * @return {string} Разметка комментария к фильму
  */
-export const createCommentMarkup = ({emotion, text, author, date}) => {
+export const createCommentMarkup = ({emotion, text: notSanitizedText, author, date}) => {
   const dateFormatted = formatDate(date);
+  const text = encode(notSanitizedText);
 
 
   return (
