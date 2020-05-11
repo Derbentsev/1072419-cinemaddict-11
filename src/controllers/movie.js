@@ -55,6 +55,7 @@ export class MovieController {
     this._commentModel = null;
 
     this._onEscPress = this._onEscPress.bind(this);
+    this._onFormSubmit = this._onFormSubmit.bind(this);
     this._onCommentsDataChange = this._onCommentsDataChange.bind(this);
   }
 
@@ -66,6 +67,7 @@ export class MovieController {
     const onFilmClick = () => {
       this._replaceFilmToPopup();
       document.addEventListener(`keydown`, this._onEscPress);
+      document.addEventListener(`keydown`, this._onFormSubmit);
     };
 
     const onClosePopupClick = () => {
@@ -92,15 +94,6 @@ export class MovieController {
       }));
     };
 
-    const formSubmit = (evt) => {
-      if ((evt.ctrlKey || evt.metaKey) && evt.key === KeyCode.ENTER) {
-        evt.preventDefault();
-        evt.stopPropagation();
-        const data = this._filmPopupComponent.getData();
-        this._onCommentsDataChange(film, data);
-      }
-    };
-
     this._filmComponent = new Film(film);
     this._filmPopupComponent = new FilmPopup(film, this._onCommentsDataChange);
 
@@ -124,7 +117,6 @@ export class MovieController {
     this._filmPopupComponent.setClickOnAddToWatchlist(onClickAddToWatchlist);
     this._filmPopupComponent.setClickOnAddToAlreadyWatched(onClickAlreadyWatched);
     this._filmPopupComponent.setClickOnAddToFavorites(onClickAddToFavorites);
-    this._filmPopupComponent.setOnMultipleKeydown(formSubmit);
     this._filmPopupComponent.setClickOnOnEmojiList();
 
     if (oldFilmComponent && oldFilmPopupComponent) {
@@ -167,6 +159,13 @@ export class MovieController {
       evt.preventDefault();
       this._replacePopupToFilm();
       document.removeEventListener(`keydown`, this._onEscPress);
+    }
+  }
+
+  _onFormSubmit(evt) {
+    if ((evt.ctrlKey || evt.metaKey) && evt.key === KeyCode.ENTER) {
+      evt.preventDefault();
+      evt.stopPropagation();
     }
   }
 

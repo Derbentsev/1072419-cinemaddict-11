@@ -17,7 +17,6 @@ export class FilmPopup extends AbstractSmartComponent {
     this._clickOnAddToWatchlist = null;
     this._clickOnAddToAlreadyWatched = null;
     this._clickOnAddToFavorites = null;
-    this._onMultipleKeydown = null;
 
     this._parseFormData = this._parseFormData.bind(this);
     this._onEmojiListClick = this._onEmojiListClick.bind(this);
@@ -25,11 +24,6 @@ export class FilmPopup extends AbstractSmartComponent {
 
   getTemplate() {
     return createFilmPopup(this._film);
-  }
-
-  setOnMultipleKeydown(cb) {
-    this._onMultipleKeydown = cb;
-    document.addEventListener(`keydown`, cb);
   }
 
   setClickOnCloseButton(cb) {
