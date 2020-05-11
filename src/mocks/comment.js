@@ -44,13 +44,8 @@ const generateComment = () => {
  * @param {number} count - Число комментариев
  * @return {object} - Массив комментариев
  */
-const generateComments = (count) => {
+export const generateComments = (count) => {
   return new Array(count)
     .fill(``)
     .map(generateComment);
-};
-
-
-export {
-  generateComments
 };

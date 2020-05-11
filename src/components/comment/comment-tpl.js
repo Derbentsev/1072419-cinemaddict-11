@@ -6,16 +6,9 @@ const formatDate = (date) => {
   return moment(date).format(`YYYY/MM/DD HH:mm`);
 };
 
-
-/**
- * Создаем разметку Комментарии к фильму
- * @param {object} comment - Комментарий
- * @return {string} Разметка комментария к фильму
- */
-export const createCommentMarkup = ({emotion, text: notSanitizedText, author, date}) => {
+export const createCommentTemplate = ({emotion, text: notSanitizedText, author, date}) => {
   const dateFormatted = formatDate(date);
   const text = encode(notSanitizedText);
-
 
   return (
     `<li class="film-details__comment">

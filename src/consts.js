@@ -63,6 +63,10 @@ const FilterType = {
   FAVORITES: `Favorites`,
 };
 
+const KeyCode = {
+  ENTER: `Enter`,
+};
+
 
 export {
   FilmNames,
@@ -73,4 +77,5 @@ export {
   RenderPosition,
   SortType,
   FilterType,
+  KeyCode,
 };

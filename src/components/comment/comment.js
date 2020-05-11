@@ -1,23 +1,32 @@
 import {
-  createCommentMarkup
+  createCommentTemplate
 } from './comment-tpl';
 import {
-  AbstractComponent
-} from '../abstract-component';
+  AbstractSmartComponent
+} from '../abstract-smart-component';
+import {
+  remove,
+} from 'Utils/render';
 
 
-export class Comment extends AbstractComponent {
+export class Comment extends AbstractSmartComponent {
   constructor(comment) {
     super();
 
-    this._commet = comment;
+    this._comment = comment;
+
+    this.remove = this.remove.bind(this);
   }
 
   getTemplate() {
-    return createCommentMarkup(this._commet);
+    return createCommentTemplate(this._comment);
   }
 
   setOnDeleteClick(cb) {
     this.getElement().querySelector(`.film-details__comment-delete`).addEventListener(`click`, cb);
+  }
+
+  remove() {
+    remove(this);
   }
 }

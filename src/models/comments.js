@@ -21,6 +21,10 @@ export class CommentModel {
     this._comments.splice(id, 1);
   }
 
+  addComment(comment) {
+    this._comments.push(comment);
+  }
+
   _callHandlers(handlers) {
     handlers.forEach((handler) => handler());
   }

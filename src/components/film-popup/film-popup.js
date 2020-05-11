@@ -7,29 +7,29 @@ import {
 
 
 export class FilmPopup extends AbstractSmartComponent {
-  constructor(film) {
+  constructor(film, onDataChange) {
     super();
 
     this._film = film;
-
-    this._emojiPath = null;
-
-    this._commentModel = null;
+    this._onDataChange = onDataChange;
 
     this._clickOnCloseButton = null;
     this._clickOnAddToWatchlist = null;
     this._clickOnAddToAlreadyWatched = null;
     this._clickOnAddToFavorites = null;
+    this._onMultipleKeydown = null;
 
     this._parseFormData = this._parseFormData.bind(this);
+    this._onEmojiListClick = this._onEmojiListClick.bind(this);
   }
 
   getTemplate() {
-    return createFilmPopup(this._film, this._emojiPath);
+    return createFilmPopup(this._film);
   }
 
-  setOnFormSubmit(cb) {
-    this.getElement().querySelector(`form`).addEventListener(`submit`, cb);
+  setOnMultipleKeydown(cb) {
+    this._onMultipleKeydown = cb;
+    document.addEventListener(`keydown`, cb);
   }
 
   setClickOnCloseButton(cb) {
@@ -52,21 +52,12 @@ export class FilmPopup extends AbstractSmartComponent {
     this.getElement().querySelector(`.film-details__control-label--favorite`).addEventListener(`click`, cb);
   }
 
-  setClickOnOnEmojiList() {
-    const onEmojiListClick = (evt) => {
-      this._emojiPath = evt.target.src;
-      this.rerender();
-    };
-
-    this.getElement().querySelector(`.film-details__emoji-list`).addEventListener(`click`, onEmojiListClick);
-  }
-
   recoveryListeners() {
-    this.setClickOnOnEmojiList();
     this.setClickOnCloseButton(this._clickOnCloseButton);
     this.setClickOnAddToWatchlist(this._clickOnAddToWatchlist);
     this.setClickOnAddToAlreadyWatched(this._clickOnAddToAlreadyWatched);
     this.setClickOnAddToFavorites(this._clickOnAddToFavorites);
+    this.setClickOnOnEmojiList();
   }
 
   reset() {
@@ -74,18 +65,40 @@ export class FilmPopup extends AbstractSmartComponent {
   }
 
   getData() {
-    const form = this.getElement().querySelector(`.film-details__inner`);
+    const form = this.getElement().querySelector(`form`);
     const formData = new FormData(form);
 
     return this._parseFormData(formData);
   }
 
+  setClickOnOnEmojiList() {
+    this.getElement().querySelector(`.film-details__emoji-list`).addEventListener(`click`, this._onEmojiListClick);
+  }
+
+  _onEmojiListClick(evt) {
+    evt.stopImmediatePropagation();
+    evt.stopPropagation();
+
+    const smile = document.createElement(`img`);
+    smile.src = evt.target.src;
+    smile.width = 55;
+    smile.height = 55;
+    smile.alt = `emoji-smile`;
+
+    this.getElement().querySelector(`.film-details__add-emoji-label`).appendChild(smile);
+
+    const newComment = this.getData();
+
+    this._onDataChange(null, newComment);
+  }
+
   _parseFormData(formData) {
     return {
-      text: formData.get(`text`),
+      id: String(new Date() + Math.random()),
+      text: formData.get(`comment`),
       emotion: formData.get(`emotion`),
-      author: formData.get(`author`),
-      date: formData.get(`date`),
+      author: `Oleg Badanov`,
+      date: new Date(),
     };
   }
 }

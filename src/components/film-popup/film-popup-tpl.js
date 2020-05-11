@@ -5,7 +5,6 @@ const formatDate = (date) => {
   return moment(date).format(`MM MMMM YYYY`);
 };
 
-
 export const createFilmPopup = (film, emojiPath) => {
   const {
     poster,

@@ -13,9 +13,6 @@ import {
   RenderPosition
 } from 'Consts/consts';
 import {
-  CommentController
-} from '../controllers/comment';
-import {
   CommentModel
 } from '../models/comments';
 import {
@@ -23,7 +20,11 @@ import {
 } from '../mocks/comment';
 import {
   FilmSettings,
+  KeyCode,
 } from 'Consts/consts';
+import {
+  Comment,
+} from '../components/comment/comment';
 
 
 const Mode = {
@@ -36,7 +37,7 @@ export class MovieController {
   constructor(container, onDataChange, onViewChange) {
     this._container = container;
 
-    this._commentModel = null;
+    this._comments = generateComments(FilmSettings.COMMENT_COUNT);
 
     this._onDataChange = onDataChange;
     this._onViewChange = onViewChange;
@@ -47,18 +48,20 @@ export class MovieController {
 
     this._filmComponent = null;
     this._filmPopupComponent = null;
-    this._commentsComponent = null;
+    this._commentBoardComponent = null;
+
+    this._commentContainer = null;
+
+    this._commentModel = null;
 
     this._onEscPress = this._onEscPress.bind(this);
-    this._onCommentsChange = this._onCommentsDataChange.bind(this);
+    this._onCommentsDataChange = this._onCommentsDataChange.bind(this);
   }
 
   render(film) {
     const oldFilmComponent = this._filmComponent;
     const oldFilmPopupComponent = this._filmPopupComponent;
-
-    this._filmComponent = new Film(film);
-    this._filmPopupComponent = new FilmPopup(film);
+    const filmListContainer = this._container.querySelector(`.films-list__container`);
 
     const onFilmClick = () => {
       this._replaceFilmToPopup();
@@ -89,28 +92,28 @@ export class MovieController {
       }));
     };
 
-    const onFormSubmit = (evt) => {
-      evt.preventDefault();
-      const data = this._filmPopupComponent.getData();
-      this._onDataChange(this, film, data);
+    const formSubmit = (evt) => {
+      if ((evt.ctrlKey || evt.metaKey) && evt.key === KeyCode.ENTER) {
+        evt.preventDefault();
+        evt.stopPropagation();
+        const data = this._filmPopupComponent.getData();
+        this._onCommentsDataChange(film, data);
+      }
     };
 
+    this._filmComponent = new Film(film);
+    this._filmPopupComponent = new FilmPopup(film, this._onCommentsDataChange);
 
-    const comments = generateComments(FilmSettings.COMMENT_COUNT);
-    const commentsContainer = this._filmPopupComponent.getElement().querySelector(`.film-details__comments-list`);
+    this._commentContainer = this._filmPopupComponent.getElement().querySelector(`.film-details__comments-list`);
 
-    this._commentModel = new CommentModel();
-    this._commentModel.setComments(comments);
-    this._commentModel.setOnDataChange(this._onDataChange);
-
-    comments.forEach((comment) => {
-      const commentController = new CommentController(commentsContainer, this._commentModel, this._onCommentsDataChange);
-      commentController.render(comment);
-      this._showedCommentsControllers = this._showedCommentsControllers.concat(commentController);
+    this._comments.forEach((comment) => {
+      const commentComponent = new Comment(comment);
+      render(this._commentContainer, commentComponent, RenderPosition.BEFOREEND);
+      commentComponent.setOnDeleteClick(() => {
+        this._onCommentsDataChange(comment, null);
+        commentComponent.remove();
+      });
     });
-
-
-    const filmListContainer = this._container.querySelector(`.films-list__container`);
 
     this._filmComponent.setClickOnFilm(onFilmClick);
     this._filmComponent.setClickOnAddToWatchlist(onClickAddToWatchlist);
@@ -121,13 +124,16 @@ export class MovieController {
     this._filmPopupComponent.setClickOnAddToWatchlist(onClickAddToWatchlist);
     this._filmPopupComponent.setClickOnAddToAlreadyWatched(onClickAlreadyWatched);
     this._filmPopupComponent.setClickOnAddToFavorites(onClickAddToFavorites);
+    this._filmPopupComponent.setOnMultipleKeydown(formSubmit);
     this._filmPopupComponent.setClickOnOnEmojiList();
-    this._filmPopupComponent.setOnFormSubmit(onFormSubmit);
 
     if (oldFilmComponent && oldFilmPopupComponent) {
       replace(this._filmComponent, oldFilmComponent);
       replace(this._filmPopupComponent, oldFilmPopupComponent);
       return;
+    } else {
+      this._commentModel = new CommentModel();
+      this._commentModel.setComments(this._comments);
     }
 
     render(filmListContainer, this._filmComponent, RenderPosition.BEFOREEND);
@@ -164,10 +170,18 @@ export class MovieController {
     }
   }
 
-  _onCommentsDataChange(commentComponent, oldData, newData) {
+  _onCommentsDataChange(oldData, newData) {
     if (newData === null) {
       this._commentModel.removeComment(oldData.id);
-      commentComponent.destroy();
+    } else if (oldData === null) {
+      this._commentModel.addComment(newData);
+
+      const commentComponent = new Comment(newData);
+      render(this._commentContainer, commentComponent, RenderPosition.BEFOREEND);
+      commentComponent.setOnDeleteClick(() => {
+        this._onCommentsDataChange(newData, null);
+        commentComponent.remove();
+      });
     }
   }
 }
