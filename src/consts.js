@@ -1,7 +1,7 @@
 const FilmSettings = {
   COUNT: 22,
   TOP_COUNT: 2,
-  MOST_COMMENTED_COUNT: 3,
+  MOST_COMMENTED_COUNT: 2,
   SHOW_FILMS_ON_START: 5,
   SHOW_FILMS_BUTTON_CLICK: 5,
   COMMENT_COUNT: 4,
@@ -56,6 +56,17 @@ const SortType = {
   RATING: `rating`,
 };
 
+const FilterType = {
+  ALL: `All movies`,
+  WATCHLIST: `Watchlist`,
+  HISTORY: `History`,
+  FAVORITES: `Favorites`,
+};
+
+const KeyCode = {
+  ENTER: `Enter`,
+};
+
 
 export {
   FilmNames,
@@ -65,4 +76,6 @@ export {
   FilmSettings,
   RenderPosition,
   SortType,
+  FilterType,
+  KeyCode,
 };

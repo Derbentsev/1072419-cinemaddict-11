@@ -31,6 +31,7 @@ const COMMENT_DATE_MAX = new Date(`01.01.2020`);
  */
 const generateComment = () => {
   return {
+    id: String(new Date() + Math.random()),
     text: getRandomArrayItem(Comments),
     emotion: getRandomArrayItem(Emojis),
     author: getRandomArrayItem(Authors),
@@ -43,13 +44,8 @@ const generateComment = () => {
  * @param {number} count - Число комментариев
  * @return {object} - Массив комментариев
  */
-const generateComments = (count) => {
+export const generateComments = (count) => {
   return new Array(count)
     .fill(``)
     .map(generateComment);
-};
-
-
-export {
-  generateComments
 };
