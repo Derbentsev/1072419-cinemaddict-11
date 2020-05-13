@@ -1,6 +1,4 @@
-import {
-  RenderPosition
-} from 'Consts/consts';
+import {RenderPosition} from 'Consts/consts';
 
 
 /**

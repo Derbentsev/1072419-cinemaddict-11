@@ -4,11 +4,14 @@ import {SortType} from 'Consts/consts';
 
 
 export class Sort extends AbstractComponent {
-  constructor(sorts) {
+  constructor(sorts, onChangeSortType) {
     super();
-
     this._sorts = sorts;
+    this._onChangeSortType = onChangeSortType;
+
     this._currentSortType = SortType.DEFAULT;
+
+    this.setOnChangeSortType(this._onChangeSortType);
   }
 
   getTemplate() {

@@ -1,31 +1,15 @@
-import {
-  UserProfile
-} from './components/user-profile/user-profile';
-import {
-  Statistic
-} from './components/statistic/statistic';
-import {
-  generateFilms
-} from './mocks/film';
-import {
-  render
-} from 'Utils/render';
+import {UserProfile} from 'Components/user-profile/user-profile';
+import {Statistic} from 'Components/statistic/statistic';
+import {generateFilms} from './mocks/film';
+import {render} from 'Utils/render';
+import {PageController} from './controllers/page';
+import {FilmBoard} from './components/film-board/film-board';
+import {MoviesModel} from './models/movies';
+import {FilterController} from './controllers/filter';
 import {
   FilmSettings,
   RenderPosition
 } from 'Consts/consts';
-import {
-  PageController
-} from './controllers/page';
-import {
-  FilmBoard
-} from './components/film-board/film-board';
-import {
-  MoviesModel
-} from './models/movies';
-import {
-  FilterController
-} from './controllers/filter';
 
 
 const siteBodyElement = document.querySelector(`body`);
@@ -34,8 +18,6 @@ const siteMainElement = siteBodyElement.querySelector(`.main`);
 const siteFooterElement = siteBodyElement.querySelector(`footer`);
 
 const films = generateFilms(FilmSettings.COUNT);
-const topFilms = generateFilms(FilmSettings.TOP_COUNT);
-const mostCommentedFilms = generateFilms(FilmSettings.MOST_COMMENTED_COUNT);
 
 const moviesModel = new MoviesModel();
 moviesModel.setMovies(films);
@@ -49,6 +31,6 @@ filterController.render();
 render(siteHeaderElement, new UserProfile(), RenderPosition.BEFOREEND);
 
 render(siteMainElement, filmBoard, RenderPosition.BEFOREEND);
-pageController.render(topFilms, mostCommentedFilms);
+pageController.render();
 
 render(siteFooterElement, new Statistic(films.length), RenderPosition.BEFOREEND);

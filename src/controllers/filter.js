@@ -1,6 +1,4 @@
-import {
-  Filter
-} from '../components/filter/filter';
+import {Filter} from '../components/filter/filter';
 import {
   render,
   replace,

@@ -1,30 +1,18 @@
-import {
-  Film
-} from "../components/film/film";
-import {
-  FilmPopup
-} from '../components/film-popup/film-popup';
+import {Film} from "../components/film/film";
+import {FilmPopup} from '../components/film-popup/film-popup';
+import {RenderPosition} from 'Consts/consts';
+import {CommentModel} from '../models/comments';
+import {generateComments} from '../mocks/comment';
+import {Comment} from '../components/comment/comment';
 import {
   render,
   replace,
   remove,
 } from 'Utils/render';
 import {
-  RenderPosition
-} from 'Consts/consts';
-import {
-  CommentModel
-} from '../models/comments';
-import {
-  generateComments
-} from '../mocks/comment';
-import {
   FilmSettings,
   KeyCode,
 } from 'Consts/consts';
-import {
-  Comment,
-} from '../components/comment/comment';
 
 
 const Mode = {
@@ -51,7 +39,6 @@ export class MovieController {
     this._commentBoardComponent = null;
 
     this._commentContainer = null;
-
     this._commentModel = null;
 
     this._onEscPress = this._onEscPress.bind(this);

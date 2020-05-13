@@ -16,10 +16,10 @@ module.exports = (env) => {
     },
     resolve: {
       alias: {
-        Utils: path.resolve(__dirname, `src/utils`),
-        Consts: path.resolve(__dirname, `src`),
-        Consts2$: path.resolve(__dirname, `src/consts.js`),
-        Components: path.resolve(__dirname, `src/components/`),
+        '@utils': path.resolve(__dirname, `./src/utils`),
+        '@consts': path.resolve(__dirname, `./src/consts.js`),
+        '@components': path.resolve(__dirname, `./src/components/`),
+        '@controllers': path.resolve(__dirname, `./src/controllers/`),
       }
     },
     plugins: [

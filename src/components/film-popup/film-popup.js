@@ -1,9 +1,5 @@
-import {
-  createFilmPopup
-} from './film-popup-tpl';
-import {
-  AbstractSmartComponent
-} from '../abstract-smart-component';
+import {createFilmPopup} from './film-popup-tpl';
+import {AbstractSmartComponent} from '../abstract-smart-component';
 
 
 export class FilmPopup extends AbstractSmartComponent {
