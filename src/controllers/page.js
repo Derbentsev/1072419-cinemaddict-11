@@ -122,7 +122,7 @@ export class PageController {
   _renderFilms(container, films) {
     return films.map((film) => {
       const movieController = new MovieController(container, this._onDataChange, this._onViewChange);
-      movieController.render(film);
+      movieController.render(film, this._commentModel);
       return movieController;
     });
   }
@@ -167,7 +167,7 @@ export class PageController {
 
   _onDataChange(movieController, oldData, newData) {
     this._movieModel.updateMovies(oldData.id, newData);
-    movieController.render(newData);
+    movieController.render(newData, this._commentModel);
   }
 
   _onViewChange() {

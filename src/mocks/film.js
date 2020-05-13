@@ -74,8 +74,6 @@ const getRandomCommentsId = (comments) => {
  * @return {object} - Случайно сгенерированный фильм
  */
 const generateFilm = (comments) => {
-  const releaseDate = getRandomDate(FilmSettings.RELEASE_DATE_MIN, FilmSettings.RELEASE_DATE_MAX);
-
   return function () {
     return {
       id: String(new Date() + Math.random()),
@@ -85,7 +83,6 @@ const generateFilm = (comments) => {
       name: getRandomArrayItem(FilmNames),
       poster: getRandomArrayItem(Posters),
       rating: getRandomFloatNumber(FilmSettings.MIN_RATING, FilmSettings.MAX_RATING),
-      releaseYear: new Date(releaseDate).getFullYear(),
       duration: getTimeFromMins(getRandomIntegerNumber(FilmSettings.MIN_DURATION_MINUTES, FilmSettings.MAX_DURATION_MINUTES)),
       genre: getRandomArrayItem(Genre),
       description: getRandomArrayItem(Descriptions),
@@ -93,7 +90,7 @@ const generateFilm = (comments) => {
       director: getRandomArrayItem(Directors),
       writers: getRandomArrayItems(Writers, 3),
       actors: getRandomArrayItems(Actors, 4),
-      releaseDate,
+      releaseDate: getRandomDate(FilmSettings.RELEASE_DATE_MIN, FilmSettings.RELEASE_DATE_MAX),
       country: getRandomArrayItem(Countries),
       ageRating: getRandomArrayItem(AgeRatings),
 

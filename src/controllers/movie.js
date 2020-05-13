@@ -27,8 +27,6 @@ export class MovieController {
     this._onDataChange = onDataChange;
     this._onViewChange = onViewChange;
 
-    this._comments = generateComments(FilmSettings.COMMENT_COUNT);
-
     this._mode = Mode.DEFAULT;
 
     this._showedCommentsControllers = [];
@@ -46,10 +44,12 @@ export class MovieController {
     this._onCommentsDataChange = this._onCommentsDataChange.bind(this);
   }
 
-  render(film) {
+  render(film, commentModel) {
     const oldFilmComponent = this._filmComponent;
     const oldFilmPopupComponent = this._filmPopupComponent;
     const filmListContainer = this._container.querySelector(`.films-list__container`);
+
+    const comments = commentModel.getComments();
 
     this._filmComponent = new Film(film);
     this._filmPopupComponent = new FilmPopup(film, this._onCommentsDataChange);
@@ -73,7 +73,14 @@ export class MovieController {
       }));
     };
 
-    this._comments.forEach((comment) => {
+    film.commentsId.forEach((commentId) => {
+      const comment = comments.find((commentIdElement) => {
+        if (commentIdElement.id === commentId) {
+          return true;
+        }
+        return false;
+      });
+
       const commentComponent = new Comment(comment);
       render(this._commentContainer, commentComponent, RenderPosition.BEFOREEND);
       commentComponent.setOnDeleteClick(() => {
