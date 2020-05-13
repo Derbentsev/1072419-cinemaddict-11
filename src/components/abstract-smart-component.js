@@ -1,4 +1,4 @@
-import {AbstractComponent} from "./abstract-component";
+import {AbstractComponent} from "@components/abstract-component";
 
 
 export class AbstractSmartComponent extends AbstractComponent {

@@ -1,5 +1,5 @@
 import {createFilterTemplate} from './filter-tpl';
-import {AbstractComponent} from '../abstract-component';
+import {AbstractComponent} from '@components/abstract-component';
 
 
 export class Filter extends AbstractComponent {

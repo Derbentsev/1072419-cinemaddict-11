@@ -1,4 +1,4 @@
-import {RenderPosition} from 'Consts/consts';
+import {RenderPosition} from '@consts';
 
 
 /**

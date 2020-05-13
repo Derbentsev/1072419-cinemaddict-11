@@ -1,4 +1,4 @@
-import {createElement} from "Utils/common";
+import {createElement} from "@utils/common";
 
 
 export class AbstractComponent {

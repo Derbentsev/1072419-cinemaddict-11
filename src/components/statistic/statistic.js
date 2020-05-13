@@ -1,5 +1,5 @@
 import {createStatisticMarkup} from './statistic-tpl';
-import {AbstractComponent} from '../abstract-component';
+import {AbstractComponent} from '@components/abstract-component';
 
 
 export class Statistic extends AbstractComponent {

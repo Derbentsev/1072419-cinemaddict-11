@@ -1,12 +1,12 @@
-import {Filter} from '../components/filter/filter';
+import {Filter} from '@components/filter/filter';
 import {
   render,
   replace,
-} from 'Utils/render';
+} from '@utils/render';
 import {
   RenderPosition,
   FilterType,
-} from '../consts';
+} from '@consts';
 
 
 export class FilterController {

@@ -20,6 +20,7 @@ module.exports = (env) => {
         '@consts': path.resolve(__dirname, `./src/consts.js`),
         '@components': path.resolve(__dirname, `./src/components/`),
         '@controllers': path.resolve(__dirname, `./src/controllers/`),
+        '@models': path.resolve(__dirname, `./src/models`),
       }
     },
     plugins: [

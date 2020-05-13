@@ -1,5 +1,5 @@
 import {createNoDataTemplate} from './no-data-tpl';
-import {AbstractComponent} from '../abstract-component';
+import {AbstractComponent} from '@components/abstract-component';
 
 
 export class NoData extends AbstractComponent {

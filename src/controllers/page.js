@@ -1,26 +1,27 @@
-import {FilmBoard} from '../components/film-board/film-board';
+import {FilmBoard} from '@components/film-board/film-board';
 import {MovieController} from './movie';
-import {ButtonShowMore} from '../components/button-show-more/button-show-more';
-import {NoData} from '../components/no-data/no-data';
-import {FilmList} from '../components/film-list/film-list';
-import {FilmListExtra} from '../components/film-list-extra/film-list-extra';
-import {Sort} from '../components/sort/sort';
+import {ButtonShowMore} from '@components/button-show-more/button-show-more';
+import {NoData} from '@components/no-data/no-data';
+import {FilmList} from '@components/film-list/film-list';
+import {FilmListExtra} from '@components/film-list-extra/film-list-extra';
+import {Sort} from '@components/sort/sort';
 import {generateSorts} from '../mocks/sort';
 import {
   remove,
   render,
-} from 'Utils/render';
+} from '@utils/render';
 import {
   FilmSettings,
   RenderPosition,
   SortType,
-} from '../consts';
+} from '@consts';
 
 
 export class PageController {
-  constructor(container, movieModel) {
+  constructor(container, movieModel, commentModel) {
     this._container = container;
     this._movieModel = movieModel;
+    this._commentModel = commentModel;
 
     this._showedMoviesControllers = [];
     this._showingMoviesCount = FilmSettings.SHOW_FILMS_ON_START;
@@ -44,22 +45,21 @@ export class PageController {
 
   render() {
     const films = this._movieModel.getMovies();
-    const container = this._container.getElement();
 
     if (!films.length) {
       render(container, this._noData, RenderPosition.BEFOREEND);
       return;
     }
 
+    const container = this._container.getElement();
+    const topFilms = this._getTopFilms(films);
+    const mostCommentedFilms = this._getMostCommentedFilms(films);
     const newFilms = this._renderFilms(this._filmList.getElement(), films.slice(0, this._showingMoviesCount));
 
     this._sort = new Sort(generateSorts(), this._setOnChangeSortType);
 
     this._showedMoviesControllers = this._showedMoviesControllers.concat(newFilms);
     this._showingMoviesCount = this._showedMoviesControllers.length;
-
-    const topFilms = this._getTopFilms(films);
-    const mostCommentedFilms = this._getMostCommentedFilms(films);
 
     this._renderFilms(this._filmListTop.getElement(), topFilms);
     this._renderFilms(this._filmListMostCommented.getElement(), mostCommentedFilms);
