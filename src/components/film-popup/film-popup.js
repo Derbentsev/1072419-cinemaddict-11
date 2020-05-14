@@ -9,6 +9,8 @@ export class FilmPopup extends AbstractSmartComponent {
     this._film = film;
     this._onDataChange = onDataChange;
 
+    this._smile = null;
+
     this._clickOnCloseButton = null;
     this._clickOnAddToWatchlist = null;
     this._clickOnAddToAlreadyWatched = null;
@@ -47,7 +49,7 @@ export class FilmPopup extends AbstractSmartComponent {
     this.setClickOnAddToWatchlist(this._clickOnAddToWatchlist);
     this.setClickOnAddToAlreadyWatched(this._clickOnAddToAlreadyWatched);
     this.setClickOnAddToFavorites(this._clickOnAddToFavorites);
-    this.setClickOnOnEmojiList();
+    this.setClickOnEmojiList();
   }
 
   reset() {
@@ -61,25 +63,27 @@ export class FilmPopup extends AbstractSmartComponent {
     return this._parseFormData(formData);
   }
 
-  setClickOnOnEmojiList() {
-    this.getElement().querySelector(`.film-details__emoji-list`).addEventListener(`click`, this._onEmojiListClick);
+  setClickOnEmojiList() {
+    const emojiImages = this.getElement().querySelectorAll(`.film-details__emoji-label`);
+
+    emojiImages.forEach((image) => {
+      image.addEventListener(`click`, this._onEmojiListClick);
+    });
   }
 
   _onEmojiListClick(evt) {
-    evt.stopImmediatePropagation();
-    evt.stopPropagation();
+    if (!this._smile) {
+      this._smile = document.createElement(`img`);
+      this._smile.src = evt.target.src;
+      this._smile.width = 55;
+      this._smile.height = 55;
+      this._smile.alt = `emoji-smile`;
+    } else {
+      this.getElement().querySelector(`.film-details__add-emoji-label`).removeChild(this._smile);
+      this._smile.src = evt.target.src;
+    }
 
-    const smile = document.createElement(`img`);
-    smile.src = evt.target.src;
-    smile.width = 55;
-    smile.height = 55;
-    smile.alt = `emoji-smile`;
-
-    this.getElement().querySelector(`.film-details__add-emoji-label`).appendChild(smile);
-
-    const newComment = this.getData();
-
-    this._onDataChange(null, newComment);
+    this.getElement().querySelector(`.film-details__add-emoji-label`).appendChild(this._smile);
   }
 
   _parseFormData(formData) {

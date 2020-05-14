@@ -1,7 +1,5 @@
 import {Film} from "@components/film/film";
 import {FilmPopup} from '@components/film-popup/film-popup';
-import {CommentModel} from '@models/comments';
-import {generateComments} from '../mocks/comment';
 import {Comment} from '@components/comment/comment';
 import {
   render,
@@ -10,7 +8,6 @@ import {
 } from '@utils/render';
 import {
   RenderPosition,
-  FilmSettings,
   KeyCode,
 } from '@consts';
 
@@ -33,10 +30,10 @@ export class MovieController {
 
     this._filmComponent = null;
     this._filmPopupComponent = null;
-    this._commentBoardComponent = null;
     this._commentContainer = null;
     this._commentModel = null;
 
+    this._renderComments = this._renderComments.bind(this);
     this._onFilmClick = this._onFilmClick.bind(this);
     this._onClosePopupClick = this._onClosePopupClick.bind(this);
     this._onEscPress = this._onEscPress.bind(this);
@@ -49,7 +46,8 @@ export class MovieController {
     const oldFilmPopupComponent = this._filmPopupComponent;
     const filmListContainer = this._container.querySelector(`.films-list__container`);
 
-    const comments = commentModel.getComments();
+    this._commentModel = commentModel;
+    const comments = this._commentModel.getComments();
 
     this._filmComponent = new Film(film);
     this._filmPopupComponent = new FilmPopup(film, this._onCommentsDataChange);
@@ -73,21 +71,7 @@ export class MovieController {
       }));
     };
 
-    film.commentsId.forEach((commentId) => {
-      const comment = comments.find((commentIdElement) => {
-        if (commentIdElement.id === commentId) {
-          return true;
-        }
-        return false;
-      });
-
-      const commentComponent = new Comment(comment);
-      render(this._commentContainer, commentComponent, RenderPosition.BEFOREEND);
-      commentComponent.setOnDeleteClick(() => {
-        this._onCommentsDataChange(comment, null);
-        commentComponent.remove();
-      });
-    });
+    this._renderComments(film, comments);
 
     this._filmComponent.setClickOnFilm(this._onFilmClick);
     this._filmComponent.setClickOnAddToWatchlist(onClickAddToWatchlist);
@@ -98,15 +82,12 @@ export class MovieController {
     this._filmPopupComponent.setClickOnAddToWatchlist(onClickAddToWatchlist);
     this._filmPopupComponent.setClickOnAddToAlreadyWatched(onClickAlreadyWatched);
     this._filmPopupComponent.setClickOnAddToFavorites(onClickAddToFavorites);
-    this._filmPopupComponent.setClickOnOnEmojiList();
+    this._filmPopupComponent.setClickOnEmojiList();
 
     if (oldFilmComponent && oldFilmPopupComponent) {
       replace(this._filmComponent, oldFilmComponent);
       replace(this._filmPopupComponent, oldFilmPopupComponent);
       return;
-    } else {
-      this._commentModel = new CommentModel();
-      this._commentModel.setComments(this._comments);
     }
 
     render(filmListContainer, this._filmComponent, RenderPosition.BEFOREEND);
@@ -122,6 +103,43 @@ export class MovieController {
     remove(this._filmComponent);
     remove(this._filmPopupComponent);
     document.removeEventListener(`keydown`, this._onEscPress);
+  }
+
+  _renderComments(film, comments) {
+    film.commentsId.forEach((commentId) => {
+      const comment = comments.find((commentIdElement) => {
+        if (commentIdElement.id === commentId) {
+          return true;
+        }
+        return false;
+      });
+
+      const commentComponent = new Comment(comment);
+      render(this._commentContainer, commentComponent, RenderPosition.BEFOREEND);
+      commentComponent.setOnDeleteClick(() => {
+        this._onCommentsDataChange(comment, null);
+        commentComponent.remove();
+
+        this._onDataChange(this, film, Object.assign({}, film, {
+          commentsId: this._changeCommentsId(film, comment.id)
+        }));
+      });
+    });
+  }
+
+  _changeCommentsId(film, commentId) {
+    const newCommentsId = film.commentsId.slice();
+
+    newCommentsId.find((item, index) => {
+      if (item === commentId) {
+        newCommentsId.splice(index, 1);
+        return true;
+      }
+
+      return false;
+    });
+
+    return newCommentsId;
   }
 
   _replacePopupToFilm() {
