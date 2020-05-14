@@ -157,6 +157,7 @@ export class MovieController {
     this._replacePopupToFilm();
     document.removeEventListener(`keydown`, this._onClosePopupClick);
     document.removeEventListener(`keydown`, this._onEscPress);
+    document.removeEventListener(`keydown`, this._onFormSubmit);
   }
 
   _onFilmClick() {

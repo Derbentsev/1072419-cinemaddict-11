@@ -74,6 +74,14 @@ export class PageController {
     this._buttonShowMore.setOnButtonClick(this._onButtonShowMoreClick);
   }
 
+  hide() {
+    this._container.hide();
+  }
+
+  show() {
+    this._container.show();
+  }
+
   _getTopFilms(films) {
     return films
       .sort((filmA, filmB) => {
