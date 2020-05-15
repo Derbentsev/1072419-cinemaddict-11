@@ -1,7 +1,6 @@
 import {
   getRandomArrayItem,
   getRandomIntegerNumber,
-  getTimeFromMins,
   getRandomFloatNumber,
   getRandomArrayItems,
   getRandomDate,
@@ -68,11 +67,6 @@ const getRandomCommentsId = (comments) => {
   return commentsId;
 };
 
-
-/**
- * Генерируем новый фильм
- * @return {object} - Случайно сгенерированный фильм
- */
 const generateFilm = (comments) => {
   return function () {
     return {
@@ -83,7 +77,7 @@ const generateFilm = (comments) => {
       name: getRandomArrayItem(FilmNames),
       poster: getRandomArrayItem(Posters),
       rating: getRandomFloatNumber(FilmSettings.MIN_RATING, FilmSettings.MAX_RATING),
-      duration: getTimeFromMins(getRandomIntegerNumber(FilmSettings.MIN_DURATION_MINUTES, FilmSettings.MAX_DURATION_MINUTES)),
+      duration: getRandomIntegerNumber(FilmSettings.MIN_DURATION_MINUTES, FilmSettings.MAX_DURATION_MINUTES),
       genre: getRandomArrayItem(Genre),
       description: getRandomArrayItem(Descriptions),
       originalName: getRandomArrayItem(FilmNames),
@@ -97,15 +91,12 @@ const generateFilm = (comments) => {
       isWatchlist: Math.random() > 0.5,
       isWatched: Math.random() > 0.5,
       isFavorite: Math.random() > 0.5,
+      watchingDate: getRandomDate(FilmSettings.RELEASE_DATE_MIN, FilmSettings.RELEASE_DATE_MAX),
     };
-  }
+  };
 };
 
-/**
- * Генерируем массив фильмов
- * @param {number} count - Число фильмов
- * @return {object} - Массив фильмов
- */
+
 export const generateFilms = (count, comments) => {
   return new Array(count)
     .fill(``)
