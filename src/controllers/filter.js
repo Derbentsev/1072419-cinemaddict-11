@@ -48,6 +48,10 @@ export class FilterController {
     render(this._container, this._filterComponent, RenderPosition.BEFOREEND);
   }
 
+  setOnStatsClick() {
+    
+  }
+
   _onFilterChange(filterType) {
     this._moviesModel.setFilter(filterType);
     this._activeFilterType = filterType;
