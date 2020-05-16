@@ -69,6 +69,8 @@ const getRandomCommentsId = (comments) => {
 
 const generateFilm = (comments) => {
   return function () {
+    const isWatched1 = Math.random() > 0.5;
+
     return {
       id: String(new Date() + Math.random()),
 
@@ -89,9 +91,9 @@ const generateFilm = (comments) => {
       ageRating: getRandomArrayItem(AgeRatings),
 
       isWatchlist: Math.random() > 0.5,
-      isWatched: Math.random() > 0.5,
+      isWatched: isWatched1,
       isFavorite: Math.random() > 0.5,
-      watchingDate: getRandomDate(FilmSettings.RELEASE_DATE_MIN, FilmSettings.RELEASE_DATE_MAX),
+      watchingDate: isWatched1 ? getRandomDate(FilmSettings.WATCHING_DATE_MIN, FilmSettings.WATCHING_DATE_MAX) : null,
     };
   };
 };

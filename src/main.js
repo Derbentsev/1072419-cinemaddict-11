@@ -12,13 +12,13 @@ import {FilterController} from '@controllers/filter';
 import {
   FilmSettings,
   RenderPosition,
-  FilterType,
+  STATS_NAME,
 } from '@consts';
 
 
 const _onStatsClick = ((filterType) => {
   switch (filterType) {
-    case FilterType.STATS:
+    case STATS_NAME:
       pageController.hide();
       statisticComponent.show();
       break;

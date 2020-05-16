@@ -1,6 +1,6 @@
 import {createFilterTemplate} from './filter-tpl';
 import {AbstractComponent} from '@components/abstract-component';
-import {FilterType} from '@consts';
+import {STATS_NAME} from '@consts';
 
 
 export class Filter extends AbstractComponent {
@@ -25,7 +25,7 @@ export class Filter extends AbstractComponent {
     });
 
     this.getElement().querySelector(`.main-navigation__additional`).addEventListener(`click`, () => {
-      handler(FilterType.STATS);
+      handler(STATS_NAME);
     });
   }
 

@@ -9,14 +9,12 @@ const FilmSettings = {
   MAX_DURATION_MINUTES: 180,
   MIN_RATING: 0,
   MAX_RATING: 10,
-  MIN_RELEASE_YEAR: 1917,
-  MAX_RELEASE_YEAR: 2020,
   MIN_COMMENTS: 1,
   MAX_COMMENTS: 30,
   RELEASE_DATE_MIN: new Date(`01.01.1900`),
   RELEASE_DATE_MAX: new Date(`01.01.2020`),
-  FOOTER_FILM_COUNT_MIN: 100,
-  FOOTER_FILM_COUNT_MAX: 100000,
+  WATCHING_DATE_MIN: new Date(2020, 1, 1),
+  WATCHING_DATE_MAX: new Date(2020, 1, 1),
 };
 
 const FilmNames = [
@@ -61,8 +59,9 @@ const FilterType = {
   WATCHLIST: `Watchlist`,
   HISTORY: `History`,
   FAVORITES: `Favorites`,
-  STATS: `stats`,
 };
+
+const STATS_NAME = `Stats`;
 
 const KeyCode = {
   ENTER: `Enter`,
@@ -79,4 +78,5 @@ export {
   SortType,
   FilterType,
   KeyCode,
+  STATS_NAME,
 };
