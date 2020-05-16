@@ -1,5 +1,9 @@
-import {AbstractSmartComponent} from "../abstract-smart-component";
-import {createStatisticTemplate} from './statistic-tpl';
+import {
+  AbstractSmartComponent
+} from "../abstract-smart-component";
+import {
+  createStatisticTemplate
+} from './statistic-tpl';
 import Chart from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import moment from 'moment';
@@ -19,17 +23,22 @@ export class StatisticComponent extends AbstractSmartComponent {
 
     this._moviesModel = moviesModel;
 
+    this._movies = this._getAllWatchedMovies(this._moviesModel.getMoviesAll());
+
     this._chart = null;
+    this._topGenre = this._getTopGenre();
+
     this._filterMode = FilterMode.ALL;
-    this._lastReleaseDate = new Date(9999, 12, 31);
+    this._lastWatchingDate = null;
 
     this._onStatisticFilterClick = this._onStatisticFilterClick.bind(this);
+    this._getTopGenre = this._getTopGenre.bind(this);
 
     this._renderCharts();
   }
 
   getTemplate() {
-    return createStatisticTemplate(this._moviesModel.getMoviesAll(), this._lastReleaseDate);
+    return createStatisticTemplate(this._movies, this._filterMode, this._topGenre);
   }
 
   recoveryListeners() {}
@@ -39,25 +48,41 @@ export class StatisticComponent extends AbstractSmartComponent {
 
     switch (this._filterMode) {
       case FilterMode.ALL:
-        this._lastReleaseDate = new Date(9999, 12, 31);
+        this._lastWatchingDate = null;
         break;
       case FilterMode.TODAY:
-        this._lastReleaseDate = new Date();
+        this._lastWatchingDate = new Date();
         break;
       case FilterMode.WEEK:
-        this._lastReleaseDate = moment().add(-7, `d`).toDate();
+        this._lastWatchingDate = moment().add(-7, `d`).toDate();
         break;
       case FilterMode.MONTH:
-        this._lastReleaseDate = moment().add(-30, `d`).toDate();
+        this._lastWatchingDate = moment().add(-30, `d`).toDate();
         break;
       case FilterMode.YEAR:
-        this._lastReleaseDate = moment().add(-365, `d`).toDate();
+        this._lastWatchingDate = moment().add(-365, `d`).toDate();
         break;
     }
+
+    this._movies = this._moviesModel.getMoviesAll().filter((movie) => {
+      if (this._lastWatchingDate !== null) {
+        return movie.isWatched && movie.watchingDate > this._lastWatchingDate;
+      }
+
+      return true;
+    });
+
+    this._topGenre = this._getTopGenre();
 
     super.rerender();
 
     this._renderCharts();
+  }
+
+  _getAllWatchedMovies(movies) {
+    return movies.filter((movie) => {
+      return movie.isWatched;
+    });
   }
 
   _onStatisticFilterClick(evt) {
@@ -77,9 +102,31 @@ export class StatisticComponent extends AbstractSmartComponent {
     const element = this.getElement();
     const statisticCtx = element.querySelector(`.statistic__chart`);
 
-    this._chart = renderChart(statisticCtx, this._moviesModel.getMoviesAll());
+    this._chart = renderChart(statisticCtx, this._movies);
+  }
+
+  _getTopGenre() {
+    let countGenre = 0;
+    let topGenre = ``;
+
+    const genres = getUniqGenres(this._movies);
+
+    genres.forEach((genre) => {
+      let count = calcUniqCountGenres(this._movies, genre);
+      if (countGenre < count) {
+        countGenre = count;
+        topGenre = genre;
+      }
+    });
+
+    return topGenre;
   }
 }
+
+const getUniqGenres = (movies) => {
+  return movies.map((movie) => movie.genre)
+    .filter(getUniqItems);
+};
 
 const getUniqItems = (item, index, array) => {
   return array.indexOf(item) === index;
@@ -91,13 +138,12 @@ const calcUniqCountGenres = (movies, genre) => {
 
 const renderChart = (statisticCtx, movies) => {
   const BAR_HEIGHT = 50;
+  const BAR_WIDTH = 1000;
 
-  const genres = movies
-    .map((movie) => movie.genre)
-    .filter(getUniqItems);
+  const genres = getUniqGenres(movies);
 
-  statisticCtx.height = BAR_HEIGHT * 5;
-  statisticCtx.width = 1000;
+  statisticCtx.height = BAR_HEIGHT * genres.length;
+  statisticCtx.width = BAR_WIDTH;
 
   return new Chart(statisticCtx, {
     plugins: [ChartDataLabels],
