@@ -12,8 +12,21 @@ import {FilterController} from '@controllers/filter';
 import {
   FilmSettings,
   RenderPosition,
+  FilterType,
 } from '@consts';
 
+
+const _onStatsClick = ((filterType) => {
+  switch (filterType) {
+    case FilterType.STATS:
+      pageController.hide();
+      statisticComponent.show();
+      break;
+    default:
+      statisticComponent.hide();
+      pageController.show();
+  }
+});
 
 const siteBodyElement = document.querySelector(`body`);
 const siteHeaderElement = siteBodyElement.querySelector(`.header`);
@@ -26,15 +39,14 @@ const films = generateFilms(FilmSettings.COUNT, comments);
 const commentModel = new CommentModel();
 const moviesModel = new MoviesModel();
 
-const filmBoardComponent = new FilmBoard();
-
 commentModel.setComments(comments);
 moviesModel.setMovies(films);
 
+const filmBoardComponent = new FilmBoard();
 const statisticComponent = new StatisticComponent(moviesModel);
 
 const pageController = new PageController(filmBoardComponent, moviesModel, commentModel);
-const filterController = new FilterController(siteMainElement, moviesModel);
+const filterController = new FilterController(siteMainElement, moviesModel, _onStatsClick);
 
 filterController.render();
 render(siteHeaderElement, new UserProfile(), RenderPosition.BEFOREEND);
@@ -44,9 +56,5 @@ render(siteFooterElement, new FooterStatistic(films.length), RenderPosition.BEFO
 
 pageController.render();
 
-
-// statisticComponent.hide();
-// pageController.show();
-
-pageController.hide();
-statisticComponent.show();
+statisticComponent.hide();
+pageController.show();

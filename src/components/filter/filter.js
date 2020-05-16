@@ -1,5 +1,6 @@
 import {createFilterTemplate} from './filter-tpl';
 import {AbstractComponent} from '@components/abstract-component';
+import {FilterType} from '@consts';
 
 
 export class Filter extends AbstractComponent {
@@ -16,14 +17,16 @@ export class Filter extends AbstractComponent {
   setOnFilterChange(handler) {
     this.getElement().querySelector(`.main-navigation__items`).addEventListener(`click`, (evt) => {
       const filterName = this._getFilterNameByText(evt.target.text);
+
       this.getElement().querySelector(`.main-navigation__item--active`).classList.remove(`main-navigation__item--active`);
       evt.target.classList.add(`main-navigation__item--active`);
+
       handler(filterName);
     });
-  }
 
-  setClickOnStats(cb) {
-    this.getElement().querySelector(`.`).addEventListener(`click`, cb);
+    this.getElement().querySelector(`.main-navigation__additional`).addEventListener(`click`, () => {
+      handler(FilterType.STATS);
+    });
   }
 
   _getFilterNameByText(text) {

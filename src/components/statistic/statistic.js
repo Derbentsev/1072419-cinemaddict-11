@@ -1,9 +1,5 @@
-import {
-  AbstractSmartComponent
-} from "../abstract-smart-component";
-import {
-  createStatisticTemplate
-} from './statistic-tpl';
+import {AbstractSmartComponent} from "../abstract-smart-component";
+import {createStatisticTemplate} from './statistic-tpl';
 import Chart from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import moment from 'moment';
@@ -31,8 +27,8 @@ export class StatisticComponent extends AbstractSmartComponent {
     this._filterMode = FilterMode.ALL;
     this._lastWatchingDate = null;
 
-    this._onStatisticFilterClick = this._onStatisticFilterClick.bind(this);
     this._getTopGenre = this._getTopGenre.bind(this);
+    this._onStatisticFilterClick = this._onStatisticFilterClick.bind(this);
 
     this._renderCharts();
   }

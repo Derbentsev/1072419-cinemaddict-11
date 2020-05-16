@@ -61,6 +61,7 @@ const FilterType = {
   WATCHLIST: `Watchlist`,
   HISTORY: `History`,
   FAVORITES: `Favorites`,
+  STATS: `stats`,
 };
 
 const KeyCode = {

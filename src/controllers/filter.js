@@ -10,9 +10,10 @@ import {
 
 
 export class FilterController {
-  constructor(container, moviesModel) {
+  constructor(container, moviesModel, onStatsClick) {
     this._container = container;
     this._moviesModel = moviesModel;
+    this.onStatsClick = onStatsClick;
 
     this._oldComponent = null;
     this._filterComponent = null;
@@ -48,13 +49,10 @@ export class FilterController {
     render(this._container, this._filterComponent, RenderPosition.BEFOREEND);
   }
 
-  setOnStatsClick() {
-    
-  }
-
   _onFilterChange(filterType) {
     this._moviesModel.setFilter(filterType);
     this._activeFilterType = filterType;
+    this.onStatsClick(filterType);
   }
 
   _onDataChange() {
