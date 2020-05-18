@@ -1,6 +1,6 @@
 import {UserProfile} from '@components/user-profile/user-profile';
 import {FooterStatistic} from '@components/footer-statistic/footer-statistic';
-import {generateFilms} from './mocks/film';
+import {API} from './api';
 import {generateComments} from './mocks/comment';
 import {render} from '@utils/render';
 import {PageController} from '@controllers/page';
@@ -13,6 +13,7 @@ import {
   FilmSettings,
   RenderPosition,
   STATS_NAME,
+  AUTHORIZATION,
 } from '@consts';
 
 
@@ -34,13 +35,17 @@ const siteMainElement = siteBodyElement.querySelector(`.main`);
 const siteFooterElement = siteBodyElement.querySelector(`footer`);
 
 const comments = generateComments(FilmSettings.COMMENT_COUNT);
-const films = generateFilms(FilmSettings.COUNT, comments);
+const api = new API(AUTHORIZATION);
 
 const commentModel = new CommentModel();
 const moviesModel = new MoviesModel();
 
 commentModel.setComments(comments);
-moviesModel.setMovies(films);
+
+api.getMovies()
+  .then((movies) => {
+    moviesModel.setMovies(movies);
+  });
 
 const filmBoardComponent = new FilmBoard();
 const statisticComponent = new StatisticComponent(moviesModel);
@@ -52,7 +57,7 @@ filterController.render();
 render(siteHeaderElement, new UserProfile(), RenderPosition.BEFOREEND);
 render(siteMainElement, statisticComponent, RenderPosition.BEFOREEND);
 render(siteMainElement, filmBoardComponent, RenderPosition.BEFOREEND);
-render(siteFooterElement, new FooterStatistic(films.length), RenderPosition.BEFOREEND);
+render(siteFooterElement, new FooterStatistic(moviesModel.getMovies().length), RenderPosition.BEFOREEND);
 
 pageController.render();
 

@@ -17,6 +17,8 @@ const FilmSettings = {
   WATCHING_DATE_MAX: new Date(2020, 1, 1),
 };
 
+const AUTHORIZATION = `Basic h54jh5h45jk45jkn`;
+
 const FilmNames = [
   `Film name 1`,
   `Film name 2`,
@@ -79,4 +81,5 @@ export {
   FilterType,
   KeyCode,
   STATS_NAME,
+  AUTHORIZATION,
 };
