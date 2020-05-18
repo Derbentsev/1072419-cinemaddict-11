@@ -20,13 +20,15 @@ const createSortMarkup = (sort) => {
  * @return {string}
  */
 export const createSortTemplate = (sorts) => {
-  const sortsMarkup = sorts.map((it) =>
+  /* const sortsMarkup = sorts.map((it) =>
     createSortMarkup(it))
-  .join(`\n`);
+  .join(`\n`); */
 
   return (
     `<ul class="sort">
-      ${sortsMarkup}
+      <li><a href="#" data-sort-type="default" class="sort__button sort__button--active">Sort by default</a></li>
+      <li><a href="#" data-sort-type="date" class="sort__button">Sort by date</a></li>
+      <li><a href="#" data-sort-type="rating" class="sort__button">Sort by rating</a></li>
     </ul>`
   );
 };

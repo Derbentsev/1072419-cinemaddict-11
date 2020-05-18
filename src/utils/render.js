@@ -16,6 +16,9 @@ const render = (container, component, place) => {
     case RenderPosition.BEFOREEND:
       container.append(component.getElement());
       break;
+    case RenderPosition.BEFOREBEGIN:
+      container.before(component.getElement());
+      break;
   }
 };
 

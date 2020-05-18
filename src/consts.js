@@ -48,6 +48,7 @@ const Descriptions = [
 const RenderPosition = {
   AFRERBEGIN: `afterbegin`,
   BEFOREEND: `beforeend`,
+  BEFOREBEGIN: `beforebegin`,
 };
 
 const SortType = {

@@ -1,6 +1,7 @@
 import {Film} from "@components/film/film";
 import {FilmPopup} from '@components/film-popup/film-popup';
 import {Comment} from '@components/comment/comment';
+import {API} from '@src/api';
 import {
   render,
   replace,
@@ -9,6 +10,7 @@ import {
 import {
   RenderPosition,
   KeyCode,
+  AUTHORIZATION,
 } from '@consts';
 
 
@@ -47,7 +49,9 @@ export class MovieController {
     const filmListContainer = this._container.querySelector(`.films-list__container`);
 
     this._commentModel = commentModel;
-    const comments = this._commentModel.getComments();
+    // const comments = this._commentModel.getComments();
+
+    const api = new API(AUTHORIZATION);
 
     this._filmComponent = new Film(film);
     this._filmPopupComponent = new FilmPopup(film, this._onCommentsDataChange);
@@ -71,7 +75,11 @@ export class MovieController {
       }));
     };
 
-    this._renderComments(film, comments);
+    api.getComments(film.id)
+    .then((comments) => {
+      this._commentModel.setComments(comments);
+      this._renderComments(film, comments);
+    });
 
     this._filmComponent.setClickOnFilm(this._onFilmClick);
     this._filmComponent.setClickOnAddToWatchlist(onClickAddToWatchlist);

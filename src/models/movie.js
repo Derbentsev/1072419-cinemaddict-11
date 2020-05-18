@@ -2,6 +2,8 @@ export class Movie {
   constructor(data) {
     this.id = data.id;
 
+    this.commentsId = data.comments;
+
     this.name = data.film_info.title;
     this.actors = data.film_info.actors;
     this.ageRating = data.film_info.age_rating;
