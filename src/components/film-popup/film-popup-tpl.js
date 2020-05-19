@@ -5,6 +5,12 @@ const formatDate = (date) => {
   return moment(date).format(`MM MMMM YYYY`);
 };
 
+const createGenreMarkup = (genre) => {
+  return (
+    `<span class="film-details__genre">${genre}</span>`
+  );
+};
+
 export const createFilmPopup = (film, emojiPath) => {
   const {
     poster,
@@ -27,6 +33,10 @@ export const createFilmPopup = (film, emojiPath) => {
   } = film;
 
   const releaseDateFormatted = formatDate(releaseDate);
+
+  const genreMarkup = genre.map((it) =>
+    createGenreMarkup(it))
+      .join(`\n`);
 
   return (
     `<section class="film-details">
@@ -81,9 +91,8 @@ export const createFilmPopup = (film, emojiPath) => {
               <tr class="film-details__row">
                 <td class="film-details__term">Genres</td>
                 <td class="film-details__cell">
-                  <span class="film-details__genre">${genre}</span>
-                  <span class="film-details__genre">${genre}</span>
-                  <span class="film-details__genre">${genre}</span></td>
+                  ${genreMarkup}
+                </td>
               </tr>
             </table>
   
@@ -144,6 +153,7 @@ export const createFilmPopup = (film, emojiPath) => {
               </label>
             </div>
           </div>
-        </section>`
+        </section>
+      </div>`
   );
 };

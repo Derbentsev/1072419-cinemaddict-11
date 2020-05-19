@@ -44,14 +44,13 @@ export class MovieController {
   }
 
   render(film, commentModel) {
+    const api = new API(AUTHORIZATION);
+
     const oldFilmComponent = this._filmComponent;
     const oldFilmPopupComponent = this._filmPopupComponent;
     const filmListContainer = this._container.querySelector(`.films-list__container`);
 
     this._commentModel = commentModel;
-    // const comments = this._commentModel.getComments();
-
-    const api = new API(AUTHORIZATION);
 
     this._filmComponent = new Film(film);
     this._filmPopupComponent = new FilmPopup(film, this._onCommentsDataChange);

@@ -1,7 +1,11 @@
 import {UserProfile} from '@components/user-profile/user-profile';
+import {LoadingComponent} from '@components/loading/loading';
 import {FooterStatistic} from '@components/footer-statistic/footer-statistic';
 import {API} from '@src/api';
-import {render} from '@utils/render';
+import {
+  render,
+  remove
+} from '@utils/render';
 import {PageController} from '@controllers/page';
 import {FilmBoard} from '@components/film-board/film-board';
 import {StatisticComponent} from '@components/statistic/statistic';
@@ -23,6 +27,7 @@ const _onStatsClick = ((filterType) => {
     default:
       statisticComponent.hide();
       pageController.show();
+      break;
   }
 });
 
@@ -39,8 +44,13 @@ const statisticComponent = new StatisticComponent(moviesModel);
 const pageController = new PageController(filmBoardComponent, moviesModel);
 const filterController = new FilterController(siteMainElement, moviesModel, _onStatsClick);
 
+const loadingComponent = new LoadingComponent();
+render(siteMainElement, loadingComponent, RenderPosition.BEFOREEND);
+
 api.getMovies()
   .then((movies) => {
+    remove(loadingComponent);
+
     moviesModel.setMovies(movies);
 
     filterController.render();
