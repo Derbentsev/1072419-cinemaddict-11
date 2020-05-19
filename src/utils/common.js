@@ -34,6 +34,16 @@ const getRandomArrayItem = (array) => {
   return array[randomIndex];
 };
 
+const getHoursFromMins = (mins) => {
+  const duration = moment.duration(mins, `minutes`);
+  return moment.utc(duration.as(`milliseconds`)).format(`H`);
+};
+
+export const getMinutesFromMins = (mins) => {
+  const duration = moment.duration(mins, `minutes`);
+  return moment.utc(duration.as(`milliseconds`)).format(`mm`);
+};
+
 /**
  * Преобразует минуты в формат `1h 36m`
  * @param {number} mins - Количество минут
@@ -89,4 +99,5 @@ export {
   getRandomFloatNumber,
   getRandomDate,
   createElement,
+  getHoursFromMins,
 };

@@ -1,12 +1,6 @@
-import {
-  createCommentTemplate
-} from './comment-tpl';
-import {
-  AbstractSmartComponent
-} from '../abstract-smart-component';
-import {
-  remove,
-} from 'Utils/render';
+import {createCommentTemplate} from './comment-tpl';
+import {AbstractSmartComponent} from '@components/abstract-smart-component';
+import {remove} from '@utils/render';
 
 
 export class Comment extends AbstractSmartComponent {

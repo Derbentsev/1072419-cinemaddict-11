@@ -1,4 +1,4 @@
-import {AbstractComponent} from "../abstract-component";
+import {AbstractComponent} from "@components/abstract-component";
 import {createFilmListExtra} from './film-list-extra-tpl';
 
 

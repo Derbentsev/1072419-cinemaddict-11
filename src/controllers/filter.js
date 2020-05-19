@@ -1,20 +1,19 @@
-import {
-  Filter
-} from '../components/filter/filter';
+import {Filter} from '@components/filter/filter';
 import {
   render,
   replace,
-} from 'Utils/render';
+} from '@utils/render';
 import {
   RenderPosition,
   FilterType,
-} from '../consts';
+} from '@consts';
 
 
 export class FilterController {
-  constructor(container, moviesModel) {
+  constructor(container, moviesModel, onStatsClick) {
     this._container = container;
     this._moviesModel = moviesModel;
+    this.onStatsClick = onStatsClick;
 
     this._oldComponent = null;
     this._filterComponent = null;
@@ -53,6 +52,7 @@ export class FilterController {
   _onFilterChange(filterType) {
     this._moviesModel.setFilter(filterType);
     this._activeFilterType = filterType;
+    this.onStatsClick(filterType);
   }
 
   _onDataChange() {

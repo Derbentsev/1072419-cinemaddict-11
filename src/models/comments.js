@@ -18,14 +18,17 @@ export class CommentModel {
   }
 
   removeComment(id) {
-    this._comments.splice(id, 1);
+    this._comments.find((comment, index) => {
+      if (comment.id === id) {
+        this._comments.splice(index, 1);
+        return true;
+      }
+
+      return false;
+    });
   }
 
   addComment(comment) {
     this._comments.push(comment);
-  }
-
-  _callHandlers(handlers) {
-    handlers.forEach((handler) => handler());
   }
 }

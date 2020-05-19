@@ -9,6 +9,7 @@ export const createFilmPopup = (film, emojiPath) => {
   const {
     poster,
     name,
+    commentsId,
     originalName,
     rating,
     director,
@@ -37,7 +38,6 @@ export const createFilmPopup = (film, emojiPath) => {
         <div class="film-details__info-wrap">
           <div class="film-details__poster">
             <img class="film-details__poster-img" src="./images/posters/${poster}" alt="">
-  
             <p class="film-details__age">${ageRating}</p>
           </div>
   
@@ -108,7 +108,7 @@ export const createFilmPopup = (film, emojiPath) => {
       <div class="form-details__bottom-container">
         <section class="film-details__comments-wrap">
           <h3 class="film-details__comments-title">Comments 
-            <span class="film-details__comments-count">4</span>
+            <span class="film-details__comments-count">${commentsId.length}</span>
           </h3>
   
           <ul class="film-details__comments-list"></ul>

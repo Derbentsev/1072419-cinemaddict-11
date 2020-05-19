@@ -1,11 +1,10 @@
 import {
   getRandomArrayItem,
   getRandomIntegerNumber,
-  getTimeFromMins,
   getRandomFloatNumber,
   getRandomArrayItems,
   getRandomDate,
-} from 'Utils/common';
+} from '@utils/common';
 
 import {
   FilmSettings,
@@ -13,7 +12,7 @@ import {
   Posters,
   Genre,
   Descriptions,
-} from '../consts';
+} from '@consts';
 
 
 const AgeRatings = [
@@ -57,45 +56,51 @@ const Actors = [
 ];
 
 
-/**
- * Генерируем новый фильм
- * @return {object} - Случайно сгенерированный фильм
- */
-const generateFilm = () => {
-  const releaseDate = getRandomDate(FilmSettings.RELEASE_DATE_MIN, FilmSettings.RELEASE_DATE_MAX);
+const getRandomCommentsId = (comments) => {
+  let commentsId = [];
+  const commentsCount = getRandomIntegerNumber(1, 5);
 
-  return {
-    id: String(new Date() + Math.random()),
-    name: getRandomArrayItem(FilmNames),
-    poster: getRandomArrayItem(Posters),
-    rating: getRandomFloatNumber(FilmSettings.MIN_RATING, FilmSettings.MAX_RATING),
-    releaseYear: new Date(releaseDate).getFullYear(),
-    duration: getTimeFromMins(getRandomIntegerNumber(FilmSettings.MIN_DURATION_MINUTES, FilmSettings.MAX_DURATION_MINUTES)),
-    genre: getRandomArrayItem(Genre),
-    description: getRandomArrayItem(Descriptions),
-    commentsNumber: getRandomIntegerNumber(FilmSettings.MIN_COMMENTS, FilmSettings.MAX_COMMENTS),
+  for (let i = 1; i <= commentsCount; i++) {
+    commentsId.push(comments[getRandomIntegerNumber(0, comments.length)].id);
+  }
 
-    originalName: getRandomArrayItem(FilmNames),
-    director: getRandomArrayItem(Directors),
-    writers: getRandomArrayItems(Writers, 3),
-    actors: getRandomArrayItems(Actors, 4),
-    releaseDate,
-    country: getRandomArrayItem(Countries),
-    ageRating: getRandomArrayItem(AgeRatings),
+  return commentsId;
+};
 
-    isWatchlist: Math.random() > 0.5,
-    isWatched: Math.random() > 0.5,
-    isFavorite: Math.random() > 0.5,
+const generateFilm = (comments) => {
+  return function () {
+    const isWatched1 = Math.random() > 0.5;
+
+    return {
+      id: String(new Date() + Math.random()),
+
+      commentsId: getRandomCommentsId(comments),
+
+      name: getRandomArrayItem(FilmNames),
+      poster: getRandomArrayItem(Posters),
+      rating: getRandomFloatNumber(FilmSettings.MIN_RATING, FilmSettings.MAX_RATING),
+      duration: getRandomIntegerNumber(FilmSettings.MIN_DURATION_MINUTES, FilmSettings.MAX_DURATION_MINUTES),
+      genre: getRandomArrayItem(Genre),
+      description: getRandomArrayItem(Descriptions),
+      originalName: getRandomArrayItem(FilmNames),
+      director: getRandomArrayItem(Directors),
+      writers: getRandomArrayItems(Writers, 3),
+      actors: getRandomArrayItems(Actors, 4),
+      releaseDate: getRandomDate(FilmSettings.RELEASE_DATE_MIN, FilmSettings.RELEASE_DATE_MAX),
+      country: getRandomArrayItem(Countries),
+      ageRating: getRandomArrayItem(AgeRatings),
+
+      isWatchlist: Math.random() > 0.5,
+      isWatched: isWatched1,
+      isFavorite: Math.random() > 0.5,
+      watchingDate: isWatched1 ? getRandomDate(FilmSettings.WATCHING_DATE_MIN, FilmSettings.WATCHING_DATE_MAX) : null,
+    };
   };
 };
 
-/**
- * Генерируем массив фильмов
- * @param {number} count - Число фильмов
- * @return {object} - Массив фильмов
- */
-export const generateFilms = (count) => {
+
+export const generateFilms = (count, comments) => {
   return new Array(count)
     .fill(``)
-    .map(generateFilm);
+    .map(generateFilm(comments));
 };
