@@ -18,9 +18,10 @@ import {
 
 
 export class PageController {
-  constructor(container, movieModel) {
+  constructor(container, movieModel, api) {
     this._container = container;
     this._movieModel = movieModel;
+    this._api = api;
 
     this._showedMoviesControllers = [];
     this._showingMoviesCount = FilmSettings.SHOW_FILMS_ON_START;
@@ -75,10 +76,12 @@ export class PageController {
 
   hide() {
     this._container.hide();
+    this._sort.hide();
   }
 
   show() {
     this._container.show();
+    this._sort.show();
   }
 
   _getTopFilms(films) {
@@ -128,7 +131,7 @@ export class PageController {
 
   _renderFilms(container, films) {
     return films.map((film) => {
-      const movieController = new MovieController(container, this._onDataChange, this._onViewChange);
+      const movieController = new MovieController(container, this._onDataChange, this._onViewChange, this._api);
       movieController.render(film, this._commentModel);
       return movieController;
     });
@@ -173,8 +176,11 @@ export class PageController {
   }
 
   _onDataChange(movieController, oldData, newData) {
-    this._movieModel.updateMovies(oldData.id, newData);
-    movieController.render(newData, this._commentModel);
+    this._api.updateMovies(oldData.id, newData)
+      .then((movieModel) => {
+        this._movieModel.updateMovies(oldData.id, movieModel);
+        movieController.render(newData, this._commentModel);
+      });
   }
 
   _onViewChange() {

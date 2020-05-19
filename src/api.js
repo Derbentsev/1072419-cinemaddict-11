@@ -15,10 +15,24 @@ export class API {
       .then(Movie.parseMovies);
   }
 
-  getComments(filmId) {
-    return fetch(`https://11.ecmascript.pages.academy/cinemaddict/comments/${filmId}`, this._getHeaders())
+  getComments(movieId) {
+    return fetch(`https://11.ecmascript.pages.academy/cinemaddict/comments/${movieId}`, this._getHeaders())
       .then((response) => response.json())
       .then(Comment.parseComments);
+  }
+
+  updateMovies(movieId, data) {
+    const headers = new Headers();
+    headers.append(`Authorization`, this._authorization);
+    headers.append(`Content-Type`, `application/json`);
+
+    return fetch(`https://11.ecmascript.pages.academy/cinemaddict/movies/${movieId}`, {
+      method: `PUT`,
+      body: JSON.stringify(data.toRaw()),
+      headers,
+    })
+      .then((response) => response.json())
+      .then(Movie.parseMovie);
   }
 
   _getHeaders() {

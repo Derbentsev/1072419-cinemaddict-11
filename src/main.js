@@ -41,7 +41,7 @@ const moviesModel = new MoviesModel();
 
 const filmBoardComponent = new FilmBoard();
 const statisticComponent = new StatisticComponent(moviesModel);
-const pageController = new PageController(filmBoardComponent, moviesModel);
+const pageController = new PageController(filmBoardComponent, moviesModel, api);
 const filterController = new FilterController(siteMainElement, moviesModel, _onStatsClick);
 
 const loadingComponent = new LoadingComponent();

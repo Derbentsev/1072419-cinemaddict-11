@@ -58,9 +58,7 @@ export class FilmPopup extends AbstractSmartComponent {
 
   getData() {
     const form = this.getElement().querySelector(`form`);
-    const formData = new FormData(form);
-
-    return this._parseFormData(formData);
+    return new FormData(form);
   }
 
   setClickOnEmojiList() {
@@ -84,15 +82,5 @@ export class FilmPopup extends AbstractSmartComponent {
     }
 
     this.getElement().querySelector(`.film-details__add-emoji-label`).appendChild(this._smile);
-  }
-
-  _parseFormData(formData) {
-    return {
-      id: String(new Date() + Math.random()),
-      text: formData.get(`comment`),
-      emotion: formData.get(`emotion`),
-      author: `Oleg Badanov`,
-      date: new Date(),
-    };
   }
 }
