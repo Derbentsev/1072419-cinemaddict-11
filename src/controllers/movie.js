@@ -54,21 +54,27 @@ export class MovieController {
     this._filmPopupComponent = new FilmPopup(film, this._onCommentsDataChange);
     this._commentContainer = this._filmPopupComponent.getElement().querySelector(`.film-details__comments-list`);
 
-    const onClickAddToWatchlist = () => {
+    const onClickAddToWatchlist = (evt) => {
+      evt.preventDefault();
+
       const newMovie = MovieModel.clone(film);
       newMovie.isWatchlist = !newMovie.isWatchlist;
 
       this._onDataChange(this, film, newMovie);
     };
 
-    const onClickAlreadyWatched = () => {
+    const onClickAlreadyWatched = (evt) => {
+      evt.preventDefault();
+
       const newMovie = MovieModel.clone(film);
       newMovie.isWatched = !newMovie.isWatched;
 
       this._onDataChange(this, film, newMovie);
     };
 
-    const onClickAddToFavorites = () => {
+    const onClickAddToFavorites = (evt) => {
+      evt.preventDefault();
+
       const newMovie = MovieModel.clone(film);
       newMovie.isFavorite = !newMovie.isFavorite;
 
