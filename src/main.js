@@ -2,15 +2,15 @@ import {UserProfile} from '@components/user-profile/user-profile';
 import {LoadingComponent} from '@components/loading/loading';
 import {FooterStatistic} from '@components/footer-statistic/footer-statistic';
 import {API} from '@src/api';
-import {
-  render,
-  remove
-} from '@utils/render';
 import {PageController} from '@controllers/page';
 import {FilmBoard} from '@components/film-board/film-board';
 import {StatisticComponent} from '@components/statistic/statistic';
 import {MoviesModel} from '@models/movies';
 import {FilterController} from '@controllers/filter';
+import {
+  render,
+  remove
+} from '@utils/render';
 import {
   RenderPosition,
   STATS_NAME,
@@ -56,6 +56,7 @@ api.getMovies()
     filterController.render();
     render(siteHeaderElement, new UserProfile(), RenderPosition.BEFOREEND);
     render(siteMainElement, statisticComponent, RenderPosition.BEFOREEND);
+    statisticComponent.rerender(`all`);
     render(siteMainElement, filmBoardComponent, RenderPosition.BEFOREEND);
     render(siteFooterElement, new FooterStatistic(moviesModel.getMovies().length), RenderPosition.BEFOREEND);
     pageController.render();

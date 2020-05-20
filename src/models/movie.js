@@ -1,4 +1,4 @@
-export class Movie {
+export class MovieModel {
   constructor(data) {
     this.id = data.id;
 
@@ -37,7 +37,6 @@ export class Movie {
         "poster": this.poster,
         "age_rating": this.ageRating,
         "director": this.director,
-
         "writers": this.writers,
         "actors": this.actors,
 
@@ -47,7 +46,6 @@ export class Movie {
         },
 
         "runtime": this.duration,
-
         "genre": this.genre,
         "description": this.description,
       },
@@ -62,14 +60,14 @@ export class Movie {
   }
 
   static parseMovie(data) {
-    return new Movie(data);
+    return new MovieModel(data);
   }
 
   static parseMovies(data) {
-    return data.map(Movie.parseMovie);
+    return data.map(MovieModel.parseMovie);
   }
 
   static clone(data) {
-    return new Movie(data.toRaw());
+    return new MovieModel(data.toRaw());
   }
 }

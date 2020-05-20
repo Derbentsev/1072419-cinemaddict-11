@@ -1,4 +1,4 @@
-import {Movie} from '@models/movie';
+import {MovieModel} from '@models/movie';
 import {Comment} from '@models/comment';
 
 
@@ -12,7 +12,7 @@ export class API {
   getMovies() {
     return fetch(`https://11.ecmascript.pages.academy/cinemaddict/movies`, this._getHeaders())
       .then((response) => response.json())
-      .then(Movie.parseMovies);
+      .then(MovieModel.parseMovies);
   }
 
   getComments(movieId) {
@@ -32,7 +32,7 @@ export class API {
       headers,
     })
       .then((response) => response.json())
-      .then(Movie.parseMovie);
+      .then(MovieModel.parseMovie);
   }
 
   _getHeaders() {

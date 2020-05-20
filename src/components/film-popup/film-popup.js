@@ -16,7 +16,7 @@ export class FilmPopup extends AbstractSmartComponent {
     this._clickOnAddToAlreadyWatched = null;
     this._clickOnAddToFavorites = null;
 
-    this._parseFormData = this._parseFormData.bind(this);
+    this._parseFormDataComments = this._parseFormDataComments.bind(this);
     this._onEmojiListClick = this._onEmojiListClick.bind(this);
   }
 
@@ -82,5 +82,15 @@ export class FilmPopup extends AbstractSmartComponent {
     }
 
     this.getElement().querySelector(`.film-details__add-emoji-label`).appendChild(this._smile);
+  }
+
+  _parseFormDataComments(formData) {
+    return {
+      id: String(new Date() + Math.random()),
+      text: formData.get(`comment`),
+      emotion: formData.get(`emotion`),
+      author: `Oleg Badanov`,
+      date: new Date(),
+    };
   }
 }

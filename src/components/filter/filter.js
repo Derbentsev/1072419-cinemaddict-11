@@ -24,7 +24,10 @@ export class Filter extends AbstractComponent {
       handler(filterName);
     });
 
-    this.getElement().querySelector(`.main-navigation__additional`).addEventListener(`click`, () => {
+    this.getElement().querySelector(`.main-navigation__additional`).addEventListener(`click`, (evt) => {
+      this.getElement().querySelector(`.main-navigation__item--active`).classList.remove(`main-navigation__item--active`);
+      evt.target.classList.add(`main-navigation__item--active`);
+
       handler(STATS_NAME);
     });
   }

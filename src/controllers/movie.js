@@ -1,7 +1,7 @@
 import {Film} from "@components/film/film";
 import {FilmPopup} from '@components/film-popup/film-popup';
 import {Comment} from '@components/comment/comment';
-import {Movie} from '@models/movie';
+import {MovieModel} from '@models/movie';
 import {
   render,
   replace,
@@ -19,7 +19,7 @@ const Mode = {
 };
 
 
-const parseFormData = (formData) => {
+const parseFormDataMovie = (formData) => {
   return {
     id: String(new Date() + Math.random()),
     text: formData.get(`comment`),
@@ -65,21 +65,21 @@ export class MovieController {
     this._commentContainer = this._filmPopupComponent.getElement().querySelector(`.film-details__comments-list`);
 
     const onClickAddToWatchlist = () => {
-      const newMovie = Movie.clone(film);
+      const newMovie = MovieModel.clone(film);
       newMovie.isWatchlist = !newMovie.isWatchlist;
 
       this._onDataChange(this, film, newMovie);
     };
 
     const onClickAlreadyWatched = () => {
-      const newMovie = Movie.clone(film);
+      const newMovie = MovieModel.clone(film);
       newMovie.isWatched = !newMovie.isWatched;
 
       this._onDataChange(this, film, newMovie);
     };
 
     const onClickAddToFavorites = () => {
-      const newMovie = Movie.clone(film);
+      const newMovie = MovieModel.clone(film);
       newMovie.isFavorite = !newMovie.isFavorite;
 
       this._onDataChange(this, film, newMovie);

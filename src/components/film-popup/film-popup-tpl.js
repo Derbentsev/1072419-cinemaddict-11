@@ -1,3 +1,4 @@
+import {getTimeFromMins} from '@utils/common';
 import moment from 'moment';
 
 
@@ -33,6 +34,7 @@ export const createFilmPopup = (film, emojiPath) => {
   } = film;
 
   const releaseDateFormatted = formatDate(releaseDate);
+  const durationAfterFormat = getTimeFromMins(duration);
 
   const genreMarkup = genre.map((it) =>
     createGenreMarkup(it))
@@ -82,7 +84,7 @@ export const createFilmPopup = (film, emojiPath) => {
               </tr>
               <tr class="film-details__row">
                 <td class="film-details__term">Runtime</td>
-                <td class="film-details__cell">${duration}</td>
+                <td class="film-details__cell">${durationAfterFormat}</td>
               </tr>
               <tr class="film-details__row">
                 <td class="film-details__term">Country</td>

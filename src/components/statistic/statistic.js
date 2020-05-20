@@ -28,16 +28,16 @@ export class StatisticComponent extends AbstractSmartComponent {
     this._lastWatchingDate = null;
 
     this._getTopGenre = this._getTopGenre.bind(this);
-    this._onStatisticFilterClick = this._onStatisticFilterClick.bind(this);
+    this._onStatisticFilterClick = this._onStatisticClick.bind(this);
 
     this._renderCharts();
   }
 
+  recoveryListeners() {}
+
   getTemplate() {
     return createStatisticTemplate(this._movies, this._filterMode, this._topGenre);
   }
-
-  recoveryListeners() {}
 
   rerender(filterMode) {
     this._filterMode = filterMode;
@@ -62,7 +62,7 @@ export class StatisticComponent extends AbstractSmartComponent {
 
     this._movies = this._moviesModel.getMoviesAll().filter((movie) => {
       if (this._lastWatchingDate !== null) {
-        return movie.isWatched && movie.watchingDate > this._lastWatchingDate;
+        return movie.isWatched && (movie.watchingDate > this._lastWatchingDate);
       }
 
       return true;
@@ -75,13 +75,34 @@ export class StatisticComponent extends AbstractSmartComponent {
     this._renderCharts();
   }
 
+  _renderCharts() {
+    this.getElement().querySelectorAll(`.statistic__filters-label`)
+      .forEach((element) => element.addEventListener(`click`, this._onStatisticClick));
+
+    this._movies = this._getAllWatchedMovies(this._moviesModel.getMoviesAll());
+
+    const element = this.getElement();
+    const statisticCtx = element.querySelector(`.statistic__chart`);
+
+    this._resetChart();
+
+    this._chart = renderChart(statisticCtx, this._movies);
+  }
+
+  _resetChart() {
+    if (this._chart) {
+      this._chart.destroy();
+      this._chart = null;
+    }
+  }
+
   _getAllWatchedMovies(movies) {
     return movies.filter((movie) => {
       return movie.isWatched;
     });
   }
 
-  _onStatisticFilterClick(evt) {
+  _onStatisticClick(evt) {
     const newFilterMode = evt.target.htmlFor.split(`-`)[1];
 
     if (newFilterMode === this._filterMode) {
@@ -89,16 +110,6 @@ export class StatisticComponent extends AbstractSmartComponent {
     }
 
     this.rerender(newFilterMode);
-  }
-
-  _renderCharts() {
-    this.getElement().querySelectorAll(`.statistic__filters-label`)
-      .forEach((element) => element.addEventListener(`click`, this._onStatisticFilterClick));
-
-    const element = this.getElement();
-    const statisticCtx = element.querySelector(`.statistic__chart`);
-
-    this._chart = renderChart(statisticCtx, this._movies);
   }
 
   _getTopGenre() {
@@ -119,8 +130,9 @@ export class StatisticComponent extends AbstractSmartComponent {
   }
 }
 
+
 const getUniqGenres = (movies) => {
-  return movies.map((movie) => movie.genre)
+  return [].concat(...movies.map((movie) => movie.genre))
     .filter(getUniqItems);
 };
 
@@ -129,7 +141,7 @@ const getUniqItems = (item, index, array) => {
 };
 
 const calcUniqCountGenres = (movies, genre) => {
-  return movies.filter((movie) => movie.genre === genre).length;
+  return movies.filter((movie) => movie.genre.includes(genre)).length;
 };
 
 const renderChart = (statisticCtx, movies) => {
