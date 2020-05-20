@@ -22,6 +22,7 @@ const _onStatsClick = ((filterType) => {
   switch (filterType) {
     case STATS_NAME:
       pageController.hide();
+      statisticComponent.rerender(`all`);
       statisticComponent.show();
       break;
     default:

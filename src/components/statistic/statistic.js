@@ -4,7 +4,7 @@ import Chart from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import moment from 'moment';
 
-const FilterMode = {
+const StatsMode = {
   ALL: `all`,
   TODAY: `today`,
   WEEK: `week`,
@@ -19,16 +19,16 @@ export class StatisticComponent extends AbstractSmartComponent {
 
     this._moviesModel = moviesModel;
 
-    this._movies = this._getAllWatchedMovies(this._moviesModel.getMoviesAll());
+    this._movies = this._getWatchedMovies(this._moviesModel.getMoviesAll());
 
     this._chart = null;
     this._topGenre = this._getTopGenre();
 
-    this._filterMode = FilterMode.ALL;
+    this._filterMode = StatsMode.ALL;
     this._lastWatchingDate = null;
 
     this._getTopGenre = this._getTopGenre.bind(this);
-    this._onStatisticFilterClick = this._onStatisticClick.bind(this);
+    this._onStatisticClick = this._onStatisticClick.bind(this);
 
     this._renderCharts();
   }
@@ -43,31 +43,24 @@ export class StatisticComponent extends AbstractSmartComponent {
     this._filterMode = filterMode;
 
     switch (this._filterMode) {
-      case FilterMode.ALL:
-        this._lastWatchingDate = null;
+      case StatsMode.ALL:
+        this._lastWatchingDate = new Date(2000, 1, 1);
         break;
-      case FilterMode.TODAY:
+      case StatsMode.TODAY:
         this._lastWatchingDate = new Date();
         break;
-      case FilterMode.WEEK:
+      case StatsMode.WEEK:
         this._lastWatchingDate = moment().add(-7, `d`).toDate();
         break;
-      case FilterMode.MONTH:
+      case StatsMode.MONTH:
         this._lastWatchingDate = moment().add(-30, `d`).toDate();
         break;
-      case FilterMode.YEAR:
+      case StatsMode.YEAR:
         this._lastWatchingDate = moment().add(-365, `d`).toDate();
         break;
     }
 
-    this._movies = this._moviesModel.getMoviesAll().filter((movie) => {
-      if (this._lastWatchingDate !== null) {
-        return movie.isWatched && (movie.watchingDate > this._lastWatchingDate);
-      }
-
-      return true;
-    });
-
+    this._movies = this._getWatchedMovies();
     this._topGenre = this._getTopGenre();
 
     super.rerender();
@@ -79,7 +72,7 @@ export class StatisticComponent extends AbstractSmartComponent {
     this.getElement().querySelectorAll(`.statistic__filters-label`)
       .forEach((element) => element.addEventListener(`click`, this._onStatisticClick));
 
-    this._movies = this._getAllWatchedMovies(this._moviesModel.getMoviesAll());
+    this._movies = this._getWatchedMovies();
 
     const element = this.getElement();
     const statisticCtx = element.querySelector(`.statistic__chart`);
@@ -96,9 +89,13 @@ export class StatisticComponent extends AbstractSmartComponent {
     }
   }
 
-  _getAllWatchedMovies(movies) {
-    return movies.filter((movie) => {
-      return movie.isWatched;
+  _getWatchedMovies() {
+    return this._moviesModel.getMoviesAll().filter((movie) => {
+      if (this._lastWatchingDate !== null) {
+        return movie.isWatched && (movie.watchingDate > this._lastWatchingDate.toISOString());
+      }
+
+      return true;
     });
   }
 
