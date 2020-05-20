@@ -1,16 +1,9 @@
 import {AbstractSmartComponent} from "../abstract-smart-component";
 import {createStatisticTemplate} from './statistic-tpl';
+import {StatsMode} from '@consts';
 import Chart from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import moment from 'moment';
-
-const StatsMode = {
-  ALL: `all`,
-  TODAY: `today`,
-  WEEK: `week`,
-  MONTH: `month`,
-  YEAR: `year`,
-};
 
 
 export class StatisticComponent extends AbstractSmartComponent {
@@ -159,7 +152,8 @@ const renderChart = (statisticCtx, movies) => {
         data: genres.map((genre) => calcUniqCountGenres(movies, genre)),
         backgroundColor: `#ffe800`,
         hoverBackgroundColor: `#ffe800`,
-        anchor: `start`
+        anchor: `start`,
+        barThickness: 24
       }]
     },
     options: {
@@ -185,7 +179,6 @@ const renderChart = (statisticCtx, movies) => {
             display: false,
             drawBorder: false
           },
-          barThickness: 24
         }],
         xAxes: [{
           ticks: {

@@ -70,6 +70,14 @@ const KeyCode = {
   ENTER: `Enter`,
 };
 
+const StatsMode = {
+  ALL: `all`,
+  TODAY: `today`,
+  WEEK: `week`,
+  MONTH: `month`,
+  YEAR: `year`,
+};
+
 
 export {
   FilmNames,
@@ -83,4 +91,5 @@ export {
   KeyCode,
   STATS_NAME,
   AUTHORIZATION,
+  StatsMode,
 };

@@ -19,16 +19,6 @@ const Mode = {
 };
 
 
-/* const parseFormDataMovie = (formData) => {
-  return {
-    id: String(new Date() + Math.random()),
-    text: formData.get(`comment`),
-    emotion: formData.get(`emotion`),
-    author: `Oleg Badanov`,
-    date: new Date(),
-  };
-}; */
-
 export class MovieController {
   constructor(container, onDataChange, onViewChange, api) {
     this._container = container;

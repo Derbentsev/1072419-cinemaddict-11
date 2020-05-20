@@ -13,6 +13,7 @@ import {
 } from '@utils/render';
 import {
   RenderPosition,
+  StatsMode,
   STATS_NAME,
   AUTHORIZATION,
 } from '@consts';
@@ -22,7 +23,7 @@ const _onStatsClick = ((filterType) => {
   switch (filterType) {
     case STATS_NAME:
       pageController.hide();
-      statisticComponent.rerender(`all`);
+      statisticComponent.rerender(StatsMode.ALL);
       statisticComponent.show();
       break;
     default:
