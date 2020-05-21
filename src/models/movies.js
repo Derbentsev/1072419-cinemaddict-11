@@ -19,7 +19,7 @@ export class MoviesModel {
   }
 
   setMovies(movies) {
-    this._movies = movies;
+    this._movies = Array.from(movies);
   }
 
   updateMovies(id, newMovie) {

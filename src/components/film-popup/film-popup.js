@@ -16,7 +16,7 @@ export class FilmPopup extends AbstractSmartComponent {
     this._clickOnAddToAlreadyWatched = null;
     this._clickOnAddToFavorites = null;
 
-    this._parseFormData = this._parseFormData.bind(this);
+    this._parseFormDataComments = this._parseFormDataComments.bind(this);
     this._onEmojiListClick = this._onEmojiListClick.bind(this);
   }
 
@@ -58,9 +58,7 @@ export class FilmPopup extends AbstractSmartComponent {
 
   getData() {
     const form = this.getElement().querySelector(`form`);
-    const formData = new FormData(form);
-
-    return this._parseFormData(formData);
+    return new FormData(form);
   }
 
   setClickOnEmojiList() {
@@ -86,7 +84,7 @@ export class FilmPopup extends AbstractSmartComponent {
     this.getElement().querySelector(`.film-details__add-emoji-label`).appendChild(this._smile);
   }
 
-  _parseFormData(formData) {
+  _parseFormDataComments(formData) {
     return {
       id: String(new Date() + Math.random()),
       text: formData.get(`comment`),

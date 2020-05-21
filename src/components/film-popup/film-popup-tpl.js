@@ -1,8 +1,15 @@
+import {getTimeFromMins} from '@utils/common';
 import moment from 'moment';
 
 
 const formatDate = (date) => {
   return moment(date).format(`MM MMMM YYYY`);
+};
+
+const createGenreMarkup = (genre) => {
+  return (
+    `<span class="film-details__genre">${genre}</span>`
+  );
 };
 
 export const createFilmPopup = (film, emojiPath) => {
@@ -27,6 +34,11 @@ export const createFilmPopup = (film, emojiPath) => {
   } = film;
 
   const releaseDateFormatted = formatDate(releaseDate);
+  const durationAfterFormat = getTimeFromMins(duration);
+
+  const genreMarkup = genre.map((it) =>
+    createGenreMarkup(it))
+      .join(`\n`);
 
   return (
     `<section class="film-details">
@@ -37,8 +49,8 @@ export const createFilmPopup = (film, emojiPath) => {
         </div>
         <div class="film-details__info-wrap">
           <div class="film-details__poster">
-            <img class="film-details__poster-img" src="./images/posters/${poster}" alt="">
-            <p class="film-details__age">${ageRating}</p>
+            <img class="film-details__poster-img" src="./${poster}" alt="">
+            <p class="film-details__age">${ageRating}+</p>
           </div>
   
           <div class="film-details__info">
@@ -72,7 +84,7 @@ export const createFilmPopup = (film, emojiPath) => {
               </tr>
               <tr class="film-details__row">
                 <td class="film-details__term">Runtime</td>
-                <td class="film-details__cell">${duration}</td>
+                <td class="film-details__cell">${durationAfterFormat}</td>
               </tr>
               <tr class="film-details__row">
                 <td class="film-details__term">Country</td>
@@ -81,9 +93,8 @@ export const createFilmPopup = (film, emojiPath) => {
               <tr class="film-details__row">
                 <td class="film-details__term">Genres</td>
                 <td class="film-details__cell">
-                  <span class="film-details__genre">${genre}</span>
-                  <span class="film-details__genre">${genre}</span>
-                  <span class="film-details__genre">${genre}</span></td>
+                  ${genreMarkup}
+                </td>
               </tr>
             </table>
   
@@ -144,6 +155,7 @@ export const createFilmPopup = (film, emojiPath) => {
               </label>
             </div>
           </div>
-        </section>`
+        </section>
+      </div>`
   );
 };

@@ -1,3 +1,6 @@
+import {getTimeFromMins} from '@utils/common';
+
+
 /**
  * Создаем разметку Карточка фильма
  * @param {object} film - Фильм
@@ -18,16 +21,18 @@ export const createFilmCard = (film) => {
     isFavorite,
   } = film;
 
+  const durationAfterFormat = getTimeFromMins(duration);
+
   return (
     `<article class="film-card">
       <h3 class="film-card__title">${name}</h3>
       <p class="film-card__rating">${rating}</p>
       <p class="film-card__info">
         <span class="film-card__year">${new Date(releaseDate).getFullYear()}</span>
-        <span class="film-card__duration">${duration}</span>
+        <span class="film-card__duration">${durationAfterFormat}</span>
         <span class="film-card__genre">${genre}</span>
       </p>
-      <img src="./images/posters/${poster}" alt="" class="film-card__poster">
+      <img src="./${poster}" alt="" class="film-card__poster">
       <p class="film-card__description">${description}</p>
       <a class="film-card__comments">${commentsId.length} comments</a>
       <form class="film-card__controls">

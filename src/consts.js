@@ -17,6 +17,8 @@ const FilmSettings = {
   WATCHING_DATE_MAX: new Date(2020, 1, 1),
 };
 
+const AUTHORIZATION = `Basic h54jh5h45jk45jkn`;
+
 const FilmNames = [
   `Film name 1`,
   `Film name 2`,
@@ -46,6 +48,7 @@ const Descriptions = [
 const RenderPosition = {
   AFRERBEGIN: `afterbegin`,
   BEFOREEND: `beforeend`,
+  BEFOREBEGIN: `beforebegin`,
 };
 
 const SortType = {
@@ -67,6 +70,14 @@ const KeyCode = {
   ENTER: `Enter`,
 };
 
+const StatsMode = {
+  ALL: `all`,
+  TODAY: `today`,
+  WEEK: `week`,
+  MONTH: `month`,
+  YEAR: `year`,
+};
+
 
 export {
   FilmNames,
@@ -79,4 +90,6 @@ export {
   FilterType,
   KeyCode,
   STATS_NAME,
+  AUTHORIZATION,
+  StatsMode,
 };

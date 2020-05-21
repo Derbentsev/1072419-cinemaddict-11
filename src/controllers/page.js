@@ -5,7 +5,7 @@ import {NoData} from '@components/no-data/no-data';
 import {FilmList} from '@components/film-list/film-list';
 import {FilmListExtra} from '@components/film-list-extra/film-list-extra';
 import {Sort} from '@components/sort/sort';
-import {generateSorts} from '../mocks/sort';
+import {CommentModel} from '@models/comments';
 import {
   remove,
   render,
@@ -18,14 +18,15 @@ import {
 
 
 export class PageController {
-  constructor(container, movieModel, commentModel) {
+  constructor(container, movieModel, api) {
     this._container = container;
     this._movieModel = movieModel;
-    this._commentModel = commentModel;
+    this._api = api;
 
     this._showedMoviesControllers = [];
     this._showingMoviesCount = FilmSettings.SHOW_FILMS_ON_START;
 
+    this._commentModel = new CommentModel();
     this._noData = new NoData();
     this._filmBoard = new FilmBoard();
     this._filmList = new FilmList();
@@ -38,7 +39,6 @@ export class PageController {
     this._onDataChange = this._onDataChange.bind(this);
     this._onViewChange = this._onViewChange.bind(this);
     this._onFilterChange = this._onFilterChange.bind(this);
-
     this._onButtonShowMoreClick = this._onButtonShowMoreClick.bind(this);
     this._setOnChangeSortType = this._setOnChangeSortType.bind(this);
   }
@@ -56,7 +56,7 @@ export class PageController {
     const mostCommentedFilms = this._getMostCommentedFilms(films);
     const newFilms = this._renderFilms(this._filmList.getElement(), films.slice(0, this._showingMoviesCount));
 
-    this._sort = new Sort(generateSorts(), this._setOnChangeSortType);
+    this._sort = new Sort(this._setOnChangeSortType);
 
     this._showedMoviesControllers = this._showedMoviesControllers.concat(newFilms);
     this._showingMoviesCount = this._showedMoviesControllers.length;
@@ -64,7 +64,7 @@ export class PageController {
     this._renderFilms(this._filmListTop.getElement(), topFilms);
     this._renderFilms(this._filmListMostCommented.getElement(), mostCommentedFilms);
 
-    render(container, this._sort, RenderPosition.BEFOREEND);
+    render(container, this._sort, RenderPosition.BEFOREBEGIN);
     render(container, this._filmList, RenderPosition.BEFOREEND);
     render(container, this._filmListTop, RenderPosition.BEFOREEND);
     render(container, this._filmListMostCommented, RenderPosition.BEFOREEND);
@@ -76,10 +76,12 @@ export class PageController {
 
   hide() {
     this._container.hide();
+    this._sort.hide();
   }
 
   show() {
     this._container.show();
+    this._sort.show();
   }
 
   _getTopFilms(films) {
@@ -129,7 +131,7 @@ export class PageController {
 
   _renderFilms(container, films) {
     return films.map((film) => {
-      const movieController = new MovieController(container, this._onDataChange, this._onViewChange);
+      const movieController = new MovieController(container, this._onDataChange, this._onViewChange, this._api);
       movieController.render(film, this._commentModel);
       return movieController;
     });
@@ -174,8 +176,11 @@ export class PageController {
   }
 
   _onDataChange(movieController, oldData, newData) {
-    this._movieModel.updateMovies(oldData.id, newData);
-    movieController.render(newData, this._commentModel);
+    this._api.updateMovies(oldData.id, newData)
+      .then((movieModel) => {
+        this._movieModel.updateMovies(oldData.id, movieModel);
+        movieController.render(newData, this._commentModel);
+      });
   }
 
   _onViewChange() {

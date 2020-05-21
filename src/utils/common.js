@@ -35,11 +35,10 @@ const getRandomArrayItem = (array) => {
 };
 
 const getHoursFromMins = (mins) => {
-  const duration = moment.duration(mins, `minutes`);
-  return moment.utc(duration.as(`milliseconds`)).format(`H`);
+  return Math.floor(mins / 60);
 };
 
-export const getMinutesFromMins = (mins) => {
+const getMinutesFromMins = (mins) => {
   const duration = moment.duration(mins, `minutes`);
   return moment.utc(duration.as(`milliseconds`)).format(`mm`);
 };
@@ -100,4 +99,5 @@ export {
   getRandomDate,
   createElement,
   getHoursFromMins,
+  getMinutesFromMins,
 };

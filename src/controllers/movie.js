@@ -1,6 +1,7 @@
 import {Film} from "@components/film/film";
 import {FilmPopup} from '@components/film-popup/film-popup';
 import {Comment} from '@components/comment/comment';
+import {MovieModel} from '@models/movie';
 import {
   render,
   replace,
@@ -19,10 +20,11 @@ const Mode = {
 
 
 export class MovieController {
-  constructor(container, onDataChange, onViewChange) {
+  constructor(container, onDataChange, onViewChange, api) {
     this._container = container;
     this._onDataChange = onDataChange;
     this._onViewChange = onViewChange;
+    this._api = api;
 
     this._mode = Mode.DEFAULT;
 
@@ -47,31 +49,43 @@ export class MovieController {
     const filmListContainer = this._container.querySelector(`.films-list__container`);
 
     this._commentModel = commentModel;
-    const comments = this._commentModel.getComments();
 
     this._filmComponent = new Film(film);
     this._filmPopupComponent = new FilmPopup(film, this._onCommentsDataChange);
     this._commentContainer = this._filmPopupComponent.getElement().querySelector(`.film-details__comments-list`);
 
-    const onClickAddToWatchlist = () => {
-      this._onDataChange(this, film, Object.assign({}, film, {
-        isWatchlist: !film.isWatchlist
-      }));
+    const onClickAddToWatchlist = (evt) => {
+      evt.preventDefault();
+
+      const newMovie = MovieModel.clone(film);
+      newMovie.isWatchlist = !newMovie.isWatchlist;
+
+      this._onDataChange(this, film, newMovie);
     };
 
-    const onClickAlreadyWatched = () => {
-      this._onDataChange(this, film, Object.assign({}, film, {
-        isWatched: !film.isWatched
-      }));
+    const onClickAlreadyWatched = (evt) => {
+      evt.preventDefault();
+
+      const newMovie = MovieModel.clone(film);
+      newMovie.isWatched = !newMovie.isWatched;
+
+      this._onDataChange(this, film, newMovie);
     };
 
-    const onClickAddToFavorites = () => {
-      this._onDataChange(this, film, Object.assign({}, film, {
-        isFavorite: !film.isFavorite
-      }));
+    const onClickAddToFavorites = (evt) => {
+      evt.preventDefault();
+
+      const newMovie = MovieModel.clone(film);
+      newMovie.isFavorite = !newMovie.isFavorite;
+
+      this._onDataChange(this, film, newMovie);
     };
 
-    this._renderComments(film, comments);
+    this._api.getComments(film.id)
+    .then((comments) => {
+      this._commentModel.setComments(comments);
+      this._renderComments(film, comments);
+    });
 
     this._filmComponent.setClickOnFilm(this._onFilmClick);
     this._filmComponent.setClickOnAddToWatchlist(onClickAddToWatchlist);
@@ -177,7 +191,9 @@ export class MovieController {
   _onFormSubmit(evt) {
     if ((evt.ctrlKey || evt.metaKey) && evt.key === KeyCode.ENTER) {
       evt.preventDefault();
-      evt.stopPropagation();
+
+      /* const formData = this._filmPopupComponent.getData();
+      const data = parseFormData(formData); */
     }
   }
 
