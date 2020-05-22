@@ -1,7 +1,7 @@
 import {UserProfile} from '@components/user-profile/user-profile';
 import {LoadingComponent} from '@components/loading/loading';
 import {FooterStatistic} from '@components/footer-statistic/footer-statistic';
-import {API} from '@src/api';
+import {API} from '@api/api';
 import {PageController} from '@controllers/page';
 import {FilmBoard} from '@components/film-board/film-board';
 import {StatisticComponent} from '@components/statistic/statistic';
@@ -9,7 +9,7 @@ import {MoviesModel} from '@models/movies';
 import {FilterController} from '@controllers/filter';
 import {
   render,
-  remove
+  remove,
 } from '@utils/render';
 import {
   RenderPosition,

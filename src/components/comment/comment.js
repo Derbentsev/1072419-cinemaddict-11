@@ -3,7 +3,7 @@ import {AbstractSmartComponent} from '@components/abstract-smart-component';
 import {remove} from '@utils/render';
 
 
-export class Comment extends AbstractSmartComponent {
+export class CommentComponent extends AbstractSmartComponent {
   constructor(comment) {
     super();
 

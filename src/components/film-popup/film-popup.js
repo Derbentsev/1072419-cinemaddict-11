@@ -16,7 +16,6 @@ export class FilmPopup extends AbstractSmartComponent {
     this._clickOnAddToAlreadyWatched = null;
     this._clickOnAddToFavorites = null;
 
-    this._parseFormDataComments = this._parseFormDataComments.bind(this);
     this._onEmojiListClick = this._onEmojiListClick.bind(this);
   }
 
@@ -56,13 +55,22 @@ export class FilmPopup extends AbstractSmartComponent {
     this.rerender();
   }
 
-  getData() {
-    const form = this.getElement().querySelector(`form`);
-    return new FormData(form);
+  getNewCommentData() {
+    const emoji = this.getElement().querySelector(`.film-details__add-emoji-label img`);
+    const comment = this.getElement().querySelector(`.film-details__comment-input`).value;
+
+    if (emoji && comment !== ``) {
+      return {
+        emoji: emoji.src,
+        comment,
+      };
+    }
+
+    return null;
   }
 
   setClickOnEmojiList() {
-    const emojiImages = this.getElement().querySelectorAll(`.film-details__emoji-label`);
+    const emojiImages = this.getElement().querySelectorAll(`.film-details__emoji-label img`);
 
     emojiImages.forEach((image) => {
       image.addEventListener(`click`, this._onEmojiListClick);
@@ -82,15 +90,5 @@ export class FilmPopup extends AbstractSmartComponent {
     }
 
     this.getElement().querySelector(`.film-details__add-emoji-label`).appendChild(this._smile);
-  }
-
-  _parseFormDataComments(formData) {
-    return {
-      id: String(new Date() + Math.random()),
-      text: formData.get(`comment`),
-      emotion: formData.get(`emotion`),
-      author: `Oleg Badanov`,
-      date: new Date(),
-    };
   }
 }

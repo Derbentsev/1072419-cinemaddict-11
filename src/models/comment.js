@@ -1,4 +1,4 @@
-export class Comment {
+export class CommentModel {
   constructor(data) {
     this.id = data.id;
     this.text = data.comment;
@@ -7,11 +7,20 @@ export class Comment {
     this.date = data.date;
   }
 
+  toRaw() {
+    return {
+      "author": this.author,
+      "comment": this.text,
+      "date": this.date,
+      "emotion": this.emotion,
+    };
+  }
+
   static parseComment(data) {
-    return new Comment(data);
+    return new CommentModel(data);
   }
 
   static parseComments(data) {
-    return data.map(Comment.parseComment);
+    return data.map(CommentModel.parseComment);
   }
 }
