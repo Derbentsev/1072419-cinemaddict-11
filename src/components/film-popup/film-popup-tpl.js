@@ -12,7 +12,7 @@ const createGenreMarkup = (genre) => {
   );
 };
 
-export const createFilmPopup = (film, emojiPath) => {
+export const createFilmPopup = (film) => {
   const {
     poster,
     name,
@@ -125,9 +125,7 @@ export const createFilmPopup = (film, emojiPath) => {
           <ul class="film-details__comments-list"></ul>
   
           <div class="film-details__new-comment">
-            <div for="add-emoji" class="film-details__add-emoji-label">
-              ${emojiPath ? `<img src="${emojiPath}" width="55" height="55" alt="emoji-smile">` : ``}
-            </div>
+            <div for="add-emoji" class="film-details__add-emoji-label"></div>
 
             <label class="film-details__comment-label">
               <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment"></textarea>

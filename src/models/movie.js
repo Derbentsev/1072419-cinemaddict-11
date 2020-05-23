@@ -7,7 +7,7 @@ export class MovieModel {
     this.name = data.film_info.title;
     this.actors = data.film_info.actors;
     this.ageRating = data.film_info.age_rating;
-    this.alternativeName = data.film_info.alternative_title;
+    this.originalName = data.film_info.alternative_title;
     this.description = data.film_info.description;
     this.director = data.film_info.director;
     this.genre = data.film_info.genre;
@@ -32,7 +32,7 @@ export class MovieModel {
 
       "film_info": {
         "title": this.name,
-        "alternative_title": this.alternativeName,
+        "alternative_title": this.originalName,
         "total_rating": this.rating,
         "poster": this.poster,
         "age_rating": this.ageRating,

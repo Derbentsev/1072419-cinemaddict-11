@@ -2,6 +2,9 @@ import {createFilmPopup} from './film-popup-tpl';
 import {AbstractSmartComponent} from '@components/abstract-smart-component';
 
 
+const SHAKE_ANIMATION_TIMEOUT = 600;
+
+
 export class FilmPopup extends AbstractSmartComponent {
   constructor(film, onDataChange) {
     super();
@@ -16,6 +19,7 @@ export class FilmPopup extends AbstractSmartComponent {
     this._clickOnAddToAlreadyWatched = null;
     this._clickOnAddToFavorites = null;
 
+    this._createNewCommentErrorBorder = this._toggleNewCommentErrorBorder.bind(this);
     this._onEmojiListClick = this._onEmojiListClick.bind(this);
   }
 
@@ -59,6 +63,8 @@ export class FilmPopup extends AbstractSmartComponent {
     const emoji = this.getElement().querySelector(`.film-details__add-emoji-label img`);
     const comment = this.getElement().querySelector(`.film-details__comment-input`).value;
 
+    this._toggleNewCommentErrorBorder();
+
     if (emoji && comment !== ``) {
       return {
         emoji: emoji.src,
@@ -75,6 +81,30 @@ export class FilmPopup extends AbstractSmartComponent {
     emojiImages.forEach((image) => {
       image.addEventListener(`click`, this._onEmojiListClick);
     });
+  }
+
+  toggleBlockingPopupForm() {
+    this.getElement().querySelector(`form`).classList.toggle(`overlay`);
+  }
+
+  shakeForm() {
+    this.getElement().style.animation = `shake ${SHAKE_ANIMATION_TIMEOUT / 1000}s`;
+
+    setTimeout(() => {
+      this.getElement().style.animation = ``;
+    }, SHAKE_ANIMATION_TIMEOUT);
+  }
+
+  shakeNewCommentForm() {
+    this.getElement().querySelector(`.film-details__new-comment`).style.animation = `shake ${SHAKE_ANIMATION_TIMEOUT / 1000}s`;
+
+    setTimeout(() => {
+      this.getElement().style.animation = ``;
+    }, SHAKE_ANIMATION_TIMEOUT);
+  }
+
+  _toggleNewCommentErrorBorder() {
+    this.getElement().querySelector(`.film-details__comment-input`).classList.toggle(`textarea-error`);
   }
 
   _onEmojiListClick(evt) {
