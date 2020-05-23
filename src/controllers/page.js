@@ -1,4 +1,5 @@
 import {FilmBoard} from '@components/film-board/film-board';
+import {MovieModel} from '@models/movie';
 import {MovieController} from './movie';
 import {ButtonShowMore} from '@components/button-show-more/button-show-more';
 import {NoData} from '@components/no-data/no-data';
@@ -177,6 +178,7 @@ export class PageController {
 
   _onDataChange(movieController, oldData, newData) {
     this._api.updateMovies(oldData.id, newData)
+      .then(MovieModel.parseMovie)
       .then((movieModel) => {
         this._moviesModel.updateMovies(oldData.id, movieModel);
         movieController.render(newData, this._commentsModel);

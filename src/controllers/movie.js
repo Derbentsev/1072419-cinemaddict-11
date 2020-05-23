@@ -22,7 +22,7 @@ const Mode = {
 const parseCommentData = (commentData) => {
   return new CommentModel({
     comment: commentData.comment,
-    emotion: commentData.emoji,
+    emotion: commentData.emoji.split(`/`).pop().split(`.`)[0],
     author: `Joe Bill`,
     date: new Date(),
   });
@@ -30,11 +30,11 @@ const parseCommentData = (commentData) => {
 
 
 export class MovieController {
-  constructor(container, onDataChange, onViewChange, api, onCommentChange) {
+  constructor(container, onDataChange, onViewChange, api, onCommentDataChange) {
     this._container = container;
     this._onDataChange = onDataChange;
     this._onViewChange = onViewChange;
-    this._onCommentChange = onCommentChange;
+    this._onCommentDataChange = onCommentDataChange;
     this._api = api;
 
     this._mode = Mode.DEFAULT;
@@ -42,7 +42,6 @@ export class MovieController {
     this._showedCommentsControllers = [];
 
     this._film = null;
-
     this._filmComponent = null;
     this._filmPopupComponent = null;
     this._commentContainer = null;
@@ -96,6 +95,7 @@ export class MovieController {
     };
 
     this._api.getComments(film.id)
+      .then(CommentModel.parseComments)
       .then((comments) => {
         this._commentsModel.setComments(comments);
         this._renderComments(film, comments);
@@ -144,20 +144,24 @@ export class MovieController {
 
       const commentComponent = new CommentComponent(comment);
       render(this._commentContainer, commentComponent, RenderPosition.BEFOREEND);
-      commentComponent.setOnDeleteClick(() => {
+
+      commentComponent.setOnDeleteClick((evt) => {
+        evt.preventDefault();
+
         this._onCommentsDataChange(comment, null)
           .then(() => {
+            this._commentsModel.removeComment(comment.id);
             commentComponent.remove();
 
-            this._onCommentChange(this, film, Object.assign({}, film, {
-              commentsId: this._changeCommentsId(film, comment.id)
+            this._onCommentDataChange(this, film, Object.assign({}, film, {
+              commentsId: this._removeCommentById(film, comment.id)
             }));
           });
       });
     });
   }
 
-  _changeCommentsId(film, commentId) {
+  _removeCommentById(film, commentId) {
     const newCommentsId = film.commentsId.slice();
 
     newCommentsId.find((item, index) => {
@@ -170,6 +174,10 @@ export class MovieController {
     });
 
     return newCommentsId;
+  }
+
+  _addComment() {
+
   }
 
   _replacePopupToFilm() {
@@ -218,24 +226,26 @@ export class MovieController {
 
   _onCommentsDataChange(oldData, newData) {
     if (newData === null) {
-      this._api.deleteComment(oldData.id)
-        .then(() => {
-          this._commentsModel.removeComment(oldData.id);
-        });
+      return this._api.deleteComment(oldData.id);
     } else if (oldData === null) {
-      // const comment = CommentModel.parseComment(newData);
-
       this._api.createComment(this._film.id, newData)
-        .then(() => {
+        .then((response) => {
           this._commentsModel.addComment(newData);
 
           const commentComponent = new CommentComponent(newData);
           render(this._commentContainer, commentComponent, RenderPosition.BEFOREEND);
+
           commentComponent.setOnDeleteClick(() => {
             this._onCommentsDataChange(newData, null);
             commentComponent.remove();
           });
+
+          this._onCommentDataChange(this, this._film, Object.assign({}, this._film, {
+            commentsId: response.movie.comments,
+          }));
         });
     }
+
+    return true;
   }
 }

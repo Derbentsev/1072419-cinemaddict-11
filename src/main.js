@@ -6,6 +6,7 @@ import {PageController} from '@controllers/page';
 import {FilmBoard} from '@components/film-board/film-board';
 import {StatisticComponent} from '@components/statistic/statistic';
 import {MoviesModel} from '@models/movies';
+import {MovieModel} from '@models/movie';
 import {FilterController} from '@controllers/filter';
 import {
   render,
@@ -50,6 +51,7 @@ const loadingComponent = new LoadingComponent();
 render(siteMainElement, loadingComponent, RenderPosition.BEFOREEND);
 
 api.getMovies()
+  .then(MovieModel.parseMovies)
   .then((movies) => {
     remove(loadingComponent);
 

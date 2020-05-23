@@ -1,7 +1,3 @@
-import {MovieModel} from '@models/movie';
-import {CommentModel} from '@models/comment';
-
-
 const Method = {
   POST: `POST`,
   PUT: `PUT`,
@@ -26,15 +22,13 @@ export class API {
   getMovies() {
     return fetch(`https://11.ecmascript.pages.academy/cinemaddict/movies`, this._getHeaders())
       .then(checkStatus)
-      .then((response) => response.json())
-      .then(MovieModel.parseMovies);
+      .then((response) => response.json());
   }
 
   getComments(movieId) {
     return fetch(`https://11.ecmascript.pages.academy/cinemaddict/comments/${movieId}`, this._getHeaders())
       .then(checkStatus)
-      .then((response) => response.json())
-      .then(CommentModel.parseComments);
+      .then((response) => response.json());
   }
 
   createComment(movieId, comment) {
@@ -48,9 +42,7 @@ export class API {
       headers,
     })
       .then(checkStatus)
-      // .then((response) => console.log(response))
-      .then((response) => response.json())
-      .then(CommentModel.parseComments);
+      .then((response) => response.json());
   }
 
   deleteComment(commentId) {
@@ -78,8 +70,7 @@ export class API {
       body: JSON.stringify(data.toRaw()),
       headers,
     })
-      .then((response) => response.json())
-      .then(MovieModel.parseMovie);
+      .then((response) => response.json());
   }
 
   _getHeaders() {
