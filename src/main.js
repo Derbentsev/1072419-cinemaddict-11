@@ -3,6 +3,7 @@ import {LoadingComponent} from '@components/loading/loading';
 import {FooterStatistic} from '@components/footer-statistic/footer-statistic';
 import {API} from '@api/api';
 import {Provider} from '@api/provider';
+import {Store} from '@api/store';
 import {PageController} from '@controllers/page';
 import {FilmBoard} from '@components/film-board/film-board';
 import {StatisticComponent} from '@components/statistic/statistic';
@@ -19,6 +20,7 @@ import {
   STATS_NAME,
   AUTHORIZATION,
 } from '@consts';
+import { Store } from './api/store';
 
 
 const _onStatsClick = ((filterType) => {
@@ -41,7 +43,8 @@ const siteMainElement = siteBodyElement.querySelector(`.main`);
 const siteFooterElement = siteBodyElement.querySelector(`footer`);
 
 const api = new API(AUTHORIZATION);
-const apiWithProvider = new Provider(api);
+const store = new Store();
+const apiWithProvider = new Provider(api, store);
 
 const moviesModel = new MoviesModel();
 
