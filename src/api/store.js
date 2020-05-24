@@ -25,6 +25,13 @@ export class Store {
     );
   }
 
+  setItems(items) {
+    this._storage.setItem(
+        this._storageKey,
+        JSON.stringify(items)
+    );
+  }
+
   removeItem(key) {
     const store = this.getItems();
 

@@ -1,10 +1,6 @@
 import {MovieModel} from '@models/movie';
 import {CommentModel} from '@models/comment';
-
-
-const isOnline = () => {
-  return window.navigator.onLine;
-};
+import {nanoid} from 'nanoid';
 
 
 export class Provider {
@@ -14,10 +10,12 @@ export class Provider {
   }
 
   getMovies() {
-    if (isOnline()) {
+    if (this._isOnline()) {
       this._api.getMovies()
         .then((movies) => {
-          movies.forEach((movie) => this._store.setItem(movie.id, movie.toRaw()));
+          const items = this._createStoreStructure(movies.map((movie) => movie.toRaw()));
+
+          this._store.setItems(items);
 
           return movies;
         });
@@ -29,7 +27,7 @@ export class Provider {
   }
 
   updateMovies(movieId, data) {
-    if (isOnline()) {
+    if (this._isOnline()) {
       return this._api.updateMovies(movieId, data)
         .then((newMovie) => {
           this._store.setItem(newMovie.id, newMovie.toRaw());
@@ -46,7 +44,7 @@ export class Provider {
   }
 
   getComments(movieId) {
-    if (isOnline()) {
+    if (this._isOnline()) {
       return this._api.getComments(movieId)
         .then((comments) => {
           comments.forEach((comment) => this._store.setItem(comment.id, comment.toRaw()));
@@ -61,15 +59,25 @@ export class Provider {
   }
 
   createComment(movieId, comment) {
-    if (isOnline()) {
-      return this._api.createComment(movieId, comment);
+    if (this._isOnline()) {
+      return this._api.createComment(movieId, comment)
+        .then((newComment) => {
+          this._store.setItem(newComment.id, newComment.toRaw());
+
+          return newComment;
+        });
     }
 
-    return Promise.reject(`offline logic is not implemented`);
+    const localNewCommentId = nanoid();
+    const localNewComment = CommentModel.clone(Object.assign(comment, {id: localNewCommentId}));
+
+    this._store.setItem(localNewComment.id, localNewComment.toRaw());
+
+    return Promise.resolve(localNewComment);
   }
 
   deleteComment(commentId) {
-    if (isOnline()) {
+    if (this._isOnline()) {
       this._api.deleteComment(commentId)
         .then(() => this._store.removeItem(commentId));
     }
@@ -77,5 +85,40 @@ export class Provider {
     this._store.removeItem(commentId);
 
     return Promise.resolve();
+  }
+
+  sync() {
+    if (this._isOnline()) {
+      const storeMovies = Object.values(this._store.getItems());
+
+      return this._api.sync(storeMovies)
+        .then((response) => {
+          const createdMovies = this._getSyncedMovies(response.created);
+          const updatedMovies = this._getSyncedMovies(response.updated);
+
+          const items = this._createStoreStructure([...createdMovies, ...updatedMovies]);
+
+          this._store.setItems(items);
+        });
+    }
+
+    return Promise.reject(new Error(`Sync data failed`));
+  }
+
+  _isOnline() {
+    return window.navigator.onLine;
+  }
+
+  _getSyncedMovies(items) {
+    return items.filter(({success}) => success)
+      .map(({payload}) => payload.movie);
+  }
+
+  _createStoreStructure(items) {
+    return items.reduce((acc, current) => {
+      return Object.assign({}, acc, {
+        [current.id]: current,
+      });
+    });
   }
 }

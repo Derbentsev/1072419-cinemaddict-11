@@ -19,8 +19,8 @@ import {
   StatsMode,
   STATS_NAME,
   AUTHORIZATION,
+  StoreSettings,
 } from '@consts';
-import { Store } from './api/store';
 
 
 const _onStatsClick = ((filterType) => {
@@ -43,7 +43,7 @@ const siteMainElement = siteBodyElement.querySelector(`.main`);
 const siteFooterElement = siteBodyElement.querySelector(`footer`);
 
 const api = new API(AUTHORIZATION);
-const store = new Store();
+const store = new Store(StoreSettings.NAME, window.localStorage);
 const apiWithProvider = new Provider(api, store);
 
 const moviesModel = new MoviesModel();
@@ -77,4 +77,8 @@ apiWithProvider.getMovies()
 
 window.addEventListener(`load`, () => {
   navigator.serviceWorker.register(`/sw.js`);
+});
+
+window.addEventListener(`offline`, () => {
+  document.title += ` [offline]`;
 });
