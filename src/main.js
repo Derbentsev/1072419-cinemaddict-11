@@ -68,3 +68,7 @@ api.getMovies()
     statisticComponent.hide();
     pageController.show();
   });
+
+window.addEventListener(`load`, () => {
+  navigator.serviceWorker.register(`/sw.js`);
+});
