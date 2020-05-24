@@ -30,10 +30,19 @@ export class Provider {
 
   updateMovies(movieId, data) {
     if (isOnline()) {
-      return this._api.updateMovies(movieId, data);
+      return this._api.updateMovies(movieId, data)
+        .then((newMovie) => {
+          this._store.setItem(newMovie.id, newMovie.toRaw());
+
+          return newMovie;
+        });
     }
 
-    return Promise.reject(`offline logic is not implemented`);
+    const localMovie = MovieModel.clone(Object.assign(data, {movieId}));
+
+    this._store.setItem(movieId, localMovie.toRaw());
+
+    return Promise.resolve(localMovie);
   }
 
   getComments(movieId) {
@@ -61,9 +70,12 @@ export class Provider {
 
   deleteComment(commentId) {
     if (isOnline()) {
-      this._api.deleteComment(commentId);
+      this._api.deleteComment(commentId)
+        .then(() => this._store.removeItem(commentId));
     }
 
-    return Promise.reject(`offline logic is not implemented`);
+    this._store.removeItem(commentId);
+
+    return Promise.resolve();
   }
 }
