@@ -12,6 +12,7 @@ export class Provider {
   getMovies() {
     if (this._isOnline()) {
       this._api.getMovies()
+        .then(MovieModel.parseMovies)
         .then((movies) => {
           const items = this._createStoreStructure(movies.map((movie) => movie.toRaw()));
 
@@ -29,6 +30,7 @@ export class Provider {
   updateMovies(movieId, data) {
     if (this._isOnline()) {
       return this._api.updateMovies(movieId, data)
+        .then(MovieModel.parseMovies)
         .then((newMovie) => {
           this._store.setItem(newMovie.id, newMovie.toRaw());
 

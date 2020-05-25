@@ -24,7 +24,7 @@ export class PageController {
     this._moviesModel = moviesModel;
     this._api = api;
 
-    this._sort = null;
+    this._sort = new Sort(this._setOnChangeSortType);
     this._showedMoviesControllers = [];
     this._showingMoviesCount = FilmSettings.SHOW_FILMS_ON_START;
 
@@ -48,7 +48,7 @@ export class PageController {
     const films = this._moviesModel.getMovies();
 
     if (!films.length) {
-      render(container, this._noData, RenderPosition.BEFOREEND);
+      render(this._container.getElement(), this._noData, RenderPosition.BEFOREEND);
       return;
     }
 
@@ -57,7 +57,7 @@ export class PageController {
     const mostCommentedFilms = this._getMostCommentedFilms(films);
     const newFilms = this._renderFilms(this._filmList.getElement(), films.slice(0, this._showingMoviesCount));
 
-    this._sort = new Sort(this._setOnChangeSortType);
+    // this._sort = new Sort(this._setOnChangeSortType);
 
     this._showedMoviesControllers = this._showedMoviesControllers.concat(newFilms);
     this._showingMoviesCount = this._showedMoviesControllers.length;

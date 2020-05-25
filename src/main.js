@@ -8,7 +8,6 @@ import {PageController} from '@controllers/page';
 import {FilmBoard} from '@components/film-board/film-board';
 import {StatisticComponent} from '@components/statistic/statistic';
 import {MoviesModel} from '@models/movies';
-import {MovieModel} from '@models/movie';
 import {FilterController} from '@controllers/filter';
 import {
   render,
@@ -19,7 +18,7 @@ import {
   StatsMode,
   STATS_NAME,
   AUTHORIZATION,
-  StoreSettings,
+  STORE_NAME,
 } from '@consts';
 
 
@@ -43,7 +42,7 @@ const siteMainElement = siteBodyElement.querySelector(`.main`);
 const siteFooterElement = siteBodyElement.querySelector(`footer`);
 
 const api = new API(AUTHORIZATION);
-const store = new Store(StoreSettings.NAME, window.localStorage);
+const store = new Store(STORE_NAME, window.localStorage);
 const apiWithProvider = new Provider(api, store);
 
 const moviesModel = new MoviesModel();
@@ -57,7 +56,6 @@ const loadingComponent = new LoadingComponent();
 render(siteMainElement, loadingComponent, RenderPosition.BEFOREEND);
 
 apiWithProvider.getMovies()
-  .then(MovieModel.parseMovies)
   .then((movies) => {
     remove(loadingComponent);
 

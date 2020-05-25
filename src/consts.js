@@ -17,7 +17,7 @@ const FilmSettings = {
   WATCHING_DATE_MAX: new Date(2020, 1, 1),
 };
 
-const AUTHORIZATION = `Basic h54jh5h45jk45jkn`;
+const AUTHORIZATION = `Basic h54jh5hj5j5jk45jkn`;
 
 const RenderPosition = {
   AFRERBEGIN: `afterbegin`,
@@ -52,11 +52,9 @@ const StatsMode = {
   YEAR: `year`,
 };
 
-const StoreSettings = {
-  PREFIX: `cinemaddict-localstorage`,
-  VERSION: `v1`,
-  NAME: `${StoreSettings.PREFIX}-${StoreSettings.VERSION}`,
-};
+const STORE_PREFIX = `cinemaddict-localstorage`;
+const STORE_VERSION = `v1`;
+const STORE_NAME = `${STORE_PREFIX}-${STORE_VERSION}`;
 
 
 export {
@@ -68,5 +66,5 @@ export {
   STATS_NAME,
   AUTHORIZATION,
   StatsMode,
-  StoreSettings,
+  STORE_NAME,
 };

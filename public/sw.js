@@ -10,30 +10,38 @@ self.addEventListener(`install`, (evt) => {
             `/`,
             `/index.html`,
             `/bundle.js`,
+
             `/css/normalize.css`,
-            `/css/style.css`,
+            `/css/main.css`,
+
             `/images/background.png`,
             `/images/bitmap.png`,
             `/images/bitmap@2x.png`,
             `/images/bitmap@3x.png`,
+
             `/images/emoji/angry.png`,
             `/images/emoji/puke.png`,
             `/images/emoji/sleeping.png`,
             `/images/emoji/smile.png`,
+
             `/images/icons/icon-favorite-active.svg`,
             `/images/icons/icon-favorite.svg`,
             `/images/icons/icon-watched-active.svg`,
             `/images/icons/icon-watched.svg`,
             `/images/icons/icon-watchlist-active.svg`,
             `/images/icons/icon-watchlist.svg`,
+
             `/images/posters/made-for-each-other.png`,
             `/images/posters/popeye-meets-sinbad.png`,
-            `/images/posters/sagebrush-trail.png`,
-            `/images/posters/santa-claus-conquers-the-martians.png`,
-            `/images/posters/the-dance-of-life.png`,
-            `/images/posters/the-great-flamarion.png`,
-            `/images/posters/the-man-with-the-golden-arm.png`,
+            `/images/posters/sagebrush-trail.jpg`,
+            `/images/posters/santa-claus-conquers-the-martians.jpg`,
+            `/images/posters/the-dance-of-life.jpg`,
+            `/images/posters/the-great-flamarion.jpg`,
+            `/images/posters/the-man-with-the-golden-arm.jpg`,
           ]);
+        })
+        .catch((err) => {
+          throw new Error(err);
         })
   );
 });
@@ -54,6 +62,9 @@ self.addEventListener(`activate`, (evt) => {
               .filter((key) => key !== null)
             )
         )
+        .catch((err) => {
+          throw new Error(err);
+        })
   );
 });
 
@@ -67,6 +78,9 @@ self.addEventListener(`fetch`, (evt) => {
             return cacheResponse;
           }
           return cloneResponse(request);
+        })
+        .catch((err) => {
+          throw new Error(err);
         })
   );
 });
@@ -82,7 +96,10 @@ const cloneResponse = (request) => {
       const clonedResponse = response.clone();
 
       caches.open(CACHE_NAME)
-        .then((cache) => cache.put(request, clonedResponse));
+        .then((cache) => cache.put(request, clonedResponse))
+        .catch((err) => {
+          throw new Error(err);
+        });
 
       return response;
     });

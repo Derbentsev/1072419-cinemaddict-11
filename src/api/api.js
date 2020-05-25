@@ -1,76 +1,70 @@
 const Method = {
+  GET: `GET`,
   POST: `POST`,
   PUT: `PUT`,
   DELETE: `DELETE`,
 };
 
+const ResponseStatus = {
+  OK_MIN: `200`,
+  OK_MAX: `299`,
+};
+
+const PATH_TO_SERVER = `https://11.ecmascript.pages.academy/cinemaddict`;
+
 const checkStatus = (response) => {
-  if (response.status >= 200 && response.status < 300) {
+  if (response.status >= ResponseStatus.OK_MIN && response.status <= ResponseStatus.OK_MAX) {
     return response;
-  } else {
-    throw new Error(`${response.status}: ${response.statusText}`);
   }
+
+  throw new Error(`${response.status}: ${response.statusText}`);
 };
 
 export class API {
   constructor(authorization) {
     this._authorization = authorization;
-
-    this._getHeaders = this._getHeaders.bind(this);
   }
 
   getMovies() {
-    return fetch(`https://11.ecmascript.pages.academy/cinemaddict/movies`, this._getHeaders())
-      .then(checkStatus)
+    const path = `${PATH_TO_SERVER}/movies/`;
+
+    return this._load({path})
       .then((response) => response.json());
   }
 
   getComments(movieId) {
-    return fetch(`https://11.ecmascript.pages.academy/cinemaddict/comments/${movieId}`, this._getHeaders())
-      .then(checkStatus)
+    const path = `${PATH_TO_SERVER}/comments/${movieId}`;
+
+    return this._load({path})
       .then((response) => response.json());
   }
 
   createComment(movieId, comment) {
-    const headers = new Headers();
-    headers.append(`Authorization`, this._authorization);
-    headers.append(`Content-Type`, `application/json`);
-
-    return fetch(`https://11.ecmascript.pages.academy/cinemaddict/comments/${movieId}`, {
+    return this._load({
+      url: `${PATH_TO_SERVER}t/comments/${movieId}`,
       method: Method.POST,
-      body: JSON.stringify(comment.toRaw()),
-      headers,
+      body: JSON.stringify(comment.toRAW()),
+      headers: new Headers({'Content-Type': `application/json`})
     })
-      .then(checkStatus)
-      .then((response) => response.json());
+    .then((response) => response.json());
   }
 
   deleteComment(commentId) {
-    const headers = new Headers();
-    headers.append(`Authorization`, this._authorization);
-    headers.append(`Content-Type`, `application/json`);
-
-    return fetch(`https://11.ecmascript.pages.academy/cinemaddict/comments/${commentId}`, {
+    return this._load({
+      url: `${PATH_TO_SERVER}/comments/${commentId}`,
       method: Method.DELETE,
-      headers,
     })
-      .then(checkStatus)
-      .catch((err) => {
-        throw err;
-      });
+    .then((response) => response.json());
   }
 
   updateMovies(movieId, data) {
-    const headers = new Headers();
-    headers.append(`Authorization`, this._authorization);
-    headers.append(`Content-Type`, `application/json`);
-
-    return fetch(`https://11.ecmascript.pages.academy/cinemaddict/movies/${movieId}`, {
+    return this._load({
+      url: `${PATH_TO_SERVER}/movies/${movieId}`,
       method: Method.PUT,
-      body: JSON.stringify(data.toRaw()),
-      headers,
+      body: JSON.stringify(data.toRAW()),
+      headers: new Headers({'Content-Type': `application/json`})
     })
-      .then((response) => response.json());
+    .then((response) => response.json());
   }
 
   sync(data) {
@@ -83,10 +77,14 @@ export class API {
       .then((response) => response.json());
   }
 
-  _getHeaders() {
-    const headers = new Headers();
+
+  _load({path, method = Method.GET, body = null, headers = new Headers()}) {
     headers.append(`Authorization`, this._authorization);
 
-    return {headers};
+    return fetch(path, {method, body, headers})
+      .then(checkStatus)
+      .catch((err) => {
+        throw err;
+      });
   }
 }
