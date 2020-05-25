@@ -40,6 +40,13 @@ const StatsMode = {
   YEAR: `year`,
 };
 
+const Rating = {
+  NO_RATING: ``,
+  NOVICE: `novice`,
+  FAN: `fan`,
+  MOVIE_BUFF: `movie buff`,
+};
+
 const STORE_PREFIX = `cinemaddict-localstorage`;
 const STORE_VERSION = `v1`;
 const STORE_NAME = `${STORE_PREFIX}-${STORE_VERSION}`;
@@ -55,4 +62,5 @@ export {
   AUTHORIZATION,
   StatsMode,
   STORE_NAME,
+  Rating,
 };

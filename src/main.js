@@ -62,7 +62,7 @@ apiWithProvider.getMovies()
     moviesModel.setMovies(movies);
 
     filterController.render();
-    render(siteHeaderElement, new UserProfile(), RenderPosition.BEFOREEND);
+    render(siteHeaderElement, new UserProfile(moviesModel), RenderPosition.BEFOREEND);
     render(siteMainElement, statisticComponent, RenderPosition.BEFOREEND);
     statisticComponent.rerender(`all`);
     render(siteMainElement, filmBoardComponent, RenderPosition.BEFOREEND);

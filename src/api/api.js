@@ -43,7 +43,7 @@ export default class API {
     return this._load({
       url: `${PATH_TO_SERVER}t/comments/${movieId}`,
       method: Method.POST,
-      body: JSON.stringify(comment.toRAW()),
+      body: JSON.stringify(comment.toRaw()),
       headers: new Headers({'Content-Type': `application/json`})
     })
     .then((response) => response.json());
@@ -61,7 +61,7 @@ export default class API {
     return this._load({
       url: `${PATH_TO_SERVER}/movies/${movieId}`,
       method: Method.PUT,
-      body: JSON.stringify(data.toRAW()),
+      body: JSON.stringify(data.toRaw()),
       headers: new Headers({'Content-Type': `application/json`})
     })
     .then((response) => response.json());

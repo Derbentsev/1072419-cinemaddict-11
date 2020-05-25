@@ -1,5 +1,6 @@
 import {getTimeFromMins} from '@utils/common';
 
+const MAX_COMMENT_SIZE = 139;
 
 /**
  * Создаем разметку Карточка фильма
@@ -33,7 +34,7 @@ export const createFilmCard = (film) => {
         <span class="film-card__genre">${genre}</span>
       </p>
       <img src="./${poster}" alt="" class="film-card__poster">
-      <p class="film-card__description">${description}</p>
+      <p class="film-card__description">${description.length > MAX_COMMENT_SIZE ? description.slice(0, MAX_COMMENT_SIZE) + `...` : description}</p>
       <a class="film-card__comments">${commentsId.length} comments</a>
       <form class="film-card__controls">
         <button class="film-card__controls-item button film-card__controls-item--add-to-watchlist ${isWatchlist === true ? `film-card__controls-item--active` : ``}">
