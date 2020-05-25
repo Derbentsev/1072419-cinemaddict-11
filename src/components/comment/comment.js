@@ -3,13 +3,19 @@ import {AbstractSmartComponent} from '@components/abstract-smart-component';
 import {remove} from '@utils/render';
 
 
-export class Comment extends AbstractSmartComponent {
+const DeleteButtonText = {
+  DELETING: `Deleting...`,
+  DELETE: `Delete`,
+};
+
+export class CommentComponent extends AbstractSmartComponent {
   constructor(comment) {
     super();
 
     this._comment = comment;
 
     this.remove = this.remove.bind(this);
+    this.toggleDisableDeleteButton = this.toggleDisableDeleteButton.bind(this);
   }
 
   getTemplate() {
@@ -22,5 +28,17 @@ export class Comment extends AbstractSmartComponent {
 
   remove() {
     remove(this);
+  }
+
+  toggleDisableDeleteButton() {
+    const deleteButton = this.getElement().querySelector(`.film-details__comment-delete`);
+
+    deleteButton.disabled = !deleteButton.disabled;
+
+    if (deleteButton.textContent === DeleteButtonText.DELETING) {
+      deleteButton.textContent = DeleteButtonText.DELETE;
+    } else {
+      deleteButton.textContent = DeleteButtonText.DELETING;
+    }
   }
 }

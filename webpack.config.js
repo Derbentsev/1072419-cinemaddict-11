@@ -22,6 +22,7 @@ module.exports = (env) => {
         '@controllers': path.resolve(__dirname, `./src/controllers/`),
         '@models': path.resolve(__dirname, `./src/models`),
         '@src': path.resolve(__dirname, `./src/`),
+        '@api': path.resolve(__dirname, `./src/api`)
       }
     },
     plugins: [

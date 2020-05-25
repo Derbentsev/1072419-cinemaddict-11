@@ -1,11 +1,12 @@
 import {FilmBoard} from '@components/film-board/film-board';
+import {MovieModel} from '@models/movie';
 import {MovieController} from './movie';
 import {ButtonShowMore} from '@components/button-show-more/button-show-more';
 import {NoData} from '@components/no-data/no-data';
 import {FilmList} from '@components/film-list/film-list';
 import {FilmListExtra} from '@components/film-list-extra/film-list-extra';
 import {Sort} from '@components/sort/sort';
-import {CommentModel} from '@models/comments';
+import {CommentsModel} from '@models/comments';
 import {
   remove,
   render,
@@ -18,15 +19,16 @@ import {
 
 
 export class PageController {
-  constructor(container, movieModel, api) {
+  constructor(container, moviesModel, api) {
     this._container = container;
-    this._movieModel = movieModel;
+    this._moviesModel = moviesModel;
     this._api = api;
 
+    this._sort = null;
     this._showedMoviesControllers = [];
     this._showingMoviesCount = FilmSettings.SHOW_FILMS_ON_START;
 
-    this._commentModel = new CommentModel();
+    this._commentsModel = new CommentsModel();
     this._noData = new NoData();
     this._filmBoard = new FilmBoard();
     this._filmList = new FilmList();
@@ -34,17 +36,16 @@ export class PageController {
     this._filmListMostCommented = new FilmListExtra(`Most commented`);
     this._buttonShowMore = new ButtonShowMore();
 
-    this._sort = null;
-
     this._onDataChange = this._onDataChange.bind(this);
     this._onViewChange = this._onViewChange.bind(this);
     this._onFilterChange = this._onFilterChange.bind(this);
     this._onButtonShowMoreClick = this._onButtonShowMoreClick.bind(this);
     this._setOnChangeSortType = this._setOnChangeSortType.bind(this);
+    this._onCommentDataChange = this._onCommentDataChange.bind(this);
   }
 
   render() {
-    const films = this._movieModel.getMovies();
+    const films = this._moviesModel.getMovies();
 
     if (!films.length) {
       render(container, this._noData, RenderPosition.BEFOREEND);
@@ -70,7 +71,7 @@ export class PageController {
     render(container, this._filmListMostCommented, RenderPosition.BEFOREEND);
     render(this._filmList.getElement(), this._buttonShowMore, RenderPosition.BEFOREEND);
 
-    this._movieModel.setOnFilterChange(this._onFilterChange);
+    this._moviesModel.setOnFilterChange(this._onFilterChange);
     this._buttonShowMore.setOnButtonClick(this._onButtonShowMoreClick);
   }
 
@@ -101,7 +102,7 @@ export class PageController {
   }
 
   _onButtonShowMoreClick() {
-    const films = this._movieModel.getMovies();
+    const films = this._moviesModel.getMovies();
     const prevFilmCount = this._showingMoviesCount;
 
     this._showingMoviesCount = this._showingMoviesCount + FilmSettings.SHOW_FILMS_BUTTON_CLICK;
@@ -117,7 +118,7 @@ export class PageController {
   }
 
   _setOnChangeSortType(sortType) {
-    const films = this._movieModel.getMovies();
+    const films = this._moviesModel.getMovies();
 
     this._showingMoviesCount = FilmSettings.SHOW_FILMS_BUTTON_CLICK;
 
@@ -131,8 +132,8 @@ export class PageController {
 
   _renderFilms(container, films) {
     return films.map((film) => {
-      const movieController = new MovieController(container, this._onDataChange, this._onViewChange, this._api);
-      movieController.render(film, this._commentModel);
+      const movieController = new MovieController(container, this._onDataChange, this._onViewChange, this._api, this._onCommentDataChange);
+      movieController.render(film, this._commentsModel);
       return movieController;
     });
   }
@@ -163,7 +164,7 @@ export class PageController {
 
   _updateFilms(count) {
     this._removeFilms();
-    const newFilms = this._renderFilms(this._filmList.getElement(), this._movieModel.getMovies().slice(0, count));
+    const newFilms = this._renderFilms(this._filmList.getElement(), this._moviesModel.getMovies().slice(0, count));
 
     this._showedMoviesControllers = this._showedMoviesControllers.concat(newFilms);
     this._showingMoviesCount = this._showedMoviesControllers.length;
@@ -177,10 +178,16 @@ export class PageController {
 
   _onDataChange(movieController, oldData, newData) {
     this._api.updateMovies(oldData.id, newData)
+      .then(MovieModel.parseMovie)
       .then((movieModel) => {
-        this._movieModel.updateMovies(oldData.id, movieModel);
-        movieController.render(newData, this._commentModel);
+        this._moviesModel.updateMovies(oldData.id, movieModel);
+        movieController.render(newData, this._commentsModel);
       });
+  }
+
+  _onCommentDataChange(movieController, oldData, newData) {
+    this._moviesModel.updateMovies(oldData.id, newData);
+    movieController.render(newData, this._commentsModel);
   }
 
   _onViewChange() {
