@@ -1,9 +1,9 @@
 import {createFilterTemplate} from './filter-tpl';
-import {AbstractComponent} from '@components/abstract-component';
+import AbstractComponent from '@components/abstract-component';
 import {STATS_NAME} from '@consts';
 
 
-export class Filter extends AbstractComponent {
+export default class Filter extends AbstractComponent {
   constructor(filters) {
     super();
 

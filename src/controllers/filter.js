@@ -1,4 +1,4 @@
-import {Filter} from '@components/filter/filter';
+import Filter from '@components/filter/filter';
 import {
   render,
   replace,
@@ -9,7 +9,7 @@ import {
 } from '@consts';
 
 
-export class FilterController {
+export default class FilterController {
   constructor(container, moviesModel, onStatsClick) {
     this._container = container;
     this._moviesModel = moviesModel;

@@ -20,7 +20,7 @@ const checkStatus = (response) => {
   throw new Error(`${response.status}: ${response.statusText}`);
 };
 
-export class API {
+export default class API {
   constructor(authorization) {
     this._authorization = authorization;
   }

@@ -1,14 +1,14 @@
-import {UserProfile} from '@components/user-profile/user-profile';
-import {LoadingComponent} from '@components/loading/loading';
-import {FooterStatistic} from '@components/footer-statistic/footer-statistic';
-import {API} from '@api/api';
-import {Provider} from '@api/provider';
-import {Store} from '@api/store';
-import {PageController} from '@controllers/page';
-import {FilmBoard} from '@components/film-board/film-board';
-import {StatisticComponent} from '@components/statistic/statistic';
-import {MoviesModel} from '@models/movies';
-import {FilterController} from '@controllers/filter';
+import UserProfile from '@components/user-profile/user-profile';
+import LoadingComponent from '@components/loading/loading';
+import FooterStatistic from '@components/footer-statistic/footer-statistic';
+import API from '@api/api';
+import Provider from '@api/provider';
+import Store from '@api/store';
+import PageController from '@controllers/page';
+import FilmBoard from '@components/film-board/film-board';
+import StatisticComponent from '@components/statistic/statistic';
+import MoviesModel from '@models/movies';
+import FilterController from '@controllers/filter';
 import {
   render,
   remove,
@@ -73,10 +73,10 @@ apiWithProvider.getMovies()
     pageController.show();
   });
 
-window.addEventListener(`load`, () => {
+/* window.addEventListener(`load`, () => {
   navigator.serviceWorker.register(`/sw.js`);
 });
 
 window.addEventListener(`offline`, () => {
   document.title += ` [offline]`;
-});
+}); */

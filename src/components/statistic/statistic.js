@@ -1,4 +1,4 @@
-import {AbstractSmartComponent} from "../abstract-smart-component";
+import AbstractSmartComponent from "../abstract-smart-component";
 import {createStatisticTemplate} from './statistic-tpl';
 import {StatsMode} from '@consts';
 import Chart from 'chart.js';
@@ -6,7 +6,7 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 import moment from 'moment';
 
 
-export class StatisticComponent extends AbstractSmartComponent {
+export default class Statistic extends AbstractSmartComponent {
   constructor(moviesModel) {
     super();
 

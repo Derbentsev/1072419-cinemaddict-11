@@ -1,9 +1,9 @@
-import {MovieModel} from '@models/movie';
-import {CommentModel} from '@models/comment';
+import MovieModel from '@models/movie';
+import CommentModel from '@models/comment';
 import {nanoid} from 'nanoid';
 
 
-export class Provider {
+export default class Provider {
   constructor(api, store) {
     this._api = api;
     this._store = store;
@@ -16,7 +16,6 @@ export class Provider {
           .then(MovieModel.parseMovies)
           .then((movies) => {
             const items = this._createStoreStructure(movies.map((movie) => movie.toRaw()));
-
             this._store.setItems(items);
 
             resolve(movies);
@@ -52,11 +51,12 @@ export class Provider {
       if (this._isOnline()) {
         this._api.getComments(movieId)
         .then(CommentModel.parseComments)
-          .then((comments) => {
-            comments.forEach((comment) => this._store.setItem(comment.id, comment.toRaw()));
+        .then((comments) => {
+          const items = this._createStoreStructure(comments.map((comment) => comment.toRaw()));
+          this._store.setItems(items);
 
-            resolve(comments);
-          });
+          resolve(comments);
+        });
 
         return;
       }
@@ -112,6 +112,7 @@ export class Provider {
 
     return Promise.reject(new Error(`Sync data failed`));
   }
+
 
   _isOnline() {
     return window.navigator.onLine;

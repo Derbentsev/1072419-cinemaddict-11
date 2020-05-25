@@ -1,8 +1,8 @@
-import {AbstractComponent} from "@components/abstract-component";
+import AbstractComponent from "@components/abstract-component";
 import {createFilmListExtra} from './film-list-extra-tpl';
 
 
-export class FilmListExtra extends AbstractComponent {
+export default class FilmListExtra extends AbstractComponent {
   constructor(title) {
     super();
 

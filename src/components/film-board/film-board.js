@@ -1,8 +1,8 @@
 import {createFilmBoard} from './film-board-tpl';
-import {AbstractComponent} from '@components/abstract-component';
+import AbstractComponent from '@components/abstract-component';
 
 
-export class FilmBoard extends AbstractComponent {
+export default class FilmBoard extends AbstractComponent {
   getTemplate() {
     return createFilmBoard();
   }

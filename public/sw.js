@@ -77,6 +77,7 @@ self.addEventListener(`fetch`, (evt) => {
           if (cacheResponse) {
             return cacheResponse;
           }
+
           return cloneResponse(request);
         })
         .catch((err) => {

@@ -1,4 +1,4 @@
-export class CommentModel {
+export default class CommentModel {
   constructor(data) {
     this.id = data.id;
     this.text = data.comment;
