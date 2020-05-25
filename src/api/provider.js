@@ -10,21 +10,23 @@ export class Provider {
   }
 
   getMovies() {
-    if (this._isOnline()) {
-      this._api.getMovies()
-        .then(MovieModel.parseMovies)
-        .then((movies) => {
-          const items = this._createStoreStructure(movies.map((movie) => movie.toRaw()));
+    return new Promise((resolve) => {
+      if (this._isOnline()) {
+        this._api.getMovies()
+          .then(MovieModel.parseMovies)
+          .then((movies) => {
+            const items = this._createStoreStructure(movies.map((movie) => movie.toRaw()));
 
-          this._store.setItems(items);
+            this._store.setItems(items);
 
-          return movies;
-        });
-    }
+            resolve(movies);
+          });
+        return;
+      }
 
-    const storeMovies = Object.values(this._store.getItems());
-
-    return Promise.resolve(MovieModel.parseMovies(storeMovies));
+      const storeMovies = Object.values(this._store.getItems());
+      resolve(MovieModel.parseMovies(storeMovies));
+    });
   }
 
   updateMovies(movieId, data) {
@@ -46,18 +48,22 @@ export class Provider {
   }
 
   getComments(movieId) {
-    if (this._isOnline()) {
-      return this._api.getComments(movieId)
-        .then((comments) => {
-          comments.forEach((comment) => this._store.setItem(comment.id, comment.toRaw()));
+    return new Promise((resolve) => {
+      if (this._isOnline()) {
+        this._api.getComments(movieId)
+        .then(CommentModel.parseComments)
+          .then((comments) => {
+            comments.forEach((comment) => this._store.setItem(comment.id, comment.toRaw()));
 
-          return comments;
-        });
-    }
+            resolve(comments);
+          });
 
-    const storeComments = Object.values(this._store.getItems());
+        return;
+      }
 
-    return Promise.resolve(CommentModel.parseComments(storeComments));
+      const storeComments = Object.values(this._store.getItems());
+      resolve(CommentModel.parseComments(storeComments));
+    });
   }
 
   createComment(movieId, comment) {

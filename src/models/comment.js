@@ -11,7 +11,7 @@ export class CommentModel {
     return {
       "author": this.author,
       "comment": this.text,
-      "date": this.date.toISOString(),
+      "date": this.date,
       "emotion": this.emotion,
     };
   }
