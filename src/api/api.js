@@ -26,38 +26,36 @@ export default class API {
   }
 
   getMovies() {
-    const path = `${PATH_TO_SERVER}/movies/`;
+    const url = `${PATH_TO_SERVER}/movies/`;
 
-    return this._load({path})
+    return this._load({url})
       .then((response) => response.json());
   }
 
   getComments(movieId) {
-    const path = `${PATH_TO_SERVER}/comments/${movieId}`;
+    const url = `${PATH_TO_SERVER}/comments/${movieId}`;
 
-    return this._load({path})
+    return this._load({url})
       .then((response) => response.json());
   }
 
   createComment(movieId, comment) {
     return this._load({
-      url: `${PATH_TO_SERVER}t/comments/${movieId}`,
+      url: `${PATH_TO_SERVER}/comments/${movieId}`,
       method: Method.POST,
       body: JSON.stringify(comment.toRaw()),
       headers: new Headers({'Content-Type': `application/json`})
-    })
-    .then((response) => response.json());
+    });
   }
 
   deleteComment(commentId) {
     return this._load({
       url: `${PATH_TO_SERVER}/comments/${commentId}`,
       method: Method.DELETE,
-    })
-    .then((response) => response.json());
+    });
   }
 
-  updateMovies(movieId, data) {
+  updateMovie(movieId, data) {
     return this._load({
       url: `${PATH_TO_SERVER}/movies/${movieId}`,
       method: Method.PUT,
@@ -78,10 +76,10 @@ export default class API {
   }
 
 
-  _load({path, method = Method.GET, body = null, headers = new Headers()}) {
+  _load({url, method = Method.GET, body = null, headers = new Headers()}) {
     headers.append(`Authorization`, this._authorization);
 
-    return fetch(path, {method, body, headers})
+    return fetch(url, {method, body, headers})
       .then(checkStatus)
       .catch((err) => {
         throw err;

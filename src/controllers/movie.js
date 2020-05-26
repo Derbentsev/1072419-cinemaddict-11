@@ -132,6 +132,7 @@ export default class MovieController {
     document.removeEventListener(`keydown`, this._onEscPress);
   }
 
+
   _renderComments(film, comments) {
     film.commentsId.forEach((commentId) => {
       const comment = comments.find((commentIdElement) => {
@@ -247,6 +248,8 @@ export default class MovieController {
           this._onCommentDataChange(this, this._film, Object.assign({}, this._film, {
             commentsId: response.movie.comments,
           }));
+
+          this._filmPopupComponent.toggleBlockingPopupForm();
         })
         .catch(() => {
           this._filmPopupComponent.shakeForm();

@@ -1,7 +1,5 @@
 import MovieModel from '@models/movie';
 import CommentModel from '@models/comment';
-import {nanoid} from 'nanoid';
-
 
 export default class Provider {
   constructor(api, store) {
@@ -28,71 +26,64 @@ export default class Provider {
     });
   }
 
-  updateMovies(movieId, data) {
-    if (this._isOnline()) {
-      return this._api.updateMovies(movieId, data)
-        .then(MovieModel.parseMovies)
-        .then((newMovie) => {
-          this._store.setItem(newMovie.id, newMovie.toRaw());
+  updateMovie(movieId, data) {
+    return new Promise((resolve) => {
+      if (this._isOnline()) {
+        this._api.updateMovie(movieId, data)
+          .then(MovieModel.parseMovie)
+          .then((newMovie) => {
+            this._store.setItem(newMovie.id, newMovie.toRaw());
 
-          return newMovie;
-        });
-    }
+            resolve(newMovie);
+          });
+      }
 
-    const localMovie = MovieModel.clone(Object.assign(data, {movieId}));
+      const localMovie = MovieModel.clone(Object.assign(data, {movieId}));
+      this._store.setItem(movieId, localMovie.toRaw());
 
-    this._store.setItem(movieId, localMovie.toRaw());
-
-    return Promise.resolve(localMovie);
+      resolve(localMovie);
+    });
   }
 
   getComments(movieId) {
     return new Promise((resolve) => {
       if (this._isOnline()) {
         this._api.getComments(movieId)
-        .then(CommentModel.parseComments)
         .then((comments) => {
-          const items = this._createStoreStructure(comments.map((comment) => comment.toRaw()));
-          this._store.setItems(items);
-
-          resolve(comments);
+          resolve(CommentModel.parseComments(comments));
         });
-
-        return;
       }
 
-      const storeComments = Object.values(this._store.getItems());
-      resolve(CommentModel.parseComments(storeComments));
+      return;
     });
   }
 
   createComment(movieId, comment) {
-    if (this._isOnline()) {
-      return this._api.createComment(movieId, comment)
-        .then((newComment) => {
-          this._store.setItem(newComment.id, newComment.toRaw());
+    return new Promise((resolve) => {
+      if (this._isOnline()) {
+        this._api.createComment(movieId, comment)
+          .then((newComment) => {
+            resolve(newComment);
+          });
+      }
 
-          return newComment;
-        });
-    }
-
-    const localNewCommentId = nanoid();
-    const localNewComment = CommentModel.clone(Object.assign(comment, {id: localNewCommentId}));
-
-    this._store.setItem(localNewComment.id, localNewComment.toRaw());
-
-    return Promise.resolve(localNewComment);
+      return;
+    });
   }
 
   deleteComment(commentId) {
-    if (this._isOnline()) {
-      this._api.deleteComment(commentId)
-        .then(() => this._store.removeItem(commentId));
-    }
+    return new Promise((resolve) => {
+      if (this._isOnline()) {
+        this._api.deleteComment(commentId)
+          .then(() => {
+            resolve();
+          });
 
-    this._store.removeItem(commentId);
+        return;
+      }
 
-    return Promise.resolve();
+      resolve();
+    });
   }
 
   sync() {

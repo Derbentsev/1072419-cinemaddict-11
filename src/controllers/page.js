@@ -1,5 +1,4 @@
 import FilmBoard from '@components/film-board/film-board';
-import MovieModel from '@models/movie';
 import MovieController from './movie';
 import ButtonShowMore from '@components/button-show-more/button-show-more';
 import NoData from '@components/no-data/no-data';
@@ -64,12 +63,12 @@ export default class PageController {
 
     render(container, this._filmList, RenderPosition.BEFOREEND);
 
-    if (topFilms !== null) {
+    if (topFilms) {
       this._renderFilms(this._filmListTop.getElement(), topFilms);
       render(container, this._filmListTop, RenderPosition.BEFOREEND);
     }
 
-    if (mostCommentedFilms !== null) {
+    if (mostCommentedFilms) {
       this._renderFilms(this._filmListMostCommented.getElement(), mostCommentedFilms);
       render(container, this._filmListMostCommented, RenderPosition.BEFOREEND);
     }
@@ -89,6 +88,7 @@ export default class PageController {
     this._container.show();
     this._sort.show();
   }
+
 
   _getTopFilms(films) {
     const topFilms = films
@@ -194,8 +194,7 @@ export default class PageController {
   }
 
   _onDataChange(movieController, oldData, newData) {
-    this._api.updateMovies(oldData.id, newData)
-      .then(MovieModel.parseMovie)
+    this._api.updateMovie(oldData.id, newData)
       .then((movieModel) => {
         this._moviesModel.updateMovies(oldData.id, movieModel);
         movieController.render(newData, this._commentsModel);
