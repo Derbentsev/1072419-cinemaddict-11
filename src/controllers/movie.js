@@ -233,6 +233,8 @@ export default class MovieController {
     if (newData === null) {
       return this._api.deleteComment(oldData.id);
     } else if (oldData === null) {
+      this._filmPopupComponent.toggleBlockingPopupForm();
+
       this._api.createComment(this._film.id, newData)
         .then((response) => {
           this._commentsModel.addComment(newData);
@@ -248,11 +250,12 @@ export default class MovieController {
           this._onCommentDataChange(this, this._film, Object.assign({}, this._film, {
             commentsId: response.movie.comments,
           }));
-
-          this._filmPopupComponent.toggleBlockingPopupForm();
         })
-        .catch(() => {
+        .catch((err) => {
           this._filmPopupComponent.shakeForm();
+          this._filmPopupComponent.toggleBlockingPopupForm();
+
+          throw new Error(err);
         });
     }
 

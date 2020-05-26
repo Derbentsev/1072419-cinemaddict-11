@@ -73,10 +73,10 @@ apiWithProvider.getMovies()
     pageController.show();
   });
 
-/* window.addEventListener(`load`, () => {
+window.addEventListener(`load`, () => {
   navigator.serviceWorker.register(`/sw.js`);
 });
 
 window.addEventListener(`offline`, () => {
   document.title += ` [offline]`;
-}); */
+});
