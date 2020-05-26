@@ -31,7 +31,7 @@ export const createFilmCard = (film) => {
       <p class="film-card__info">
         <span class="film-card__year">${new Date(releaseDate).getFullYear()}</span>
         <span class="film-card__duration">${durationAfterFormat}</span>
-        <span class="film-card__genre">${genre}</span>
+        <span class="film-card__genre">${genre.join(`, `)}</span>
       </p>
       <img src="./${poster}" alt="" class="film-card__poster">
       <p class="film-card__description">${description.length > MAX_COMMENT_SIZE ? description.slice(0, MAX_COMMENT_SIZE) + `...` : description}</p>
