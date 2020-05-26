@@ -1,4 +1,5 @@
 import moment from 'moment';
+import {Rating} from '@consts';
 
 
 /**
@@ -89,6 +90,20 @@ const getRandomDate = (dateStart, dateEnd) => {
   return new Date(dateStart.getTime() + Math.random() * (dateEnd.getTime() - dateStart.getTime()));
 };
 
+const getUserRating = (watchedMovies) => {
+  let profileName = Rating.NO_RATING;
+
+  if (watchedMovies <= 10) {
+    profileName = Rating.NOVICE;
+  } else if (watchedMovies <= 20) {
+    profileName = Rating.FAN;
+  } else if (watchedMovies >= 21) {
+    profileName = Rating.MOVIE_BUFF;
+  }
+
+  return profileName;
+};
+
 
 export {
   getRandomArrayItem,
@@ -100,4 +115,5 @@ export {
   createElement,
   getHoursFromMins,
   getMinutesFromMins,
+  getUserRating,
 };

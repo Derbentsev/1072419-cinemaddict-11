@@ -1,4 +1,4 @@
-export class CommentModel {
+export default class CommentModel {
   constructor(data) {
     this.id = data.id;
     this.text = data.comment;
@@ -11,7 +11,7 @@ export class CommentModel {
     return {
       "author": this.author,
       "comment": this.text,
-      "date": this.date.toISOString(),
+      "date": this.date,
       "emotion": this.emotion,
     };
   }
@@ -22,5 +22,9 @@ export class CommentModel {
 
   static parseComments(data) {
     return data.map(CommentModel.parseComment);
+  }
+
+  static clone(data) {
+    return new CommentModel(data.toRaw());
   }
 }

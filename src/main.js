@@ -1,13 +1,14 @@
-import {UserProfile} from '@components/user-profile/user-profile';
-import {LoadingComponent} from '@components/loading/loading';
-import {FooterStatistic} from '@components/footer-statistic/footer-statistic';
-import {API} from '@api/api';
-import {PageController} from '@controllers/page';
-import {FilmBoard} from '@components/film-board/film-board';
-import {StatisticComponent} from '@components/statistic/statistic';
-import {MoviesModel} from '@models/movies';
-import {MovieModel} from '@models/movie';
-import {FilterController} from '@controllers/filter';
+import UserProfile from '@components/user-profile/user-profile';
+import LoadingComponent from '@components/loading/loading';
+import FooterStatistic from '@components/footer-statistic/footer-statistic';
+import API from '@api/api';
+import Provider from '@api/provider';
+import Store from '@api/store';
+import PageController from '@controllers/page';
+import FilmBoard from '@components/film-board/film-board';
+import StatisticComponent from '@components/statistic/statistic';
+import MoviesModel from '@models/movies';
+import FilterController from '@controllers/filter';
 import {
   render,
   remove,
@@ -17,6 +18,7 @@ import {
   StatsMode,
   STATS_NAME,
   AUTHORIZATION,
+  STORE_NAME,
 } from '@consts';
 
 
@@ -40,25 +42,27 @@ const siteMainElement = siteBodyElement.querySelector(`.main`);
 const siteFooterElement = siteBodyElement.querySelector(`footer`);
 
 const api = new API(AUTHORIZATION);
+const store = new Store(STORE_NAME, window.localStorage);
+const apiWithProvider = new Provider(api, store);
+
 const moviesModel = new MoviesModel();
 
 const filmBoardComponent = new FilmBoard();
 const statisticComponent = new StatisticComponent(moviesModel);
-const pageController = new PageController(filmBoardComponent, moviesModel, api);
+const pageController = new PageController(filmBoardComponent, moviesModel, apiWithProvider);
 const filterController = new FilterController(siteMainElement, moviesModel, _onStatsClick);
 
 const loadingComponent = new LoadingComponent();
 render(siteMainElement, loadingComponent, RenderPosition.BEFOREEND);
 
-api.getMovies()
-  .then(MovieModel.parseMovies)
+apiWithProvider.getMovies()
   .then((movies) => {
     remove(loadingComponent);
 
     moviesModel.setMovies(movies);
 
     filterController.render();
-    render(siteHeaderElement, new UserProfile(), RenderPosition.BEFOREEND);
+    render(siteHeaderElement, new UserProfile(moviesModel), RenderPosition.BEFOREEND);
     render(siteMainElement, statisticComponent, RenderPosition.BEFOREEND);
     statisticComponent.rerender(`all`);
     render(siteMainElement, filmBoardComponent, RenderPosition.BEFOREEND);
@@ -68,3 +72,11 @@ api.getMovies()
     statisticComponent.hide();
     pageController.show();
   });
+
+window.addEventListener(`load`, () => {
+  navigator.serviceWorker.register(`/sw.js`);
+});
+
+window.addEventListener(`offline`, () => {
+  document.title += ` [offline]`;
+});

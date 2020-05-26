@@ -1,8 +1,8 @@
-import {Film} from "@components/film/film";
-import {FilmPopup} from '@components/film-popup/film-popup';
-import {CommentComponent} from '@components/comment/comment';
-import {MovieModel} from '@models/movie';
-import {CommentModel} from '@models/comment';
+import Film from "@components/film/film";
+import FilmPopup from '@components/film-popup/film-popup';
+import CommentComponent from '@components/comment/comment';
+import MovieModel from '@models/movie';
+import CommentModel from '@models/comment';
 import {
   render,
   replace,
@@ -29,7 +29,7 @@ const parseCommentData = (commentData) => {
 };
 
 
-export class MovieController {
+export default class MovieController {
   constructor(container, onDataChange, onViewChange, api, onCommentDataChange) {
     this._container = container;
     this._onDataChange = onDataChange;
@@ -95,7 +95,6 @@ export class MovieController {
     };
 
     this._api.getComments(film.id)
-      .then(CommentModel.parseComments)
       .then((comments) => {
         this._commentsModel.setComments(comments);
         this._renderComments(film, comments);
@@ -132,6 +131,7 @@ export class MovieController {
     remove(this._filmPopupComponent);
     document.removeEventListener(`keydown`, this._onEscPress);
   }
+
 
   _renderComments(film, comments) {
     film.commentsId.forEach((commentId) => {
@@ -233,6 +233,8 @@ export class MovieController {
     if (newData === null) {
       return this._api.deleteComment(oldData.id);
     } else if (oldData === null) {
+      this._filmPopupComponent.toggleBlockingPopupForm();
+
       this._api.createComment(this._film.id, newData)
         .then((response) => {
           this._commentsModel.addComment(newData);
@@ -249,8 +251,11 @@ export class MovieController {
             commentsId: response.movie.comments,
           }));
         })
-        .catch(() => {
+        .catch((err) => {
           this._filmPopupComponent.shakeForm();
+          this._filmPopupComponent.toggleBlockingPopupForm();
+
+          throw new Error(err);
         });
     }
 

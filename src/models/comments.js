@@ -1,4 +1,4 @@
-export class CommentsModel {
+export default class CommentsModel {
   constructor() {
     this._comments = null;
 

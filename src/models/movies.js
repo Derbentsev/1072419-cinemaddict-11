@@ -1,7 +1,7 @@
 import {FilterType} from '@consts';
 
 
-export class MoviesModel {
+export default class MoviesModel {
   constructor() {
     this._movies = [];
     this._activeFilterType = FilterType.ALL;

@@ -1,9 +1,9 @@
 import {createSortTemplate} from './sort-tpl';
-import {AbstractComponent} from '@components/abstract-component';
+import AbstractComponent from '@components/abstract-component';
 import {SortType} from '@consts';
 
 
-export class Sort extends AbstractComponent {
+export default class Sort extends AbstractComponent {
   constructor(onChangeSortType) {
     super();
     this._sorts = null;
@@ -11,7 +11,7 @@ export class Sort extends AbstractComponent {
 
     this._currentSortType = SortType.DEFAULT;
 
-    this.setOnChangeSortType(this._onChangeSortType);
+    this._setOnChangeSortType(this._onChangeSortType);
   }
 
   getTemplate() {
@@ -22,7 +22,7 @@ export class Sort extends AbstractComponent {
     return this._currentSortType;
   }
 
-  setOnChangeSortType(handler) {
+  _setOnChangeSortType(handler) {
     this.getElement().querySelectorAll(`.sort__button`)
       .forEach((sortButton) => {
         sortButton.addEventListener(`click`, (evt) => {

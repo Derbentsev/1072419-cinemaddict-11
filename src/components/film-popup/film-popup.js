@@ -1,11 +1,11 @@
 import {createFilmPopup} from './film-popup-tpl';
-import {AbstractSmartComponent} from '@components/abstract-smart-component';
+import AbstractSmartComponent from '@components/abstract-smart-component';
 
 
 const SHAKE_ANIMATION_TIMEOUT = 600;
 
 
-export class FilmPopup extends AbstractSmartComponent {
+export default class FilmPopup extends AbstractSmartComponent {
   constructor(film, onDataChange) {
     super();
 

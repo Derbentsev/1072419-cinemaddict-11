@@ -3,7 +3,7 @@ import {encode} from 'he';
 
 
 const formatDate = (date) => {
-  return moment(date).format(`YYYY/MM/DD HH:mm`);
+  return moment(date).fromNow();
 };
 
 export const createCommentTemplate = ({emotion, text: notSanitizedText, author, date}) => {

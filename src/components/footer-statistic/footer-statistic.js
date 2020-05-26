@@ -1,8 +1,8 @@
 import {createFooterStatisticMarkup} from './footer-statistic-tpl';
-import {AbstractComponent} from '@components/abstract-component';
+import AbstractComponent from '@components/abstract-component';
 
 
-export class FooterStatistic extends AbstractComponent {
+export default class FooterStatistic extends AbstractComponent {
   constructor(filmCount) {
     super();
 
