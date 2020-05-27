@@ -1,4 +1,5 @@
 import {getTimeFromMins} from '@utils/common';
+import {MAX_COMMENT_SIZE} from '@consts';
 import moment from 'moment';
 
 
@@ -99,7 +100,7 @@ export const createFilmPopup = (film) => {
             </table>
   
             <p class="film-details__film-description">
-              ${description}
+            ${description.length > MAX_COMMENT_SIZE ? description.slice(0, MAX_COMMENT_SIZE) + `...` : description}
             </p>
           </div>
         </div>

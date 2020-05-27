@@ -1,7 +1,6 @@
 import {createFilmPopup} from './film-popup-tpl';
 import AbstractSmartComponent from '@components/abstract-smart-component';
 
-
 const SHAKE_ANIMATION_TIMEOUT = 600;
 
 
@@ -19,7 +18,7 @@ export default class FilmPopup extends AbstractSmartComponent {
     this._clickOnAddToAlreadyWatched = null;
     this._clickOnAddToFavorites = null;
 
-    this._createNewCommentErrorBorder = this._toggleNewCommentErrorBorder.bind(this);
+    this._createNewCommentErrorBorder = this._addNewCommentErrorBorder.bind(this);
     this._onEmojiListClick = this._onEmojiListClick.bind(this);
   }
 
@@ -63,14 +62,14 @@ export default class FilmPopup extends AbstractSmartComponent {
     const emoji = this.getElement().querySelector(`.film-details__add-emoji-label img`);
     const comment = this.getElement().querySelector(`.film-details__comment-input`).value;
 
-    this._toggleNewCommentErrorBorder();
-
     if (emoji && comment !== ``) {
       return {
         emoji: emoji.src,
         comment,
       };
     }
+
+    this._addNewCommentErrorBorder();
 
     return null;
   }
@@ -103,8 +102,9 @@ export default class FilmPopup extends AbstractSmartComponent {
     }, SHAKE_ANIMATION_TIMEOUT);
   }
 
-  _toggleNewCommentErrorBorder() {
-    this.getElement().querySelector(`.film-details__comment-input`).classList.toggle(`textarea-error`);
+
+  _addNewCommentErrorBorder() {
+    this.getElement().querySelector(`.film-details__comment-input`).classList.add(`textarea-error`);
   }
 
   _onEmojiListClick(evt) {

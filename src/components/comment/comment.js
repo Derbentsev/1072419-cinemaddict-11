@@ -2,11 +2,11 @@ import {createCommentTemplate} from './comment-tpl';
 import AbstractSmartComponent from '@components/abstract-smart-component';
 import {remove} from '@utils/render';
 
-
 const DeleteButtonText = {
   DELETING: `Deleting...`,
   DELETE: `Delete`,
 };
+
 
 export default class Comment extends AbstractSmartComponent {
   constructor(comment) {

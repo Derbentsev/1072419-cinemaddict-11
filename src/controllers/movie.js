@@ -38,8 +38,9 @@ export default class MovieController {
     this._api = api;
 
     this._mode = Mode.DEFAULT;
-
     this._showedCommentsControllers = [];
+
+    this._scrollTop = 0;
 
     this._film = null;
     this._filmComponent = null;
@@ -59,6 +60,10 @@ export default class MovieController {
     const oldFilmComponent = this._filmComponent;
     const oldFilmPopupComponent = this._filmPopupComponent;
     const filmListContainer = this._container.querySelector(`.films-list__container`);
+
+    if (this._filmComponent) {
+      this._scrollTop = this._filmPopupComponent.getElement().scrollTop;
+    }
 
     this._film = film;
     this._commentsModel = commentsModel;
@@ -114,8 +119,11 @@ export default class MovieController {
     if (oldFilmComponent && oldFilmPopupComponent) {
       replace(this._filmComponent, oldFilmComponent);
       replace(this._filmPopupComponent, oldFilmPopupComponent);
+
       return;
     }
+
+    this._filmPopupComponent.getElement().scrollTop = this._scrollTop;
 
     render(filmListContainer, this._filmComponent, RenderPosition.BEFOREEND);
   }
@@ -144,6 +152,8 @@ export default class MovieController {
 
       const commentComponent = new CommentComponent(comment);
       render(this._commentContainer, commentComponent, RenderPosition.BEFOREEND);
+
+      this._filmPopupComponent.getElement().scrollTop = this._scrollTop;
 
       commentComponent.setOnDeleteClick((evt) => {
         evt.preventDefault();
@@ -218,6 +228,8 @@ export default class MovieController {
     if ((evt.ctrlKey || evt.metaKey) && evt.key === KeyCode.ENTER) {
       evt.preventDefault();
 
+      this._scrollTop = this._filmPopupComponent.getElement().scrollTop;
+
       this._filmPopupComponent.toggleBlockingPopupForm();
 
       const newCommentData = this._filmPopupComponent.getNewCommentData();
@@ -226,6 +238,8 @@ export default class MovieController {
         const data = parseCommentData(newCommentData);
         this._onCommentsDataChange(null, data);
       }
+
+      this._filmPopupComponent.toggleBlockingPopupForm();
     }
   }
 
@@ -250,6 +264,8 @@ export default class MovieController {
           this._onCommentDataChange(this, this._film, Object.assign({}, this._film, {
             commentsId: response.movie.comments,
           }));
+
+          this._filmPopupComponent.getElement().scrollTop = this._scrollTop;
         })
         .catch((err) => {
           this._filmPopupComponent.shakeForm();

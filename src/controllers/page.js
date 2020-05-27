@@ -181,6 +181,7 @@ export default class PageController {
 
   _updateFilms(count) {
     this._removeFilms();
+
     const newFilms = this._renderFilms(this._filmList.getElement(), this._moviesModel.getMovies().slice(0, count));
 
     this._showedMoviesControllers = this._showedMoviesControllers.concat(newFilms);
