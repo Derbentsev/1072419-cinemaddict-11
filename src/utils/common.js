@@ -34,14 +34,14 @@ const getTimeFromMins = (mins) => {
 };
 
 const getUserRating = (watchedMovies) => {
-  let profileName = Rating.NO_RATING;
+  let profileName = Rating.NO_RATING.name;
 
-  if (watchedMovies <= 10) {
-    profileName = Rating.NOVICE;
-  } else if (watchedMovies <= 20) {
-    profileName = Rating.FAN;
-  } else if (watchedMovies >= 21) {
-    profileName = Rating.MOVIE_BUFF;
+  if (watchedMovies >= Rating.NOVICE.COUNT) {
+    profileName = Rating.NOVICE.NAME;
+  } else if (watchedMovies >= Rating.FAN.COUNT) {
+    profileName = Rating.FAN.NAME;
+  } else if (watchedMovies >= Rating.MOVIE_BUFF.COUNT) {
+    profileName = Rating.MOVIE_BUFF.NAME;
   }
 
   return profileName;
