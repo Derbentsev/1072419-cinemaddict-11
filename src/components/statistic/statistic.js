@@ -109,7 +109,7 @@ export default class Statistic extends AbstractSmartComponent {
     const genres = getUniqGenres(this._movies);
 
     genres.forEach((genre) => {
-      let count = calcUniqCountGenres(this._movies, genre);
+      const count = calcUniqCountGenres(this._movies, genre);
       if (countGenre < count) {
         countGenre = count;
         topGenre = genre;

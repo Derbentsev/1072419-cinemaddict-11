@@ -18,7 +18,7 @@ export default class FilmPopup extends AbstractSmartComponent {
     this._clickOnAddToAlreadyWatched = null;
     this._clickOnAddToFavorites = null;
 
-    this._createNewCommentErrorBorder = this._toggleNewCommentErrorBorder.bind(this);
+    this._createNewCommentErrorBorder = this._addNewCommentErrorBorder.bind(this);
     this._onEmojiListClick = this._onEmojiListClick.bind(this);
   }
 
@@ -69,7 +69,7 @@ export default class FilmPopup extends AbstractSmartComponent {
       };
     }
 
-    this._toggleNewCommentErrorBorder();
+    this._addNewCommentErrorBorder();
 
     return null;
   }
@@ -103,8 +103,8 @@ export default class FilmPopup extends AbstractSmartComponent {
   }
 
 
-  _toggleNewCommentErrorBorder() {
-    this.getElement().querySelector(`.film-details__comment-input`).classList.toggle(`textarea-error`);
+  _addNewCommentErrorBorder() {
+    this.getElement().querySelector(`.film-details__comment-input`).classList.add(`textarea-error`);
   }
 
   _onEmojiListClick(evt) {

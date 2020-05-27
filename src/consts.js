@@ -5,8 +5,6 @@ const FilmSettings = {
   SHOW_FILMS_BUTTON_CLICK: 5,
 };
 
-const AUTHORIZATION = `Basic h54jh5hj5j5jk45jkn`;
-
 const RenderPosition = {
   AFRERBEGIN: `afterbegin`,
   BEFOREEND: `beforeend`,
@@ -52,6 +50,8 @@ const STORE_VERSION = `v1`;
 const STORE_NAME = `${STORE_PREFIX}-${STORE_VERSION}`;
 
 const MAX_COMMENT_SIZE = 139;
+
+const AUTHORIZATION = `Basic h54jh5hj5j5jk45jkn`;
 
 
 export {
