@@ -124,6 +124,7 @@ export default class MovieController {
     }
 
     this._filmPopupComponent.getElement().scrollTop = this._scrollTop;
+
     render(filmListContainer, this._filmComponent, RenderPosition.BEFOREEND);
   }
 
