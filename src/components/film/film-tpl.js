@@ -1,6 +1,6 @@
 import {getTimeFromMins} from '@utils/common';
+import {MAX_COMMENT_SIZE} from '@consts';
 
-const MAX_COMMENT_SIZE = 139;
 
 /**
  * Создаем разметку Карточка фильма

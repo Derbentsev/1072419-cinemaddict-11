@@ -51,6 +51,8 @@ const STORE_PREFIX = `cinemaddict-localstorage`;
 const STORE_VERSION = `v1`;
 const STORE_NAME = `${STORE_PREFIX}-${STORE_VERSION}`;
 
+const MAX_COMMENT_SIZE = 139;
+
 
 export {
   FilmSettings,
@@ -63,4 +65,5 @@ export {
   StatsMode,
   STORE_NAME,
   Rating,
+  MAX_COMMENT_SIZE,
 };

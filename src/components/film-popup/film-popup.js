@@ -1,7 +1,6 @@
 import {createFilmPopup} from './film-popup-tpl';
 import AbstractSmartComponent from '@components/abstract-smart-component';
 
-
 const SHAKE_ANIMATION_TIMEOUT = 600;
 
 
@@ -63,14 +62,14 @@ export default class FilmPopup extends AbstractSmartComponent {
     const emoji = this.getElement().querySelector(`.film-details__add-emoji-label img`);
     const comment = this.getElement().querySelector(`.film-details__comment-input`).value;
 
-    this._toggleNewCommentErrorBorder();
-
     if (emoji && comment !== ``) {
       return {
         emoji: emoji.src,
         comment,
       };
     }
+
+    this._toggleNewCommentErrorBorder();
 
     return null;
   }
@@ -102,6 +101,7 @@ export default class FilmPopup extends AbstractSmartComponent {
       this.getElement().style.animation = ``;
     }, SHAKE_ANIMATION_TIMEOUT);
   }
+
 
   _toggleNewCommentErrorBorder() {
     this.getElement().querySelector(`.film-details__comment-input`).classList.toggle(`textarea-error`);
