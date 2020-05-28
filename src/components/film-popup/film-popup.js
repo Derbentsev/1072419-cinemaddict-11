@@ -2,6 +2,11 @@ import {createFilmPopup} from './film-popup-tpl';
 import AbstractSmartComponent from '@components/abstract-smart-component';
 
 const SHAKE_ANIMATION_TIMEOUT = 600;
+const Smile = {
+  WIDTH: 55,
+  HEIGTH: 55,
+  ALT: `emoji-smile`,
+};
 
 
 export default class FilmPopup extends AbstractSmartComponent {
@@ -102,6 +107,15 @@ export default class FilmPopup extends AbstractSmartComponent {
     }, SHAKE_ANIMATION_TIMEOUT);
   }
 
+  clearNewComment() {
+    if (this._smile) {
+      this.getElement().querySelector(`.film-details__add-emoji-label`).removeChild(this._smile);
+      this._smile = null;
+    }
+
+    this.getElement().querySelector(`.film-details__comment-input`).value = ``;
+  }
+
 
   _addNewCommentErrorBorder() {
     this.getElement().querySelector(`.film-details__comment-input`).classList.add(`textarea-error`);
@@ -111,9 +125,9 @@ export default class FilmPopup extends AbstractSmartComponent {
     if (!this._smile) {
       this._smile = document.createElement(`img`);
       this._smile.src = evt.target.src;
-      this._smile.width = 55;
-      this._smile.height = 55;
-      this._smile.alt = `emoji-smile`;
+      this._smile.width = Smile.WIDTH;
+      this._smile.height = Smile.HEIGTH;
+      this._smile.alt = Smile.ALT;
     } else {
       this.getElement().querySelector(`.film-details__add-emoji-label`).removeChild(this._smile);
       this._smile.src = evt.target.src;

@@ -39,10 +39,10 @@ const StatsMode = {
 };
 
 const Rating = {
-  NO_RATING: {NAME: ``, COUNT: `0`},
-  NOVICE: {NAME: `novice`, COUNT: `1`},
-  FAN: {NAME: `fan`, COUNT: `11`},
-  MOVIE_BUFF: {NAME: `movie buff`, COUNT: `21`},
+  NO_RATING: {NAME: ``, COUNT: 0},
+  NOVICE: {NAME: `novice`, COUNT: 1},
+  FAN: {NAME: `fan`, COUNT: 11},
+  MOVIE_BUFF: {NAME: `movie buff`, COUNT: 21},
 };
 
 const STORE_PREFIX = `cinemaddict-localstorage`;

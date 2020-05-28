@@ -129,7 +129,7 @@ export default class PageController {
     const newFilms = this._renderFilms(this._filmList.getElement(), sortedFilms);
     this._showedMoviesControllers = this._showedMoviesControllers.concat(newFilms);
 
-    if (this._showingMoviesCount > films.length) {
+    if (this._showingMoviesCount >= films.length) {
       remove(this._buttonShowMore);
     }
   }

@@ -105,7 +105,7 @@ export default class MovieController {
         this._renderComments(film, comments);
       });
 
-    this._filmComponent.setClickOnFilm(this._onFilmClick);
+    this._filmComponent.setClickOnFilmCard(this._onFilmClick);
     this._filmComponent.setClickOnAddToWatchlist(onClickAddToWatchlist);
     this._filmComponent.setClickOnAddToAlreadyWatched(onClickAlreadyWatched);
     this._filmComponent.setClickOnAddToFavorites(onClickAddToFavorites);
@@ -144,10 +144,7 @@ export default class MovieController {
   _renderComments(film, comments) {
     film.commentsId.forEach((commentId) => {
       const comment = comments.find((commentIdElement) => {
-        if (commentIdElement.id === commentId) {
-          return true;
-        }
-        return false;
+        return (commentIdElement.id === commentId);
       });
 
       const commentComponent = new CommentComponent(comment);
@@ -208,6 +205,7 @@ export default class MovieController {
     document.removeEventListener(`keydown`, this._onClosePopupClick);
     document.removeEventListener(`keydown`, this._onEscPress);
     document.removeEventListener(`keydown`, this._onFormSubmit);
+    this._filmPopupComponent.clearNewComment();
   }
 
   _onFilmClick() {
@@ -219,8 +217,7 @@ export default class MovieController {
   _onEscPress(evt) {
     if (evt.key === `Escape`) {
       evt.preventDefault();
-      this._replacePopupToFilm();
-      document.removeEventListener(`keydown`, this._onEscPress);
+      this._onClosePopupClick();
     }
   }
 

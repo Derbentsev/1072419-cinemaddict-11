@@ -84,11 +84,7 @@ export default class Statistic extends AbstractSmartComponent {
 
   _getWatchedMovies() {
     return this._moviesModel.getMoviesAll().filter((movie) => {
-      if (this._lastWatchingDate !== null) {
-        return movie.isWatched && (movie.watchingDate > this._lastWatchingDate.toISOString());
-      }
-
-      return true;
+      return (this._lastWatchingDate) ? movie.isWatched && (movie.watchingDate > this._lastWatchingDate.toISOString()) : true;
     });
   }
 

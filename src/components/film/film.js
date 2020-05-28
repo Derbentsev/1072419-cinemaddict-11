@@ -13,7 +13,7 @@ export default class Film extends AbstractComponent {
     return createFilmCard(this._film);
   }
 
-  setClickOnFilm(cb) {
+  setClickOnFilmCard(cb) {
     const element = this.getElement();
 
     element.querySelector(`.film-card__poster`).addEventListener(`click`, cb);
