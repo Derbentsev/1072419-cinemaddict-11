@@ -1,9 +1,4 @@
-import {getUserRating} from '@utils/common';
-
-
-export const createUserProfile = (watchedMovies) => {
-  const userRating = getUserRating(watchedMovies);
-
+export const createUserProfile = (userRating) => {
   return (
     `<section class="header__profile profile">
       <p class="profile__rating">${userRating}</p>

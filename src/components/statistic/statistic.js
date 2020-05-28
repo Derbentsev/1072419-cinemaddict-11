@@ -7,12 +7,13 @@ import moment from 'moment';
 
 
 export default class Statistic extends AbstractSmartComponent {
-  constructor(moviesModel) {
+  constructor(moviesModel, userProfileComponent) {
     super();
 
     this._moviesModel = moviesModel;
+    this._userProfileComponent = userProfileComponent;
 
-    this._movies = this._getWatchedMovies(this._moviesModel.getMoviesAll());
+    this._movies = this._getWatchedMovies();
 
     this._chart = null;
     this._topGenre = this._getTopGenre();
@@ -29,7 +30,11 @@ export default class Statistic extends AbstractSmartComponent {
   recoveryListeners() {}
 
   getTemplate() {
-    return createStatisticTemplate(this._movies, this._filterMode, this._topGenre);
+    const userRating = this._userProfileComponent.getCurrentUserRating();
+
+    this._movies = this._getWatchedMovies();
+
+    return createStatisticTemplate(this._movies, this._filterMode, this._topGenre, userRating);
   }
 
   rerender(filterMode) {

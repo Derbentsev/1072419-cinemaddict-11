@@ -62,6 +62,7 @@ export default class MoviesModel {
     return movies;
   }
 
+
   _getWatchlistMovies(movies) {
     return movies.filter((movie) => movie.isWatchlist);
   }

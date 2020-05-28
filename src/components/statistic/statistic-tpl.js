@@ -1,16 +1,13 @@
 import {
   getHoursFromMins,
   getMinutesFromMins,
-  getUserRating,
 } from '@utils/common';
 
 
-export const createStatisticTemplate = (movies, filterMode, topGenre) => {
-  const minutesAll = movies.reduce((acc, val) => {
+export const createStatisticTemplate = (watchedMovies, filterMode, topGenre, userRating) => {
+  const minutesAll = watchedMovies.reduce((acc, val) => {
     return acc + val.duration;
   }, 0);
-
-  const userRating = getUserRating(movies.length);
 
   return (
     `<section class="statistic">
@@ -42,7 +39,7 @@ export const createStatisticTemplate = (movies, filterMode, topGenre) => {
       <ul class="statistic__text-list">
         <li class="statistic__text-item">
           <h4 class="statistic__item-title">You watched</h4>
-          <p class="statistic__item-text">${movies.length} <span class="statistic__item-description">movies</span></p>
+          <p class="statistic__item-text">${watchedMovies.length} <span class="statistic__item-description">movies</span></p>
         </li>
         <li class="statistic__text-item">
           <h4 class="statistic__item-title">Total duration</h4>

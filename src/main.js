@@ -48,7 +48,8 @@ const apiWithProvider = new Provider(api, store);
 const moviesModel = new MoviesModel();
 
 const filmBoardComponent = new FilmBoard();
-const statisticComponent = new StatisticComponent(moviesModel);
+const userProfileComponent = new UserProfile(moviesModel);
+const statisticComponent = new StatisticComponent(moviesModel, userProfileComponent);
 const pageController = new PageController(filmBoardComponent, moviesModel, apiWithProvider);
 const filterController = new FilterController(siteMainElement, moviesModel, _onStatsClick);
 
@@ -62,7 +63,7 @@ apiWithProvider.getMovies()
     moviesModel.setMovies(movies);
 
     filterController.render();
-    render(siteHeaderElement, new UserProfile(moviesModel), RenderPosition.BEFOREEND);
+    render(siteHeaderElement, userProfileComponent, RenderPosition.BEFOREEND);
     render(siteMainElement, statisticComponent, RenderPosition.BEFOREEND);
     statisticComponent.rerender(`all`);
     render(siteMainElement, filmBoardComponent, RenderPosition.BEFOREEND);
