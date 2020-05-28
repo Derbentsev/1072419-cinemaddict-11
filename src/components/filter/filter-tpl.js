@@ -1,3 +1,5 @@
+import {FilterType} from '@consts';
+
 /**
  * Создаем разметку отдельного фильтра
  * @param {object} filter - Фильтр
@@ -8,8 +10,8 @@ const createFilterMarkup = (filter, isActive) => {
   const {name, count} = filter;
 
   return (
-    `<a href="#" class="main-navigation__item ${isActive ? `main-navigation__item--active` : ``}">${name} 
-      ${isActive ? `` : `<span class="main-navigation__item-count">${count}</span>`}
+    `<a href="#" data-type="${name}" class="main-navigation__item ${isActive ? `main-navigation__item--active` : ``}">${name} 
+      ${name === FilterType.ALL ? `` : `<span class="main-navigation__item-count">${count}</span>`}
     </a>`
   );
 };
@@ -20,8 +22,8 @@ const createFilterMarkup = (filter, isActive) => {
  * @return {string}
  */
 export const createFilterTemplate = (filters) => {
-  const filtersMarkup = filters.map((it, i) =>
-    createFilterMarkup(it, i === 0))
+  const filtersMarkup = filters.map((it) =>
+    createFilterMarkup(it, it.isActive))
       .join(`\n`);
 
   return (

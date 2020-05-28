@@ -28,6 +28,7 @@ export default class FilterController {
 
   render() {
     const allMovies = this._moviesModel.getMoviesAll();
+
     const filters = Object.values(FilterType).map((filterType) => {
       return {
         name: filterType,
@@ -48,6 +49,7 @@ export default class FilterController {
 
     render(this._container, this._filterComponent, RenderPosition.BEFOREEND);
   }
+
 
   _onFilterChange(filterType) {
     this._moviesModel.setFilter(filterType);

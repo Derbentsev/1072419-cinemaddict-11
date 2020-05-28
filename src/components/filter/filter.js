@@ -16,7 +16,7 @@ export default class Filter extends AbstractComponent {
 
   setOnFilterChange(handler) {
     this.getElement().querySelector(`.main-navigation__items`).addEventListener(`click`, (evt) => {
-      const filterName = this._getFilterNameByText(evt.target.text);
+      const filterName = evt.target.dataset.type;
 
       this.getElement().querySelector(`.main-navigation__item--active`).classList.remove(`main-navigation__item--active`);
       evt.target.classList.add(`main-navigation__item--active`);
@@ -31,6 +31,7 @@ export default class Filter extends AbstractComponent {
       handler(STATS_NAME);
     });
   }
+
 
   _getFilterNameByText(text) {
     return text.split(` `)[0];

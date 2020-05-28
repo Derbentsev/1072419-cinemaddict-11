@@ -14,6 +14,7 @@ import {
   FilmSettings,
   RenderPosition,
   SortType,
+  FilterType,
 } from '@consts';
 
 
@@ -40,6 +41,7 @@ export default class PageController {
     this._onButtonShowMoreClick = this._onButtonShowMoreClick.bind(this);
     this._onChangeSortType = this._onChangeSortType.bind(this);
     this._onCommentDataChange = this._onCommentDataChange.bind(this);
+    this._removeFilmCard = this._removeFilmCard.bind(this);
   }
 
   render() {
@@ -151,6 +153,7 @@ export default class PageController {
     return films.map((film) => {
       const movieController = new MovieController(container, this._onDataChange, this._onViewChange, this._api, this._onCommentDataChange);
       movieController.render(film, this._commentsModel);
+
       return movieController;
     });
   }
@@ -187,7 +190,12 @@ export default class PageController {
     this._showedMoviesControllers = this._showedMoviesControllers.concat(newFilms);
     this._showingMoviesCount = this._showedMoviesControllers.length;
 
-    render(this._filmList.getElement(), this._buttonShowMore, RenderPosition.BEFOREEND);
+    if (newFilms.length >= FilmSettings.SHOW_FILMS_ON_START) {
+      render(this._filmList.getElement(), this._buttonShowMore, RenderPosition.BEFOREEND);
+      this._buttonShowMore.setOnButtonClick(this._onButtonShowMoreClick);
+    } else {
+      remove(this._buttonShowMore);
+    }
   }
 
   _onFilterChange() {
@@ -198,8 +206,24 @@ export default class PageController {
     this._api.updateMovie(oldData.id, newData)
       .then((movieModel) => {
         this._moviesModel.updateMovies(oldData.id, movieModel);
-        movieController.render(newData, this._commentsModel);
+
+        const currentFilterType = this._moviesModel.getCurrentFilterType();
+
+        if (currentFilterType === FilterType.ALL) {
+          movieController.render(newData, this._commentsModel);
+        } else if ((!newData.isWatchlist && currentFilterType === FilterType.WATCHLIST) ||
+         (!newData.isWatched && currentFilterType === FilterType.HISTORY) ||
+          (!newData.isFavorite && currentFilterType === FilterType.FAVORITES)) {
+          this._removeFilmCard(movieController);
+        }
       });
+  }
+
+  _removeFilmCard(movieController) {
+    const index = this._showedMoviesControllers.indexOf(movieController);
+    this._showedMoviesControllers.splice(index, 1);
+
+    movieController.destroy();
   }
 
   _onCommentDataChange(movieController, oldData, newData) {

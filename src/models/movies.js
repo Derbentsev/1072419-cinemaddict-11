@@ -62,6 +62,10 @@ export default class MoviesModel {
     return movies;
   }
 
+  getCurrentFilterType() {
+    return this._activeFilterType;
+  }
+
 
   _getWatchlistMovies(movies) {
     return movies.filter((movie) => movie.isWatchlist);
