@@ -13,9 +13,8 @@ export default class Statistic extends AbstractSmartComponent {
     this._moviesModel = moviesModel;
     this._userProfileComponent = userProfileComponent;
 
-    this._movies = this._getWatchedMovies();
-
     this._chart = null;
+    this._movies = this._getWatchedMovies();
     this._topGenre = this._getTopGenre();
 
     this._filterMode = StatsMode.ALL;

@@ -7,9 +7,7 @@ const formatDate = (date) => {
 };
 
 const createGenreMarkup = (genre) => {
-  return (
-    `<span class="film-details__genre">${genre}</span>`
-  );
+  return (`<span class="film-details__genre">${genre}</span>`);
 };
 
 export const createFilmPopup = (film) => {

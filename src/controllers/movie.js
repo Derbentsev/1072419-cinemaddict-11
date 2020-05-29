@@ -30,8 +30,8 @@ const parseCommentData = (commentData) => {
 
 
 export default class MovieController {
-  constructor(container, onDataChange, onViewChange, api, onCommentDataChange) {
-    this._container = container;
+  constructor(filmListComponent, onDataChange, onViewChange, api, onCommentDataChange) {
+    this._filmListComponent = filmListComponent;
     this._onDataChange = onDataChange;
     this._onViewChange = onViewChange;
     this._onCommentDataChange = onCommentDataChange;
@@ -59,7 +59,7 @@ export default class MovieController {
   render(film, commentsModel) {
     const oldFilmComponent = this._filmComponent;
     const oldFilmPopupComponent = this._filmPopupComponent;
-    const filmListContainer = this._container.getCommentListElement();
+    const filmListContainer = this._filmListComponent.getCommentListElement();
 
     if (this._filmComponent) {
       this._scrollTop = this._filmPopupComponent.getElement().scrollTop;
@@ -137,6 +137,7 @@ export default class MovieController {
   destroy() {
     remove(this._filmComponent);
     remove(this._filmPopupComponent);
+
     document.removeEventListener(`keydown`, this._onEscPress);
   }
 
@@ -190,14 +191,14 @@ export default class MovieController {
   }
 
   _replacePopupToFilm() {
-    this._container.getElement().parentElement.removeChild(this._filmPopupComponent.getElement());
+    this._filmListComponent.removePopupElement(this._filmPopupComponent.getElement());
     this._mode = Mode.DEFAULT;
   }
 
   _replaceFilmToPopup() {
     this._onViewChange();
 
-    this._container.getElement().parentElement.appendChild(this._filmPopupComponent.getElement());
+    this._filmListComponent.createPopupComponent(this._filmPopupComponent.getElement());
     this._mode = Mode.EDIT;
   }
 
@@ -213,6 +214,7 @@ export default class MovieController {
 
   _onFilmClick() {
     this._replaceFilmToPopup();
+
     document.addEventListener(`keydown`, this._onEscPress);
     document.addEventListener(`keydown`, this._onFormSubmit);
   }

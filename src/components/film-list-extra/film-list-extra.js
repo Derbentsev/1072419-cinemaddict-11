@@ -16,4 +16,12 @@ export default class FilmListExtra extends AbstractComponent {
   getCommentListElement() {
     return this.getElement().querySelector(`.films-list__container`);
   }
+
+  removePopupElement(popupElement) {
+    this.getElement().parentElement.removeChild(popupElement);
+  }
+
+  createPopupComponent(popupElement) {
+    this.getElement().parentElement.appendChild(popupElement);
+  }
 }

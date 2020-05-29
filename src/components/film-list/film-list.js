@@ -14,4 +14,12 @@ export default class FilmList extends AbstractComponent {
   clearFilmListContainer() {
     this.getElement().querySelector(`.films-list__container`).innerHTML = ``;
   }
+
+  removePopupElement(popupElement) {
+    this.getElement().parentElement.removeChild(popupElement);
+  }
+
+  createPopupComponent(popupElement) {
+    this.getElement().parentElement.appendChild(popupElement);
+  }
 }

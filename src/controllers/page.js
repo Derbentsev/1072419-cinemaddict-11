@@ -99,11 +99,7 @@ export default class PageController {
       })
       .slice(0, FilmSettings.TOP_COUNT);
 
-    if (topFilms[0].rating === 0) {
-      return null;
-    }
-
-    return topFilms;
+    return (topFilms[0].rating === 0) ? null : topFilms;
   }
 
   _getMostCommentedFilms(films) {
@@ -113,11 +109,7 @@ export default class PageController {
       })
       .slice(0, FilmSettings.MOST_COMMENTED_COUNT);
 
-    if (mostCommentedFilms[0].rating === 0) {
-      return null;
-    }
-
-    return mostCommentedFilms;
+    return (mostCommentedFilms[0].rating === 0) ? null : mostCommentedFilms;
   }
 
   _onButtonShowMoreClick() {

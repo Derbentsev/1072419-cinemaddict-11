@@ -36,11 +36,7 @@ export default class UserProfile extends AbstractComponent {
 
   _getWatchedMovies() {
     return this._moviesModel.getMoviesAll().filter((movie) => {
-      if (this._lastWatchingDate !== null) {
-        return movie.isWatched;
-      }
-
-      return true;
+      return (this._lastWatchingDate !== null) ? movie.isWatched : true;
     });
   }
 
