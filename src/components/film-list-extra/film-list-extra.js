@@ -12,4 +12,8 @@ export default class FilmListExtra extends AbstractComponent {
   getTemplate() {
     return createFilmListExtra(this._title);
   }
+
+  getCommentListElement() {
+    return this.getElement().querySelector(`.films-list__container`);
+  }
 }

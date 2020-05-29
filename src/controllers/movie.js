@@ -59,7 +59,7 @@ export default class MovieController {
   render(film, commentsModel) {
     const oldFilmComponent = this._filmComponent;
     const oldFilmPopupComponent = this._filmPopupComponent;
-    const filmListContainer = this._container.querySelector(`.films-list__container`);
+    const filmListContainer = this._container.getCommentListElement();
 
     if (this._filmComponent) {
       this._scrollTop = this._filmPopupComponent.getElement().scrollTop;
@@ -70,7 +70,7 @@ export default class MovieController {
 
     this._filmComponent = new Film(film);
     this._filmPopupComponent = new FilmPopup(film, this._onCommentsDataChange);
-    this._commentContainer = this._filmPopupComponent.getElement().querySelector(`.film-details__comments-list`);
+    this._commentContainer = this._filmPopupComponent.getCommentListElement();
 
     const onClickAddToWatchlist = (evt) => {
       evt.preventDefault();
@@ -190,21 +190,24 @@ export default class MovieController {
   }
 
   _replacePopupToFilm() {
-    this._container.parentElement.removeChild(this._filmPopupComponent.getElement());
+    this._container.getElement().parentElement.removeChild(this._filmPopupComponent.getElement());
     this._mode = Mode.DEFAULT;
   }
 
   _replaceFilmToPopup() {
     this._onViewChange();
-    this._container.parentElement.appendChild(this._filmPopupComponent.getElement());
+
+    this._container.getElement().parentElement.appendChild(this._filmPopupComponent.getElement());
     this._mode = Mode.EDIT;
   }
 
   _onClosePopupClick() {
     this._replacePopupToFilm();
+
     document.removeEventListener(`keydown`, this._onClosePopupClick);
     document.removeEventListener(`keydown`, this._onEscPress);
     document.removeEventListener(`keydown`, this._onFormSubmit);
+
     this._filmPopupComponent.clearNewComment();
   }
 

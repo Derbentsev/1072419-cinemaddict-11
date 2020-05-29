@@ -31,6 +31,10 @@ export default class FilmPopup extends AbstractSmartComponent {
     return createFilmPopup(this._film);
   }
 
+  getCommentListElement() {
+    return this.getElement().querySelector(`.film-details__comments-list`);
+  }
+
   setClickOnCloseButton(cb) {
     this._clickOnCloseButton = cb;
     this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, cb);

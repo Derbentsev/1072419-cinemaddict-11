@@ -58,7 +58,7 @@ export default class PageController {
 
     const topFilms = this._getTopFilms(films);
     const mostCommentedFilms = this._getMostCommentedFilms(films);
-    const newFilms = this._renderFilms(this._filmList.getElement(), films.slice(0, this._showingMoviesCount));
+    const newFilms = this._renderFilms(this._filmList, films.slice(0, this._showingMoviesCount));
 
     this._showedMoviesControllers = this._showedMoviesControllers.concat(newFilms);
     this._showingMoviesCount = this._showedMoviesControllers.length;
@@ -66,12 +66,12 @@ export default class PageController {
     render(container, this._filmList, RenderPosition.BEFOREEND);
 
     if (topFilms) {
-      this._renderFilms(this._filmListTop.getElement(), topFilms);
+      this._renderFilms(this._filmListTop, topFilms);
       render(container, this._filmListTop, RenderPosition.BEFOREEND);
     }
 
     if (mostCommentedFilms) {
-      this._renderFilms(this._filmListMostCommented.getElement(), mostCommentedFilms);
+      this._renderFilms(this._filmListMostCommented, mostCommentedFilms);
       render(container, this._filmListMostCommented, RenderPosition.BEFOREEND);
     }
 
@@ -109,7 +109,7 @@ export default class PageController {
   _getMostCommentedFilms(films) {
     const mostCommentedFilms = films
       .sort((filmA, filmB) => {
-        return filmB.commentsNumber - filmA.commentsNumber;
+        return filmB.commentsId.length - filmA.commentsId.length;
       })
       .slice(0, FilmSettings.MOST_COMMENTED_COUNT);
 
@@ -128,7 +128,7 @@ export default class PageController {
 
     const sortedFilms = this._getSortedFilms(films, this._sort.getSortType(), prevFilmCount, this._showingMoviesCount);
 
-    const newFilms = this._renderFilms(this._filmList.getElement(), sortedFilms);
+    const newFilms = this._renderFilms(this._filmList, sortedFilms);
     this._showedMoviesControllers = this._showedMoviesControllers.concat(newFilms);
 
     if (this._showingMoviesCount >= films.length) {
@@ -139,13 +139,18 @@ export default class PageController {
   _onChangeSortType(sortType) {
     const films = this._moviesModel.getMovies();
 
+    if (films.length <= this._showingMoviesCount) {
+      render(this._filmList.getElement(), this._buttonShowMore, RenderPosition.BEFOREEND);
+      this._buttonShowMore.setOnButtonClick(this._onButtonShowMoreClick);
+    }
+
     this._showingMoviesCount = FilmSettings.SHOW_FILMS_BUTTON_CLICK;
 
     const sortedFilms = this._getSortedFilms(films, sortType, 0, this._showingMoviesCount);
 
-    this._filmList.getElement().querySelector(`.films-list__container`).innerHTML = ``;
+    this._filmList.clearFilmListContainer();
 
-    const newFilms = this._renderFilms(this._filmList.getElement(), sortedFilms);
+    const newFilms = this._renderFilms(this._filmList, sortedFilms);
     this._showedMoviesControllers = newFilms;
   }
 
@@ -185,7 +190,7 @@ export default class PageController {
   _updateFilms(count) {
     this._removeFilms();
 
-    const newFilms = this._renderFilms(this._filmList.getElement(), this._moviesModel.getMovies().slice(0, count));
+    const newFilms = this._renderFilms(this._filmList, this._moviesModel.getMovies().slice(0, count));
 
     this._showedMoviesControllers = this._showedMoviesControllers.concat(newFilms);
     this._showingMoviesCount = this._showedMoviesControllers.length;

@@ -31,9 +31,4 @@ export default class Filter extends AbstractComponent {
       handler(STATS_NAME);
     });
   }
-
-
-  _getFilterNameByText(text) {
-    return text.split(` `)[0];
-  }
 }
