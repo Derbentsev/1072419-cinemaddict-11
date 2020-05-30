@@ -11,13 +11,9 @@ import {
 import {
   RenderPosition,
   KeyCode,
+  FilmMode,
 } from '@consts';
 
-
-const Mode = {
-  DEFAULT: `default`,
-  EDIT: `edit`,
-};
 
 const parseCommentData = (commentData) => {
   return new CommentModel({
@@ -37,7 +33,7 @@ export default class MovieController {
     this._onCommentDataChange = onCommentDataChange;
     this._api = api;
 
-    this._mode = Mode.DEFAULT;
+    this._mode = FilmMode.DEFAULT;
     this._showedCommentsControllers = [];
 
     this._scrollTop = 0;
@@ -129,16 +125,20 @@ export default class MovieController {
   }
 
   setDefaultView() {
-    if (this._mode !== Mode.DEFAULT) {
+    if (this._mode !== FilmMode.DEFAULT) {
       this._replacePopupToFilm();
     }
   }
 
   destroy() {
-    remove(this._filmComponent);
-    remove(this._filmPopupComponent);
+    if (this._mode === FilmMode.EDIT) {
+      this._mode = FilmMode.DELAY_DESTROY;
+    } else {
+      remove(this._filmPopupComponent);
+      document.removeEventListener(`keydown`, this._onEscPress);
+    }
 
-    document.removeEventListener(`keydown`, this._onEscPress);
+    remove(this._filmComponent);
   }
 
 
@@ -192,24 +192,27 @@ export default class MovieController {
 
   _replacePopupToFilm() {
     this._filmListComponent.removePopupElement(this._filmPopupComponent.getElement());
-    this._mode = Mode.DEFAULT;
+    this._mode = FilmMode.DEFAULT;
   }
 
   _replaceFilmToPopup() {
     this._onViewChange();
 
     this._filmListComponent.createPopupComponent(this._filmPopupComponent.getElement());
-    this._mode = Mode.EDIT;
+    this._mode = FilmMode.EDIT;
   }
 
   _onClosePopupClick() {
-    this._replacePopupToFilm();
+    if (this._mode === FilmMode.DELAY_DESTROY) {
+      this.destroy();
+    } else {
+      this._replacePopupToFilm();
+      this._filmPopupComponent.clearNewComment();
+    }
 
     document.removeEventListener(`keydown`, this._onClosePopupClick);
     document.removeEventListener(`keydown`, this._onEscPress);
     document.removeEventListener(`keydown`, this._onFormSubmit);
-
-    this._filmPopupComponent.clearNewComment();
   }
 
   _onFilmClick() {

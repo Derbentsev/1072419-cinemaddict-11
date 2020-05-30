@@ -14,7 +14,6 @@ import {
   FilmSettings,
   RenderPosition,
   SortType,
-  FilterType,
 } from '@consts';
 
 
@@ -211,15 +210,8 @@ export default class PageController {
       .then((movieModel) => {
         this._moviesModel.updateMovies(oldData.id, movieModel);
 
-        const currentFilterType = this._moviesModel.getCurrentFilterType();
-
-        if ((!newData.isWatchlist && currentFilterType === FilterType.WATCHLIST) ||
-         (!newData.isWatched && currentFilterType === FilterType.HISTORY) ||
-          (!newData.isFavorite && currentFilterType === FilterType.FAVORITES)) {
-          this._updateFilms(FilmSettings.SHOW_FILMS_ON_START);
-        } else {
-          movieController.render(newData, this._commentsModel);
-        }
+        movieController.render(newData, this._commentsModel);
+        this._updateFilms(FilmSettings.SHOW_FILMS_ON_START);
       });
   }
 

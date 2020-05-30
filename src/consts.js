@@ -45,6 +45,12 @@ const Rating = {
   MOVIE_BUFF: {NAME: `movie buff`, COUNT: 21},
 };
 
+const FilmMode = {
+  DEFAULT: `default`,
+  EDIT: `edit`,
+  DELAY_DESTROY: `delay destoy`,
+};
+
 const STORE_PREFIX = `cinemaddict-localstorage`;
 const STORE_VERSION = `v1`;
 const STORE_NAME = `${STORE_PREFIX}-${STORE_VERSION}`;
@@ -66,4 +72,5 @@ export {
   STORE_NAME,
   Rating,
   MAX_COMMENT_SIZE,
+  FilmMode,
 };
