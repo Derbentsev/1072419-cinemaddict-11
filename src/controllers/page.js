@@ -131,11 +131,6 @@ export default class PageController {
   _onChangeSortType(sortType) {
     const films = this._moviesModel.getMovies();
 
-    if (films.length <= this._showingMoviesCount) {
-      render(this._filmList.getElement(), this._buttonShowMore, RenderPosition.BEFOREEND);
-      this._buttonShowMore.setOnButtonClick(this._onButtonShowMoreClick);
-    }
-
     this._showingMoviesCount = FilmSettings.SHOW_FILMS_BUTTON_CLICK;
 
     const sortedFilms = this._getSortedFilms(films, sortType, 0, this._showingMoviesCount);
@@ -144,6 +139,11 @@ export default class PageController {
 
     const newFilms = this._renderFilms(this._filmList, sortedFilms);
     this._showedMoviesControllers = newFilms;
+
+    if (films.length > this._showingMoviesCount) {
+      render(this._filmList.getElement(), this._buttonShowMore, RenderPosition.BEFOREEND);
+      this._buttonShowMore.setOnButtonClick(this._onButtonShowMoreClick);
+    }
   }
 
   _renderFilms(container, films) {
@@ -182,12 +182,13 @@ export default class PageController {
   _updateFilms(count) {
     this._removeFilms();
 
+    const allFilteredFilms = this._moviesModel.getMovies();
     const newFilms = this._renderFilms(this._filmList, this._moviesModel.getMovies().slice(0, count));
 
     this._showedMoviesControllers = this._showedMoviesControllers.concat(newFilms);
     this._showingMoviesCount = this._showedMoviesControllers.length;
 
-    if (newFilms.length >= FilmSettings.SHOW_FILMS_ON_START) {
+    if (allFilteredFilms.length > FilmSettings.SHOW_FILMS_ON_START) {
       render(this._filmList.getElement(), this._buttonShowMore, RenderPosition.BEFOREEND);
       this._buttonShowMore.setOnButtonClick(this._onButtonShowMoreClick);
     } else {
@@ -206,12 +207,12 @@ export default class PageController {
 
         const currentFilterType = this._moviesModel.getCurrentFilterType();
 
-        if (currentFilterType === FilterType.ALL) {
-          movieController.render(newData, this._commentsModel);
-        } else if ((!newData.isWatchlist && currentFilterType === FilterType.WATCHLIST) ||
+        if ((!newData.isWatchlist && currentFilterType === FilterType.WATCHLIST) ||
          (!newData.isWatched && currentFilterType === FilterType.HISTORY) ||
           (!newData.isFavorite && currentFilterType === FilterType.FAVORITES)) {
-          this._removeFilmCard(movieController);
+          this._updateFilms(FilmSettings.SHOW_FILMS_ON_START);
+        } else {
+          movieController.render(newData, this._commentsModel);
         }
       });
   }
