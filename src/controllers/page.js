@@ -25,6 +25,8 @@ export default class PageController {
     this._api = api;
 
     this._showedMoviesControllers = [];
+    this._showedMostCommentedMoviesControllers = [];
+
     this._showingMoviesCount = FilmSettings.SHOW_FILMS_ON_START;
 
     this._commentsModel = new CommentsModel();
@@ -42,6 +44,8 @@ export default class PageController {
     this._onChangeSortType = this._onChangeSortType.bind(this);
     this._onCommentDataChange = this._onCommentDataChange.bind(this);
     this._removeFilmCard = this._removeFilmCard.bind(this);
+
+    this._onTopFilmsUpdate = this._mostCommentedFilmUpdate.bind(this);
   }
 
   render() {
@@ -71,7 +75,9 @@ export default class PageController {
     }
 
     if (mostCommentedFilms) {
-      this._renderFilms(this._filmListMostCommented, mostCommentedFilms);
+      const newMostCommentedFilms = this._renderFilms(this._filmListMostCommented, mostCommentedFilms);
+      this._showedMostCommentedMoviesControllers = this._showedMostCommentedMoviesControllers.concat(newMostCommentedFilms);
+
       render(container, this._filmListMostCommented, RenderPosition.BEFOREEND);
     }
 
@@ -227,9 +233,23 @@ export default class PageController {
   _onCommentDataChange(movieController, oldData, newData) {
     this._moviesModel.updateMovies(oldData.id, newData);
     movieController.render(newData, this._commentsModel);
+
+    this._mostCommentedFilmUpdate();
   }
 
   _onViewChange() {
     this._showedMoviesControllers.forEach((it) => it.setDefaultView());
+  }
+
+  _mostCommentedFilmUpdate() {
+    const mostCommentedFilms = this._getMostCommentedFilms(this._moviesModel.getMoviesAll());
+
+    this._showedMostCommentedMoviesControllers.forEach((filmController) => filmController.destroy());
+    this._showedMostCommentedMoviesControllers = [];
+
+    if (mostCommentedFilms) {
+      const newMostCommentedFilms = this._renderFilms(this._filmListMostCommented, mostCommentedFilms);
+      this._showedMostCommentedMoviesControllers = this._showedMostCommentedMoviesControllers.concat(newMostCommentedFilms);
+    }
   }
 }
