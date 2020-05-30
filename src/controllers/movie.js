@@ -64,41 +64,41 @@ export default class MovieController {
     this._film = film;
     this._commentsModel = commentsModel;
 
-    this._filmComponent = new Film(film);
-    this._filmPopupComponent = new FilmPopup(film, this._onCommentsDataChange);
+    this._filmComponent = new Film(this._film);
+    this._filmPopupComponent = new FilmPopup(this._film);
     this._commentContainer = this._filmPopupComponent.getCommentListElement();
 
     const onClickAddToWatchlist = (evt) => {
       evt.preventDefault();
 
-      const newMovie = MovieModel.clone(film);
+      const newMovie = MovieModel.clone(this._film);
       newMovie.isWatchlist = !newMovie.isWatchlist;
 
-      this._onDataChange(this, film, newMovie);
+      this._onDataChange(this, this._film, newMovie);
     };
 
     const onClickAlreadyWatched = (evt) => {
       evt.preventDefault();
 
-      const newMovie = MovieModel.clone(film);
+      const newMovie = MovieModel.clone(this._film);
       newMovie.isWatched = !newMovie.isWatched;
 
-      this._onDataChange(this, film, newMovie);
+      this._onDataChange(this, this._film, newMovie);
     };
 
     const onClickAddToFavorites = (evt) => {
       evt.preventDefault();
 
-      const newMovie = MovieModel.clone(film);
+      const newMovie = MovieModel.clone(this._film);
       newMovie.isFavorite = !newMovie.isFavorite;
 
-      this._onDataChange(this, film, newMovie);
+      this._onDataChange(this, this._film, newMovie);
     };
 
-    this._api.getComments(film.id)
+    this._api.getComments(this._film.id)
       .then((comments) => {
         this._commentsModel.setComments(comments);
-        this._renderComments(film, comments);
+        this._renderComments(this._film, comments);
       });
 
     this._filmComponent.setClickOnFilmCard(this._onFilmClick);
@@ -163,9 +163,10 @@ export default class MovieController {
             this._commentsModel.removeComment(comment.id);
             commentComponent.remove();
 
-            this._onCommentDataChange(this, film, Object.assign({}, film, {
-              commentsId: this._removeCommentById(film, comment.id)
-            }));
+            const newMovie = MovieModel.clone(this._film);
+            newMovie.commentsId = this._removeCommentById(film, comment.id);
+
+            this._onCommentDataChange(this, film, newMovie);
           })
           .catch(() => {
             commentComponent.toggleDisableDeleteButton();
@@ -266,9 +267,14 @@ export default class MovieController {
             commentComponent.remove();
           });
 
-          this._onCommentDataChange(this, this._film, Object.assign({}, this._film, {
+          const newMovie = MovieModel.clone(this._film);
+          newMovie.commentsId = response.movie.comments;
+
+          this._onCommentDataChange(this, this._film, newMovie);
+
+          /* this._onCommentDataChange(this, this._film, Object.assign({}, this._film, {
             commentsId: response.movie.comments,
-          }));
+          })); */
 
           this._filmPopupComponent.getElement().scrollTop = this._scrollTop;
         })

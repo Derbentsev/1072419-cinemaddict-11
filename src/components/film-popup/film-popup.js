@@ -10,11 +10,10 @@ const Smile = {
 
 
 export default class FilmPopup extends AbstractSmartComponent {
-  constructor(film, onDataChange) {
+  constructor(film) {
     super();
 
     this._film = film;
-    this._onDataChange = onDataChange;
 
     this._smile = null;
 
