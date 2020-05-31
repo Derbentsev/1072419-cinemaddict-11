@@ -195,7 +195,8 @@ export default class PageController {
     this._showedMoviesControllers = this._showedMoviesControllers.concat(newFilms);
     this._showingMoviesCount = this._showedMoviesControllers.length;
 
-    if (allFilteredFilms.length > FilmSettings.SHOW_FILMS_ON_START) {
+    if (allFilteredFilms.length > FilmSettings.SHOW_FILMS_ON_START &&
+        this._showingMoviesCount !== allFilteredFilms.length) {
       render(this._filmList.getElement(), this._buttonShowMore, RenderPosition.BEFOREEND);
       this._buttonShowMore.setOnButtonClick(this._onButtonShowMoreClick);
     } else {
@@ -216,7 +217,7 @@ export default class PageController {
         movieController.render(newData, this._commentsModel);
 
         if (this._moviesModel.getCurrentFilterType() !== FilterType.ALL) {
-          this._updateFilms(FilmSettings.SHOW_FILMS_ON_START);
+          this._updateFilms(this._showedMoviesControllers.length);
         }
       });
   }
