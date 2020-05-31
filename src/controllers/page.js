@@ -37,6 +37,8 @@ export default class PageController {
     this._filmListMostCommented = new FilmListExtra(`Most commented`);
     this._buttonShowMore = new ButtonShowMore();
 
+    this._sort = null;
+
     this._onDataChange = this._onDataChange.bind(this);
     this._onViewChange = this._onViewChange.bind(this);
     this._onFilterChange = this._onFilterChange.bind(this);
@@ -202,6 +204,7 @@ export default class PageController {
   }
 
   _onFilterChange() {
+    this._sort.setDefaultSortType();
     this._updateFilms(FilmSettings.SHOW_FILMS_ON_START);
   }
 
