@@ -82,6 +82,7 @@ export default class MovieController {
 
       const newMovie = MovieModel.clone(this._film);
       newMovie.isWatched = !newMovie.isWatched;
+      newMovie.watchingDate = newMovie.isWatched ? new Date() : null;
 
       this._onDataChange(this, this._film, newMovie);
     };
@@ -271,10 +272,6 @@ export default class MovieController {
           newMovie.commentsId = response.movie.comments;
 
           this._onCommentDataChange(this, this._film, newMovie);
-
-          /* this._onCommentDataChange(this, this._film, Object.assign({}, this._film, {
-            commentsId: response.movie.comments,
-          })); */
 
           this._filmPopupComponent.getElement().scrollTop = this._scrollTop;
         })

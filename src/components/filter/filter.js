@@ -15,13 +15,15 @@ export default class Filter extends AbstractComponent {
   }
 
   setOnFilterChange(handler) {
-    this.getElement().querySelector(`.main-navigation__items`).addEventListener(`click`, (evt) => {
-      const filterName = evt.target.dataset.type;
+    this.getElement().querySelectorAll(`.main-navigation__item`).forEach((filter) => {
+      filter.addEventListener(`click`, (evt) => {
+        const filterName = evt.currentTarget.dataset.type;
 
-      this.getElement().querySelector(`.main-navigation__item--active`).classList.remove(`main-navigation__item--active`);
-      evt.target.classList.add(`main-navigation__item--active`);
+        this.getElement().querySelector(`.main-navigation__item--active`).classList.remove(`main-navigation__item--active`);
+        evt.currentTarget.classList.add(`main-navigation__item--active`);
 
-      handler(filterName);
+        handler(filterName);
+      });
     });
 
     this.getElement().querySelector(`.main-navigation__additional`).addEventListener(`click`, (evt) => {

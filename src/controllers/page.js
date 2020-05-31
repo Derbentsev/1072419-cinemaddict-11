@@ -14,6 +14,7 @@ import {
   FilmSettings,
   RenderPosition,
   SortType,
+  FilterType,
 } from '@consts';
 
 
@@ -43,7 +44,6 @@ export default class PageController {
     this._onChangeSortType = this._onChangeSortType.bind(this);
     this._onCommentDataChange = this._onCommentDataChange.bind(this);
     this._removeFilmCard = this._removeFilmCard.bind(this);
-
     this._onTopFilmsUpdate = this._mostCommentedFilmUpdate.bind(this);
   }
 
@@ -211,7 +211,10 @@ export default class PageController {
         this._moviesModel.updateMovies(oldData.id, movieModel);
 
         movieController.render(newData, this._commentsModel);
-        this._updateFilms(FilmSettings.SHOW_FILMS_ON_START);
+
+        if (this._moviesModel.getCurrentFilterType() !== FilterType.ALL) {
+          this._updateFilms(FilmSettings.SHOW_FILMS_ON_START);
+        }
       });
   }
 
